@@ -6,7 +6,7 @@
           TODAY {{ dayName }} {{ day }} {{ monthName }} {{ year }}
         </div>
         <div class="text-subtitle2" :style="{ marginTop: '-5px' }">
-          {{ monthName }} {{ day }}, {{ year }} / {{ time }}
+          {{ monthName }} {{ year }} / {{ time }}
         </div>
       </div>
     </q-card-section>
@@ -89,5 +89,9 @@ export default {
 .button {
   height: 8px;
   margin-top: -10px;
+  color: rgb(43, 68, 161);
+  height: 10px;
+  font-size: 12px;
+  border-radius: 12px;
 }
 </style>

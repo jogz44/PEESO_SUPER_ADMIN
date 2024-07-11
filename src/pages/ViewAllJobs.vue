@@ -223,6 +223,12 @@
             >
               <q-tab name="shortlisted" label="POTENTIAL APPLICANT" />
             </q-chip>
+
+            <input
+              v-model="search_jobpost"
+              class="textbox"
+              placeholder="Search Applicant"
+            />
             <!--  <q-chip
           clickable
           outline
@@ -325,7 +331,28 @@
 
                         <div class="row">
                           <div class="col-lg-7 col-xl-7">
-                            <q-card-section class="row items-center">
+                            <q-card-section
+                              class="row items-center"
+                              style="margin-top: -20px"
+                            >
+                              <div class="circle-icon_phone">
+                                <q-icon
+                                  name="call"
+                                  class="q-ml-xs custom-icon-class"
+                                />
+                              </div>
+
+                              <div>
+                                <div class="text-subtitle2">
+                                  Contact Number: 0915487625
+                                </div>
+                              </div>
+                            </q-card-section>
+
+                            <q-card-section
+                              class="row items-center"
+                              style="margin-top: -30px"
+                            >
                               <div class="circle-icon">
                                 <q-icon
                                   name="check"
@@ -339,7 +366,10 @@
                               </div>
                             </q-card-section>
                           </div>
-                          <div class="col-lg-5 col-xl-4">
+                          <div
+                            class="col-lg-5 col-xl-4"
+                            style="margin-top: 8px"
+                          >
                             <div class="q-gutter-sm">
                               <q-btn
                                 color="blue"
@@ -473,13 +503,35 @@
 
                         <div class="row">
                           <div class="col-lg-7 col-xl-7">
-                            <q-card-section class="row items-center">
+                            <q-card-section
+                              class="row items-center"
+                              style="margin-top: -20px"
+                            >
+                              <div class="circle-icon_phone">
+                                <q-icon
+                                  name="call"
+                                  class="q-ml-xs custom-icon-class"
+                                />
+                              </div>
+
+                              <div>
+                                <div class="text-subtitle2">
+                                  Contact Number: 0915487625
+                                </div>
+                              </div>
+                            </q-card-section>
+
+                            <q-card-section
+                              class="row items-center"
+                              style="margin-top: -30px"
+                            >
                               <div class="circle-icon">
                                 <q-icon
                                   name="check"
                                   class="q-ml-xs custom-icon-class"
                                 />
                               </div>
+
                               <div>
                                 <div class="text-subtitle2">
                                   Applied Position / {{ user.AppliedPosition }}
@@ -487,7 +539,10 @@
                               </div>
                             </q-card-section>
                           </div>
-                          <div class="col-lg-5 col-xl-4">
+                          <div
+                            class="col-lg-5 col-xl-4"
+                            style="margin-top: 8px"
+                          >
                             <div class="q-gutter-sm">
                               <q-btn
                                 color="blue"
@@ -709,6 +764,17 @@ export default {
   height: 19px;
   border-radius: 50%;
   background-color: rgb(11, 167, 11);
+  margin-right: 4px;
+}
+
+.circle-icon_phone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 19px;
+  border-radius: 50%;
+  background-color: rgb(167, 60, 11);
   margin-right: 4px;
 }
 .circle-icon q-icon {

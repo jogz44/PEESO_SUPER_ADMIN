@@ -1,17 +1,7 @@
 <template>
   <div class="subcontent">
-    <!--  <navigation-bar @today="onToday" @prev="onPrev" @next="onNext" /> -->
+    <navigation-bar @today="onToday" @prev="onPrev" @next="onNext" />
 
-    <q-card-section class="row" style="margin-top: -8px">
-      <div>
-        <div class="text-h6" :style="{ fontSize: '13px', fontWeight: '400' }">
-          TODAY {{ dayName }} {{ day }} {{ monthName }} {{ year }}
-        </div>
-        <div class="text-subtitle2" :style="{ marginTop: '-5px' }">
-          {{ monthName }} {{ day }}, {{ year }} / {{ time }}
-        </div>
-      </div>
-    </q-card-section>
     <div class="row justify-center">
       <div style="display: flex; max-width: 800px; width: 100%">
         <q-calendar-month
@@ -75,7 +65,7 @@ import {
 import "@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass";
 import "@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass";
 import "@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass";
-/* import NavigationBar from "../components/NavigationBar.vue"; */
+import NavigationBar from "../components/NavigationBar.vue";
 import { defineComponent } from "vue";
 
 // The function below is used to set up our demo data
@@ -90,16 +80,11 @@ function getCurrentDay(day) {
 export default defineComponent({
   name: "MonthSlotWeek",
   components: {
-    /* NavigationBar, */
+    NavigationBar,
     QCalendarMonth,
   },
   data() {
     return {
-      dayName: "",
-      day: "",
-      monthName: "",
-      year: "",
-      time: "",
       selectedDate: today(),
       events: [
         {
@@ -126,7 +111,7 @@ export default defineComponent({
           details: "Time to pitch my idea to the company",
           start: getCurrentDay(10),
           end: getCurrentDay(10),
-          time: "10:00",
+          time: "10:00 ",
           duration: 120,
           bgcolor: "red",
           icon: "fas fa-handshake",
@@ -206,55 +191,7 @@ export default defineComponent({
       ],
     };
   },
-
-  created() {
-    this.setDateTime();
-    setInterval(this.setDateTime, 60000); // Update the time every minute
-  },
-
   methods: {
-    setDateTime() {
-      const date = new Date();
-      const dayNames = [
-        "SUNDAY",
-        "MONDAY",
-        "TUESDAY",
-        "WEDNESDAY",
-        "THURSDAY",
-        "FRIDAY",
-        "SATURDAY",
-      ];
-      const monthNames = [
-        "JANUARY",
-        "FEBRUARY",
-        "MARCH",
-        "APRIL",
-        "MAY",
-        "JUNE",
-        "JULY",
-        "AUGUST",
-        "SEPTEMBER",
-        "OCTOBER",
-        "NOVEMBER",
-        "DECEMBER",
-      ];
-
-      this.dayName = dayNames[date.getDay()];
-      this.day = date.getDate();
-      this.monthName = monthNames[date.getMonth()];
-      this.year = date.getFullYear();
-      this.time = this.formatTime(date);
-    },
-    formatTime(date) {
-      let hours = date.getHours();
-      const minutes = date.getMinutes();
-      const ampm = hours >= 12 ? "PM" : "AM";
-      hours = hours % 12;
-      hours = hours ? hours : 12; // the hour '0' should be '12'
-      const strMinutes = minutes < 10 ? "0" + minutes : minutes;
-      return hours + ":" + strMinutes + " " + ampm;
-    },
-
     getWeekEvents(week, weekdays) {
       const firstDay = parsed(week[0].date + " 00:00");
       const lastDay = parsed(week[week.length - 1].date + " 23:59");

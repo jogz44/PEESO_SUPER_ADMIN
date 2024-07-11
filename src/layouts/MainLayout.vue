@@ -143,7 +143,7 @@
               clickable
               v-ripple
               exact
-              to="/"
+              to="/MyCalendar_Jobs"
             >
               <q-item-section avatar>
                 <q-icon name="event_available" />

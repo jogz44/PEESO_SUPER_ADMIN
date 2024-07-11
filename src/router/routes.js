@@ -20,6 +20,10 @@ const routes = [
         path: "/ViewAllJobs",
         component: () => import("pages/ViewAllJobs.vue"),
       },
+      {
+        path: "/MyCalendar_Jobs",
+        component: () => import("pages/MyCalendar_Jobs.vue"),
+      },
     ],
   },
   // Always leave this as last one,
