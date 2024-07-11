@@ -7,10 +7,14 @@
       </p>
     </q-card-section>
     <q-card-section class="columns items-center">
-      <p>Potential Applicant: <b>100</b></p>
-      <!--  <p style="margin-top: -15px">
-              Date Schedule: <b>July 27,2024 - 9:00 AM</b>
-            </p> -->
+      <p style="margin-top: -5px">Potential Applicant <b>100</b></p>
+      <div style="margin-top: -13px">
+        <input
+          v-model="search_jobpost"
+          class="textbox"
+          placeholder="Search Applicant"
+        />
+      </div>
     </q-card-section>
   </div>
   <div class="scrollable-container" style="margin-top: -19px">
@@ -37,7 +41,7 @@
             </q-card-section>
           </div>
 
-          <div class="col-6">
+          <div class="col-4">
             <q-card-section class="row items-center">
               <div>
                 <q-card-section
@@ -68,21 +72,18 @@
             </q-card-section>
           </div>
 
-          <!--  <div class="col-3">
-                <q-card-section class="row items-center">
-                  <div>
-                    <div
-                      class="text-h6"
-                      style="font-size: 13px; font-weight: 400"
-                    >
-                      Address
-                    </div>
-                    <div class="text-subtitle2" style="margin-top: -8px">
-                      {{ user.address }}
-                    </div>
-                  </div>
-                </q-card-section>
-              </div> -->
+          <div class="col-3">
+            <q-card-section class="row items-center" style="margin-top: -5px">
+              <div>
+                <div class="text-h6" style="font-size: 13px; font-weight: 400">
+                  Expected Salary
+                </div>
+                <div class="text-subtitle2 yellowgold" style="margin-top: -8px">
+                  ₱ {{ user.ExpectedSalary }}
+                </div>
+              </div>
+            </q-card-section>
+          </div>
         </div>
 
         <div class="row">
@@ -251,8 +252,19 @@ export default {
   border: 1px solid #0b66a3;
   border-radius: 13px;
 
-  width: 250px;
-  height: 28px;
+  width: 180px;
+  height: 18px;
+}
+
+@media only screen and (max-width: 1669px) {
+  .textbox {
+    padding: 10px;
+    border: 1px solid #0b66a3;
+    border-radius: 13px;
+
+    width: 100px;
+    height: 18px;
+  }
 }
 
 .custom-input .q-field__control {
@@ -359,7 +371,7 @@ export default {
 }
 
 .yellowgold {
-  color: rgb(231, 198, 35);
+  color: rgb(195, 164, 11);
 }
 
 .q-page {

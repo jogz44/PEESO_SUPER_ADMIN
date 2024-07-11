@@ -69,10 +69,17 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .custom-mx-xxl {
   margin-left: 45px; /* or any desired value */
   margin-right: 60px; /* or any desired value */
+}
+
+@media only screen and (max-width: 1904px) {
+  .custom-mx-xxl {
+    margin-left: 45px; /* or any desired value */
+    margin-right: 35px; /* or any desired value */
+  }
 }
 
 .profile-card {
