@@ -227,7 +227,7 @@
                       class="text-subtitle2 totalapplicant"
                       style="margin-top: -8px"
                     >
-                      Rejected
+                      Declined
                     </div>
                   </div>
                 </q-card-section>

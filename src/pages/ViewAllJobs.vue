@@ -341,12 +341,7 @@
                                   class="q-ml-xs custom-icon-class"
                                 />
                               </div>
-
-                              <div>
-                                <div class="text-subtitle2">
-                                  Contact Number: 0915487625
-                                </div>
-                              </div>
+                              <div><b>095112231223</b></div>
                             </q-card-section>
 
                             <q-card-section
@@ -359,6 +354,7 @@
                                   class="q-ml-xs custom-icon-class"
                                 />
                               </div>
+
                               <div>
                                 <div class="text-subtitle2">
                                   Applied Position / {{ user.AppliedPosition }}
@@ -383,7 +379,7 @@
                                 rounded
                                 color="red"
                                 size="12px"
-                                label="Reject"
+                                label="DECLINE"
                               />
                               <q-btn
                                 class="glossy"

@@ -7,7 +7,7 @@
       </p>
     </q-card-section>
     <q-card-section class="columns items-center">
-      <p style="margin-top: -5px">Potential Applicant <b>100</b></p>
+      <p class="potentialapplicant">Potential Applicant <b>100</b></p>
       <div style="margin-top: -13px">
         <input
           v-model="search_jobpost"
@@ -17,62 +17,86 @@
       </div>
     </q-card-section>
   </div>
-  <div class="scrollable-container" style="margin-top: -19px">
+  <div class="scrollable-container custom_card_Shortlisted">
     <div class="q-gutter-md">
       <q-card
-        v-for="user in users"
+        v-for="user in filteredApplicant"
         :key="user.id"
         class="q-mb-md q-my-md custom-card_Shortlisted"
       >
         <div class="row">
-          <div class="col-5">
+          <div class="col-xl-6 col-lg-5 col-md-7 col-sm-6 col-xs-12">
             <q-card-section class="row items-center">
               <q-avatar size="53px" class="q-mr-sm">
                 <img :src="user.avatar" alt="Profile Picture" />
               </q-avatar>
-              <div style="margin-top: -14px">
+              <div style="margin-top: -15px">
                 <div class="text-h6 namecolor">
-                  {{ user.firstName }} {{ user.lastName }}
+                  {{ user.firstName }}
                 </div>
+
                 <div class="text-subtitle2" style="margin-top: -8px">
-                  Age: {{ user.age }}
-                </div>
-              </div>
-            </q-card-section>
-          </div>
-
-          <div class="col-4">
-            <q-card-section class="row items-center">
-              <div>
-                <q-card-section
-                  class="row items-center"
-                  style="margin-top: -15px"
-                >
-                  <div class="circle-icon_phone">
-                    <q-icon name="call" class="q-ml-xs custom-icon-class" />
+                  <div>
+                    <div class="text-subtitle2 namecolor">
+                      {{ user.lastName }}
+                    </div>
                   </div>
-
+                </div>
+                <div class="text-subtitle2" style="margin-top: -4px">
                   <div>
                     <div class="text-subtitle2">0915487625</div>
                   </div>
-                </q-card-section>
-                <q-card-section
-                  class="row items-center"
-                  style="margin-top: -25px"
-                >
-                  <q-btn
-                    class="glossy"
-                    size="10px"
-                    rounded
-                    color="green"
-                    label="Hire"
-                  />
-                </q-card-section>
+                </div>
               </div>
             </q-card-section>
           </div>
 
-          <div class="col-3">
+          <q-container>
+            <div
+              class="col-2 col-xl-3 col-lg-2 col-sm-12 col-md-8 responsive_1"
+            >
+              <!-- <q-card-section class="row items-center"> -->
+              <div style="margin-top: 10px">
+                <!--  <q-card-section
+                  class="row items-center"
+                  style="margin-top: -18px"
+                > -->
+                <div class="row">
+                  <div class="col-2">
+                    <q-btn
+                      class="glossy"
+                      size="10px"
+                      rounded
+                      color="green"
+                      label="Hire"
+                    />
+                  </div>
+                  <div class="col-3">
+                    <q-btn
+                      class="glossy q-mx-md"
+                      size="10px"
+                      rounded
+                      color="red"
+                      label="Decline"
+                    />
+                  </div>
+                  <div class="col-7">
+                    <q-btn
+                      outline
+                      class="q-mx-lg"
+                      size="10px"
+                      rounded
+                      color="blue"
+                      label="WAITING LIST"
+                    />
+                  </div>
+                </div>
+                <!--   </q-card-section> -->
+              </div>
+              <!--  </q-card-section> -->
+            </div>
+          </q-container>
+          <!--    <div class="col-3 col-xl-3 col-lg-4 col-md-5 responsive_1">
             <q-card-section class="row items-center" style="margin-top: -5px">
               <div>
                 <div class="text-h6" style="font-size: 13px; font-weight: 400">
@@ -83,7 +107,7 @@
                 </div>
               </div>
             </q-card-section>
-          </div>
+          </div> -->
         </div>
 
         <div class="row">
@@ -169,10 +193,12 @@ export default {
   },
 
   computed: {
-    filteredJobPosts() {
+    filteredApplicant() {
       const searchTerm = this.search_jobpost.toLowerCase();
-      return this.jobPosts.filter((jobPost) =>
-        jobPost.Position_Title.toLowerCase().includes(searchTerm)
+      return this.users.filter(
+        (users) =>
+          users.firstName.toLowerCase().includes(searchTerm) ||
+          users.lastName.toLowerCase().includes(searchTerm)
       );
     },
   },
@@ -247,6 +273,112 @@ export default {
 </script>
 
 <style scoped>
+.potentialapplicant {
+  margin-top: -5px;
+}
+
+.custom_card_Shortlisted {
+  margin-top: -19px;
+}
+
+@media only screen and (max-width: 599px) {
+  .potentialapplicant {
+    margin-top: -48px;
+  }
+
+  .custom_card_Shortlisted {
+    margin-top: -5px;
+  }
+}
+
+@media only screen and (max-width: 1904px) {
+  /*   .responsive {
+    margin-left: -40px;
+  } */
+
+  /*  .responsive_1 {
+    margin-left: -150px;
+  } */
+}
+
+@media only screen and (max-width: 1904px) {
+  .responsive_1 {
+    margin-left: -40px;
+  }
+}
+
+@media only screen and (max-width: 16698px) {
+  .responsive_1 {
+    margin-left: -36px;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .responsive_1 {
+    margin-left: 10px;
+  }
+}
+
+/* @media only screen and (max-width: 1575px) {
+  .responsive_1 {
+    margin-left: -50px;
+  }
+}
+
+@media only screen and (max-width: 1550px) {
+  .responsive_1 {
+    margin-left: -51px;
+  }
+} */
+
+/* @media only screen and (max-width: 1546px) {
+  .responsive_1 {
+    margin-left: -52px;
+  }
+}
+
+@media only screen and (max-width: 1541px) {
+  .responsive_1 {
+    margin-left: -53px;
+  }
+} */
+
+/* @media only screen and (max-width: 1536px) {
+  .responsive_1 {
+    margin-left: -54px;
+  }
+}
+
+@media only screen and (max-width: 1536px) {
+  .responsive_1 {
+    margin-left: -54px;
+  }
+}
+
+@media only screen and (max-width: 1531px) {
+  .responsive_1 {
+    margin-left: -55px;
+  }
+}
+
+@media only screen and (max-width: 1526px) {
+  .responsive_1 {
+    margin-left: -56px;
+  }
+}
+
+@media only screen and (max-width: 1526px) {
+  .responsive_1 {
+    margin-left: -57px;
+  }
+}
+
+@media only screen and (max-width: 1517px) {
+  .responsive_1 {
+    margin-left: -58px;
+  }
+} */
+
 .textbox {
   padding: 10px;
   border: 1px solid #0b66a3;
@@ -262,7 +394,7 @@ export default {
     border: 1px solid #0b66a3;
     border-radius: 13px;
 
-    width: 100px;
+    width: 150px;
     height: 18px;
   }
 }
@@ -310,6 +442,16 @@ export default {
   overflow: hidden;
   margin-inline-start: 30px;
   height: 95px;
+}
+
+@media only screen and (max-width: 599px) {
+  .custom-card_Shortlisted {
+    border-top: 4px solid rgba(245, 97, 17, 0.799);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-inline-start: 30px;
+    height: 150px;
+  }
 }
 
 .custom-card {

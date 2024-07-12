@@ -37,12 +37,16 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-6 q-mx-lg q-ml-xl">
+    <div
+      class="q-my-sm q-mx-lg q-ml-xl col-xl-6 col-lg-6 col-md-11 col-sm-11 col-xs"
+    >
       <q-card style="border-radius: 12px">
         <MyCalendar />
       </q-card>
     </div>
-    <div class="col-5">
+    <div
+      class="q-my-sm q-mx-sm col-xl-5 col-lg-5 col-md-11 col-sm-11 responsive"
+    >
       <q-card style="border-radius: 12px">
         <ShortListed_Scheduled />
       </q-card>
@@ -70,6 +74,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
+@media only screen and (max-width: 1439px) {
+  .responsive {
+    margin-left: 45px; /* or any desired value */
+  }
+}
+
 .custom-mx-xxl {
   margin-left: 45px; /* or any desired value */
   margin-right: 60px; /* or any desired value */
