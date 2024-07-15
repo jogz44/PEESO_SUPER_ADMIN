@@ -291,15 +291,6 @@ export default {
   }
 }
 
-@media only screen and (max-width: 1904px) {
-  /*   .responsive {
-    margin-left: -40px;
-  } */
-
-  /*  .responsive_1 {
-    margin-left: -150px;
-  } */
-}
 
 @media only screen and (max-width: 1904px) {
   .responsive_1 {
@@ -319,65 +310,9 @@ export default {
   }
 }
 
-/* @media only screen and (max-width: 1575px) {
-  .responsive_1 {
-    margin-left: -50px;
-  }
-}
 
-@media only screen and (max-width: 1550px) {
-  .responsive_1 {
-    margin-left: -51px;
-  }
-} */
 
-/* @media only screen and (max-width: 1546px) {
-  .responsive_1 {
-    margin-left: -52px;
-  }
-}
 
-@media only screen and (max-width: 1541px) {
-  .responsive_1 {
-    margin-left: -53px;
-  }
-} */
-
-/* @media only screen and (max-width: 1536px) {
-  .responsive_1 {
-    margin-left: -54px;
-  }
-}
-
-@media only screen and (max-width: 1536px) {
-  .responsive_1 {
-    margin-left: -54px;
-  }
-}
-
-@media only screen and (max-width: 1531px) {
-  .responsive_1 {
-    margin-left: -55px;
-  }
-}
-
-@media only screen and (max-width: 1526px) {
-  .responsive_1 {
-    margin-left: -56px;
-  }
-}
-
-@media only screen and (max-width: 1526px) {
-  .responsive_1 {
-    margin-left: -57px;
-  }
-}
-
-@media only screen and (max-width: 1517px) {
-  .responsive_1 {
-    margin-left: -58px;
-  }
-} */
 
 .textbox {
   padding: 10px;

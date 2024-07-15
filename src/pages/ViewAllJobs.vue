@@ -38,9 +38,6 @@
           <!-- </q-tabs> -->
 
           <div class="q-gutter-y-sm">
-            <!--  <q-tab-panels v-model="tab" animated class="text-left">
-              <q-tab-panel name="jobposting"> -->
-
             <div style="margin-top: 38px">
               <div class="scrollable-container">
                 <div class="q-gutter-md">
