@@ -1,0 +1,224 @@
+{
+  "JobPost": [
+    {
+      "id": 1,
+      "Position_Title": "Front End Developer",
+      "Salary": "30,000",
+      "Total_Vacant_Count": "150",
+      "Total_Applied": "100",
+      "Total_Accept": "75",
+      "Total_Reject": "46",
+      "Total_Hired": "65",
+      "Position_Title_Picture": "JobsPic/FrontEnd.png"
+    },
+    {
+      "id": 2,
+      "Position_Title": "Back End Developer",
+      "Salary": "32,000",
+      "Total_Vacant_Count": "120",
+      "Total_Applied": "90",
+      "Total_Accept": "65",
+      "Total_Reject": "40",
+      "Total_Hired": "55",
+      "Position_Title_Picture": "JobsPic/backend.png"
+    },
+    {
+      "id": 3,
+      "Position_Title": "Full Stack Developer",
+      "Salary": "35,000",
+      "Total_Vacant_Count": "100",
+      "Total_Applied": "80",
+      "Total_Accept": "60",
+      "Total_Reject": "35",
+      "Total_Hired": "50",
+      "Position_Title_Picture": "JobsPic/FrontEnd.png"
+    },
+    {
+      "id": 4,
+      "Position_Title": "Data Scientist",
+      "Salary": "40,000",
+      "Total_Vacant_Count": "90",
+      "Total_Applied": "70",
+      "Total_Accept": "50",
+      "Total_Reject": "30",
+      "Total_Hired": "45",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 5,
+      "Position_Title": "UI/UX Designer",
+      "Salary": "28,000",
+      "Total_Vacant_Count": "110",
+      "Total_Applied": "85",
+      "Total_Accept": "55",
+      "Total_Reject": "35",
+      "Total_Hired": "50",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 6,
+      "Position_Title": "Project Manager",
+      "Salary": "45,000",
+      "Total_Vacant_Count": "80",
+      "Total_Applied": "60",
+      "Total_Accept": "45",
+      "Total_Reject": "25",
+      "Total_Hired": "40",
+      "Position_Title_Picture": "JobsPic/UIUX.png"
+    },
+    {
+      "id": 7,
+      "Position_Title": "Truck Driver",
+      "Salary": "33,000",
+      "Total_Vacant_Count": "130",
+      "Total_Applied": "100",
+      "Total_Accept": "70",
+      "Total_Reject": "50",
+      "Total_Hired": "60",
+      "Position_Title_Picture": "JobsPic/TruckDriver.png"
+    },
+    {
+      "id": 8,
+      "Position_Title": "DevOps Engineer",
+      "Salary": "38,000",
+      "Total_Vacant_Count": "95",
+      "Total_Applied": "75",
+      "Total_Accept": "55",
+      "Total_Reject": "35",
+      "Total_Hired": "45",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 9,
+      "Position_Title": "TruckDriver",
+      "Salary": "31,000",
+      "Total_Vacant_Count": "110",
+      "Total_Applied": "85",
+      "Total_Accept": "60",
+      "Total_Reject": "40",
+      "Total_Hired": "55",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 10,
+      "Position_Title": "Network Engineer",
+      "Salary": "34,000",
+      "Total_Vacant_Count": "105",
+      "Total_Applied": "80",
+      "Total_Accept": "55",
+      "Total_Reject": "30",
+      "Total_Hired": "50",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 11,
+      "Position_Title": "Database Administrator",
+      "Salary": "36,000",
+      "Total_Vacant_Count": "100",
+      "Total_Applied": "70",
+      "Total_Accept": "50",
+      "Total_Reject": "30",
+      "Total_Hired": "45",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 12,
+      "Position_Title": "Security Analyst",
+      "Salary": "42,000",
+      "Total_Vacant_Count": "85",
+      "Total_Applied": "65",
+      "Total_Accept": "45",
+      "Total_Reject": "25",
+      "Total_Hired": "40",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 13,
+      "Position_Title": "Mobile App Developer",
+      "Salary": "37,000",
+      "Total_Vacant_Count": "115",
+      "Total_Applied": "90",
+      "Total_Accept": "65",
+      "Total_Reject": "40",
+      "Total_Hired": "55",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 14,
+      "Position_Title": "Product Manager",
+      "Salary": "44,000",
+      "Total_Vacant_Count": "90",
+      "Total_Applied": "70",
+      "Total_Accept": "50",
+      "Total_Reject": "30",
+      "Total_Hired": "45",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 15,
+      "Position_Title": "Scrum Master",
+      "Salary": "39,000",
+      "Total_Vacant_Count": "100",
+      "Total_Applied": "75",
+      "Total_Accept": "55",
+      "Total_Reject": "35",
+      "Total_Hired": "45",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 16,
+      "Position_Title": "Business Analyst",
+      "Salary": "41,000",
+      "Total_Vacant_Count": "95",
+      "Total_Applied": "70",
+      "Total_Accept": "50",
+      "Total_Reject": "30",
+      "Total_Hired": "40",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 17,
+      "Position_Title": "Technical Support Engineer",
+      "Salary": "29,000",
+      "Total_Vacant_Count": "120",
+      "Total_Applied": "90",
+      "Total_Accept": "65",
+      "Total_Reject": "40",
+      "Total_Hired": "55",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 18,
+      "Position_Title": "Cloud Engineer",
+      "Salary": "43,000",
+      "Total_Vacant_Count": "85",
+      "Total_Applied": "65",
+      "Total_Accept": "45",
+      "Total_Reject": "25",
+      "Total_Hired": "40",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 19,
+      "Position_Title": "Software Architect",
+      "Salary": "50,000",
+      "Total_Vacant_Count": "75",
+      "Total_Applied": "60",
+      "Total_Accept": "45",
+      "Total_Reject": "25",
+      "Total_Hired": "40",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    },
+    {
+      "id": 20,
+      "Position_Title": "Machine Learning Engineer",
+      "Salary": "48,000",
+      "Total_Vacant_Count": "80",
+      "Total_Applied": "65",
+      "Total_Accept": "50",
+      "Total_Reject": "30",
+      "Total_Hired": "45",
+      "Position_Title_Picture": "JobsPic/Datascientiest.png"
+    }
+  ]
+}

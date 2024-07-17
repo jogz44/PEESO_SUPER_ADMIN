@@ -3,6 +3,55 @@
     <!--  <div class="row">
       <p>View All JOBS</p>
     </div> -->
+    <q-dialog v-model="dialog_sched" persistent>
+      <q-card>
+        <q-card-section>
+          <div class="row items-center justify-start">
+            <p style="font-size: 12px; margin-left: 5px">SOFTWARE DEVELOPER</p>
+          </div>
+          <q-date dense v-model="date" mask="YYYY-MM-DD" />
+        </q-card-section>
+      </q-card>
+
+      <q-card>
+        <q-card-section>
+          <!--  <div class="row items-center justify-start">
+            <p style="font-size: 15px; margin-left: 5px">
+              <b>Apply to All</b>
+            </p>
+          </div> -->
+
+          <!--  <div class="row items-center justify-end">
+            <q-btn flat round icon="close" @click="dialog_sched = false" />
+          </div>
+ -->
+
+          <div class="row">
+            <div class="col-6">
+              <q-checkbox v-model="applyToAll" label="APPLY ALL" dense />
+            </div>
+
+            <div class="col-4" style="margin-top: -5px">
+              <q-btn
+                class="glossy"
+                size="11px"
+                rounded
+                color="blue"
+                label="SUBMIT"
+              />
+            </div>
+
+            <div class="col-2">
+              <div style="margin-top: -10px; margin-left: 6px">
+                <q-btn flat round icon="close" @click="dialog_sched = false" />
+              </div>
+            </div>
+          </div>
+
+          <q-time dense v-model="time" mask="HH:mm" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
 
     <div class="row">
       <div class="col-4">
@@ -552,6 +601,7 @@
                                 label="Reject"
                               /> -->
                               <q-btn
+                                @click="schedule_Dialog"
                                 class="glossy"
                                 size="12px"
                                 rounded
@@ -584,7 +634,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 
 export default {
@@ -592,6 +642,8 @@ export default {
 
   data() {
     return {
+      applyToAll: false,
+      dialog_sched: false,
       search_jobpost: "",
       jobPosts: [],
       page: 1,
@@ -617,13 +669,17 @@ export default {
   },
 
   methods: {
+    schedule_Dialog() {
+      this.dialog_sched = true;
+    },
+
     async loadMoreJobPosts() {
       if (this.loading) return;
       this.loading = true;
 
       try {
         const response = await axios.get(
-          `https://run.mocky.io/v3/5c4a6151-42bd-4c7e-809c-cec9084e0fcc`,
+          `https://run.mocky.io/v3/52b2c4a8-1f74-4757-8720-1ec731015ded`,
           {
             params: {
               _page: this.page,
@@ -650,7 +706,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `https://run.mocky.io/v3/d7b4f6ea-87a0-4aee-9485-de39293bb1b3`,
+          `https://run.mocky.io/v3/318818ba-4594-4cdd-9a44-b7818b652413`,
           {
             params: {
               _page: this.page_1,
@@ -678,8 +734,40 @@ export default {
   },
   setup() {
     const tab = ref("receievedcvs");
+    const now = new Date();
+
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+
+    const formatTime = (date) => {
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      return `${hours}:${minutes}`;
+    };
+
+    const date = ref(formatDate(now));
+    const time = ref(formatTime(now));
+
+    const combinedModel = computed(() => {
+      return `${date.value} ${time.value}`;
+    });
+
+    const formattedTime = computed(() => {
+      // Ensures the time is always displayed in 24-hour format
+      const [hours, minutes] = time.value.split(":");
+      const hours24 = String(parseInt(hours, 10)).padStart(2, "0");
+      return `${hours24}:${minutes}`;
+    });
     return {
       tab,
+      date,
+      time,
+      combinedModel,
+      formattedTime,
     };
   },
 };

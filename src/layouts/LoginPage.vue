@@ -167,7 +167,7 @@ export default defineComponent({
       return (val && val.length > 0) || "Field must be filled in";
     },
     submit() {
-      this.$router.push({ path: "/DashBoard" });
+      this.$router.push({ path: "/HomePage" });
     },
   },
 });

@@ -1,8 +1,23 @@
 const routes = [
-  {
+  /* {
     path: "/",
     component: () => import("layouts/LoginPage.vue"),
-    children: [{ path: "", component: () => import("pages/IndexPage.vue") }],
+  }, */
+
+  {
+    path: "/",
+    component: () => import("layouts/WebLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/WebPages/HomePage.vue"),
+      },
+
+      {
+        path: "/WhatisPeeso",
+        component: () => import("components/WhatisPeeso.vue"),
+      },
+    ],
   },
 
   {

@@ -13,7 +13,7 @@
 
     <div class="row" style="margin-top: -20px">
       <div class="col-12">
-        <div style="max-width: 600px; margin-left: 1px">
+        <div style="max-width: 800px; margin-left: 1px">
           <!-- </q-tabs> -->
 
           <div class="q-gutter-y-sm">
@@ -190,7 +190,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `https://run.mocky.io/v3/5c4a6151-42bd-4c7e-809c-cec9084e0fcc`,
+          `https://run.mocky.io/v3/52b2c4a8-1f74-4757-8720-1ec731015ded`,
           {
             params: {
               _page: this.page,
@@ -217,7 +217,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `https://run.mocky.io/v3/d7b4f6ea-87a0-4aee-9485-de39293bb1b3`,
+          `https://run.mocky.io/v3/318818ba-4594-4cdd-9a44-b7818b652413`,
           {
             params: {
               _page: this.page_1,
@@ -253,11 +253,17 @@ export default {
 </script>
 
 <style scoped>
+@media only screen and (max-width: 1023px) {
+  .scheduleinterview {
+    margin-top: 10px;
+    margin-left: 15px;
+  }
+}
+
 .textbox {
   padding: 10px;
   border: 1px solid #0b66a3;
   border-radius: 13px;
-
   width: 250px;
   height: 28px;
 }
@@ -363,7 +369,7 @@ export default {
   height: 50vh;
 }
 .scrollable-container {
-  max-height: 42vh; /* Adjust based on your preference */
+  max-height: 43vh; /* Adjust based on your preference */
   overflow-y: auto;
   width: 100%;
 }

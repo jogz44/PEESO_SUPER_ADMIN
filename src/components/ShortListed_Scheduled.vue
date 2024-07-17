@@ -237,7 +237,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `https://run.mocky.io/v3/d7b4f6ea-87a0-4aee-9485-de39293bb1b3`,
+          `https://run.mocky.io/v3/318818ba-4594-4cdd-9a44-b7818b652413`,
           {
             params: {
               _page: this.page_1,
@@ -291,7 +291,6 @@ export default {
   }
 }
 
-
 @media only screen and (max-width: 1904px) {
   .responsive_1 {
     margin-left: -40px;
@@ -309,10 +308,6 @@ export default {
     margin-left: 10px;
   }
 }
-
-
-
-
 
 .textbox {
   padding: 10px;

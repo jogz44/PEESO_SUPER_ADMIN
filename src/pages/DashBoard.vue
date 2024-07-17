@@ -2,7 +2,8 @@
   <q-page>
     <!-- Main Content -->
     <q-page-section>
-      <div class="row q-mx-xl q-my-md">
+      
+      <div class="card_tatal_jobs row q-mx-xl xs:mx-sm q-my-md">
         <!-- Total Jobs Card -->
         <q-card
           class="col-12 col-xl-6 col-lg-6 col-md-11 col-sm-11 custom-card q-mx-md custom_card_TotalJobs"
@@ -19,8 +20,12 @@
               </div>
               <div class="col" style="margin-left: 8px; margin-top: 20px">
                 <div style="font-size: 14px">Total Jobs</div>
-                <div class="totaljobpostNumber">
-                  {{ totalJobs }}
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  class="totaljobpostNumber"
+                >
+                  {{ displayNumber_TotalJobs }}
                 </div>
               </div>
             </div>
@@ -138,8 +143,12 @@
               </div>
               <div class="col" style="margin-left: 8px; margin-top: 20px">
                 <div class="total_applicant">Total Applicant</div>
-                <div class="totaljobpostNumber">
-                  {{ totalJobs }}
+                <div
+                  class="totaljobpostNumber"
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                >
+                  {{ displayNumber_TotalApplicant }}
                 </div>
               </div>
             </div>
@@ -212,14 +221,19 @@
       </div>
 
       <div class="row q-mx-xl q-my-md">
-        <div class="col-6" style="margin-left: 13px">
-          <q-card class="" style="border-radius: 12px">
+        <div
+          class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-11"
+          style="margin-left: 13px"
+        >
+          <q-card class="calendaryo" style="border-radius: 12px">
             <Schedule_Calendar />
           </q-card>
         </div>
 
-        <div class="col-5 q-ml-lg">
-          <q-card><Scheduled_List /> </q-card>
+        <div
+          class="scheduleinterview col-12 col-xl-5 col-lg-5 col-md-5 col-sm-11 q-ml-lg"
+        >
+          <q-card class="scheduleinterview"><Scheduled_List /> </q-card>
         </div>
       </div>
     </q-page-section>
@@ -229,21 +243,146 @@
 <script>
 import Schedule_Calendar from "../components/Schedule_Calendar.vue";
 import Scheduled_List from "../components/Scheduled_List.vue";
+import AOS from "aos";
+import { ref } from "vue";
+import "aos/dist/aos.css";
 export default {
   data() {
     return {
-      totalJobs: 150, // Replace with actual data
-      totalApplicants: 320, // Replace with actual data
+      startNumber: 0,
+      dialog_sched: false,
+      duration: 1500, // duration of the animation in milliseconds
+      startTime: null,
+      displayNumber_TotalApplicant: 0,
+      displayNumber_TotalJobs: 0,
+      totalJobs: 453, // Replace with actual data
+      totalApplicants: 1500, // Replace with actual data
     };
   },
   components: {
     Schedule_Calendar,
     Scheduled_List,
   },
+  setup() {
+    return {
+      model: ref("2019-02-22 21:02"),
+    };
+  },
+
+  methods: {
+    schedule_Dialog() {
+      this.dialog_sched = true;
+    },
+
+    animateNumber(timestamp) {
+      if (!this.startTime) this.startTime = timestamp;
+      const progress = timestamp - this.startTime;
+      const progressFraction = progress / this.duration;
+      this.displayNumber_TotalApplicant = Math.min(
+        Math.floor(
+          this.startNumber +
+            progressFraction * (this.totalApplicants - this.startNumber)
+        ),
+        this.totalApplicants
+      );
+      if (progress < this.duration) {
+        requestAnimationFrame(this.animateNumber);
+      } else {
+        this.displayNumber_TotalApplicant = this.totalApplicants;
+      }
+    },
+    startAnimation() {
+      this.startTime = null;
+      requestAnimationFrame(this.animateNumber);
+    },
+
+    animateNumber_TotalJobs(timestamp) {
+      if (!this.startTime) this.startTime = timestamp;
+      const progress = timestamp - this.startTime;
+      const progressFraction = progress / this.duration;
+      this.displayNumber_TotalJobs = Math.min(
+        Math.floor(
+          this.startNumber +
+            progressFraction * (this.totalJobs - this.startNumber)
+        ),
+        this.totalJobs
+      );
+      if (progress < this.duration) {
+        requestAnimationFrame(this.animateNumber_TotalJobs);
+      } else {
+        this.displayNumber_TotalJobs = this.totalJobs;
+      }
+    },
+    startAnimation_TotalJobs() {
+      this.startTime = null;
+      requestAnimationFrame(this.animateNumber_TotalJobs);
+    },
+  },
+  mounted() {
+    AOS.init();
+    this.startAnimation();
+    this.startAnimation_TotalJobs();
+  },
+  directives: {
+    AOS: {
+      mounted(el) {
+        el.addEventListener("aos:in", () => {
+          this.startAnimation();
+        });
+      },
+    },
+  },
 };
 </script>
 
 <style scoped>
+.scheduleinterview {
+  border-radius: 10px;
+  margin-top: -2px;
+  margin-left: 13px;
+}
+.calendaryo {
+  margin-left: 4px;
+  margin-right: 1px;
+}
+
+@media only screen and (max-width: 1439px) {
+  .scheduleinterview {
+    margin-top: -3px;
+    margin-left: 7px;
+  }
+
+  .calendaryo {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (max-width: 1023px) {
+  .scheduleinterview {
+    margin-top: 6px;
+    margin-left: 12px;
+    margin-right: 1px;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .card_tatal_jobs {
+    margin-left: -10px;
+    margin-right: 25px;
+  }
+
+  .calendaryo {
+    margin-left: -50px;
+    margin-right: -25px;
+  }
+
+  .scheduleinterview {
+    margin-top: 4px;
+    margin-left: -20px;
+    margin-right: -55px;
+  }
+}
+
 .custom-avatar {
   width: 50px;
   height: 50px;
