@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <!-- Main Content -->
-    <div class="row page">
+    <div class="row page flex-center">
       <div class="col-3">
         <q-item-label header>
           <img
@@ -15,15 +15,15 @@
         </q-item-label>
       </div>
 
-      <div class="col-6" style="margin-left: 15px; margin-top: 15px">
+      <div class="col-6" style="margin-left: 15px; margin-top: 19px">
         <q-page-section>
           <div>
             <p
               data-aos="fade-right"
               data-aos-duration="1500"
-              style="font-size: 15px"
+              style="font-size: 15px; color: #48b544"
             >
-              We can make it <b>HAPPEN</b>
+              We can make it <span><b>HAPPEN</b></span>
             </p>
           </div>
           <h3
@@ -31,10 +31,22 @@
             data-aos-duration="1500"
             style="margin-top: 15px"
           >
-            <span style="font-weight: bold">CPEESO</span> <br />
-            <span> Tagum City</span>
+            <span style="font-weight: bold; color: #3fb03f">CPEESO</span> <br />
           </h3>
-          <div class="row">
+          <h4
+            data-aos="fade-up"
+            data-aos-duration="1500"
+            style="
+              margin-top: -58px;
+              color: #48b544;
+              font-size: 16px;
+              margin-left: 40px;
+            "
+          >
+            TAGUM CITY
+          </h4>
+
+          <div class="row" style="margin-top: 40px">
             <div class="col-6">
               <p
                 data-aos="fade-left"
@@ -74,45 +86,24 @@
         </div>
       </div>
     </div>
-
-    <!--  <div class="row">
-      <WhatisPeeso />
-    </div> -->
-
-    <!-- <div class="row page2">
-      <div class="col-3">
-        <q-page-section>
-          <h3
-            data-aos="fade-up"
-            data-aos-duration="1500"
-            style="margin-top: 15px"
-          >
-            <span>Accessibility and Inclusivity</span> <br />
-          </h3>
-          <p
-            data-aos="fade-left"
-            data-aos-duration="1500"
-            style="justify-content: space-around"
-          >
-            Regardless of a person's background or ability, we are committed to
-            offering accessible and inclusive services. We guarantee that
-            everyone has an equal chance to succeed in the job market thanks to
-            our platform.
-          </p>
-        </q-page-section>
-      </div>
-    </div> -->
+    <div class="row"></div>
   </q-page>
 </template>
 
 <script>
-/* import WhatisPeeso from "../components/WhatisPeeso.vue"; */
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 export default {
   data() {
     return {
+      form: {
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      },
+
       startNumber: 0,
       dialog_sched: false,
       duration: 1500, // duration of the animation in milliseconds
@@ -170,9 +161,7 @@ export default {
     },
   },
 
-  /* components: {
-    WhatisPeeso,
-  }, */
+  components: {},
 
   mounted() {
     AOS.init();
@@ -183,6 +172,21 @@ export default {
 </script>
 
 <style scoped>
+.flex-center1 {
+  margin-top: -640px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align items to the top */
+  height: 100vh; /* Full height to ensure vertical centering */
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align items to the top */
+  height: 100vh; /* Full height to ensure vertical centering */
+}
+
 .page {
   margin-right: 100px;
   margin-left: 90px;

@@ -10,13 +10,28 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("pages/WebPages/HomePage.vue"),
+        component: () => import("pages/WebPages/HomeContainer.vue"),
+      },
+
+      {
+        path: "/ContactUs",
+        component: () => import("pages/WebPages/ContactUs.vue"),
       },
 
       {
         path: "/WhatisPeeso",
-        component: () => import("components/WhatisPeeso.vue"),
+        component: () => import("pages/WebPages/WhatisPeeso.vue"),
       },
+
+      {
+        path: "/HomePage",
+        component: () => import("pages/WebPages/HomePage.vue"),
+      },
+
+      /*  {
+        path: "/FooterPage",
+        component: () => import("pages/WebPages/FooterPage.vue"),
+      }, */
     ],
   },
 
