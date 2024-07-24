@@ -1,5 +1,5 @@
 <template>
-  <q-layout>
+  <q-layout class="backgroundcolor">
     <div class="row" id="HomePage">
       <HomePage />
     </div>
@@ -12,7 +12,7 @@
     <q-footer>
       <FooterPage />
     </q-footer>
-   </q-layout>
+  </q-layout>
 </template>
 
 <script>
@@ -34,6 +34,16 @@ export default {
 </script>
 
 <style scoped>
+@media only screen and (max-width: 375px) {
+  .backgroundcolor {
+    overflow-x: hidden;
+  }
+}
+
+.backgroundcolor {
+  background-color: rgba(252, 250, 250, 0.943);
+}
+
 .flex-contactus {
   margin-top: 450px;
 

@@ -28,6 +28,16 @@ const routes = [
         component: () => import("pages/WebPages/HomePage.vue"),
       },
 
+      {
+        path: "/LoginPage",
+        component: () => import("layouts/LoginPage.vue"),
+      },
+
+      {
+        path: "/SignUpPage",
+        component: () => import("layouts/SignUpPage.vue"),
+      },
+
       /*  {
         path: "/FooterPage",
         component: () => import("pages/WebPages/FooterPage.vue"),

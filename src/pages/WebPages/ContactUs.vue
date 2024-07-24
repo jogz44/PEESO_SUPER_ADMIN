@@ -2,15 +2,15 @@
   <q-page>
     <!-- Main Content -->
     <div class="row page flex-center">
-      <div class="col-3">
+      <div class="col-8 col-xl-3 col-lg-3 col-md-5">
         <div>
           <q-card
             data-aos="fade-in"
             data-aos-duration="3000"
-            style="height: 550px; margin-right: 8px; border-radius: 12px"
+            class="card_contact_us"
           >
             <div class="q-pa-md">
-              <div class="text-left q-mb-md">
+              <div class="text-left q-mb-md contact_us">
                 <h5>Contact Us</h5>
               </div>
               <q-form class="q-gutter-md">
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <div class="col-4" style="margin-left: 15px; margin-top: 1px">
+      <div class="col-9 col-xl-4 col-lg-4 col-md-5 getintouch">
         <q-page-section>
           <div
             style="border-radius: 12px"
@@ -141,19 +141,9 @@
 
       <div col="6">
         <div>
-          <q-card class="q-pa-md">
+          <q-card class="q-pa-md marginbai">
             <!-- Google Map Embed -->
-            <div
-              data-aos="fade-in"
-              data-aos-duration="3000"
-              style="
-                position: relative;
-                overflow: hidden;
-                padding-top: 56.25%;
-                width: 450px;
-                height: 510px;
-              "
-            >
+            <div data-aos="fade-in" data-aos-duration="3000" class="google_map">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3926.526868673136!2d125.80145981435612!3d7.449605894630827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32ff982e88a6a8b9%3A0xf33e3f045c8c1f53!2sTagum%20City%20Hall!5e0!3m2!1sen!2sph!4v1626549209181!5m2!1sen!2sph"
                 width="100%"
@@ -250,6 +240,17 @@ export default {
 </script>
 
 <style scoped>
+@media only screen and (max-width: 1023px) {
+  .getintouch {
+    margin-top: -40px;
+  }
+}
+
+.getintouch {
+  margin-left: 15px;
+  margin-top: -45px;
+}
+
 .full-width {
   width: 100%;
 }
@@ -266,11 +267,54 @@ export default {
   align-items: flex-start; /* Align items to the top */
   height: -100vh; /* Full height to ensure vertical centering */
 }
-
 .page {
   margin-right: 100px;
   margin-left: 90px;
   margin-top: 80px;
+}
+
+.card_contact_us {
+  height: 550px;
+  margin-right: 8px;
+  margin-left: 13px;
+  border-radius: 12px;
+  margin-top: -35px;
+}
+
+.google_map {
+  position: relative;
+  overflow: hidden;
+  padding-top: 56.25%;
+  width: 450px;
+  height: 510px;
+}
+
+.contact_us {
+  margin-top: -28px;
+}
+
+@media only screen and (max-width: 375px) {
+  .page {
+    margin-right: 100px;
+    margin-left: 90px;
+    margin-top: 750px;
+  }
+
+  .google_map {
+    position: relative;
+    overflow: hidden;
+    padding-top: 56.25%;
+    width: 450px;
+    height: 510px;
+    visibility: hidden;
+  }
+
+  .marginbai {
+    visibility: hidden;
+  }
+  /*  .marginbai {
+    margin-top: -10px;
+  } */
 }
 
 .page2 {

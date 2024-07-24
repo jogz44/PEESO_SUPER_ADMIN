@@ -2,60 +2,39 @@
   <q-page>
     <!-- Main Content -->
     <div class="row page flex-center">
-      <div class="col-10 col-xl-3 col-lg-4 col-md-4 col-sm-4 hideme">
+      <!--  <div class="col-10 col-xl-6 col-lg-4 col-md-4 col-sm-4">
         <q-item-label header>
-          <img
-            data-aos="fade-in"
-            data-aos-duration="3000"
-            src="/Peesopic.png"
-            alt="Logo"
-            class="imagebackground"
-          />
-          <img />
+          <q-page-section>
+            <h3 data-aos="fade-up" data-aos-duration="1500" class="CPEESO">
+              <span style="">CPEESO</span> <br />
+            </h3>
+            <h4 data-aos="fade-up" data-aos-duration="1500" class="tagumcity">
+              TAGUM CITY
+            </h4>
+
+            <div class="row CPEECO_CONTENT">
+              <div class="col-11 col-xl-10 col-lg-7 col-md-9 col-sm-10">
+                <h6
+                  data-aos="fade-left"
+                  data-aos-duration="1500"
+                  style="justify-content: space-around"
+                  class="publicEducation"
+                >
+                  Public Education and Employment Services Office (P.E.E.S.O.)
+                  is a government agency tasked in providing education and
+                  employment services under the Department of Labor and
+                  Employment (DOLE).
+                </h6>
+              </div>
+            </div>
+          </q-page-section>
         </q-item-label>
       </div>
-
+ -->
       <div
-        class="col-11 col-xl-4 col-lg-3 col-md-5 col-sm-5 div_wecanMakeitHappen"
+        class="col-11 col-xl-5 col-lg-5 col-md-5 col-sm-5 div_wecanMakeitHappen"
       >
-        <q-page-section>
-          <div>
-            <p
-              data-aos="fade-right"
-              data-aos-duration="1500"
-              style="font-size: 15px; color: #48b544"
-            >
-              We can make it <span><b>HAPPEN</b></span>
-            </p>
-          </div>
-          <h3 data-aos="fade-up" data-aos-duration="1500" class="CPEESO">
-            <span style="">CPEESO</span> <br />
-          </h3>
-          <h4 data-aos="fade-up" data-aos-duration="1500" class="tagumcity">
-            TAGUM CITY
-          </h4>
-
-          <div class="row CPEECO_CONTENT">
-            <div class="col-11 col-xl-8 col-lg-11 col-md-9 col-sm-10">
-              <p
-                data-aos="fade-left"
-                data-aos-duration="1500"
-                style="justify-content: space-around"
-                class="publicEducation"
-              >
-                Public Education and Employment Services Office (P.E.E.S.O.) is
-                a government agency tasked in providing education and employment
-                services under the Department of Labor and Employment (DOLE).
-              </p>
-            </div>
-          </div>
-        </q-page-section>
-      </div>
-      <div class="col-11 col-xl-2 col-lg-2 col-md-5 col-sm-5 loginform">
-        <q-card
-          class="shadow-24"
-          style="width: 400px; height: auto; border-radius: 13px"
-        >
+        <q-card class="shadow-24 Cardlogin">
           <q-card-section class="q-mx-md">
             <div>
               <img
@@ -64,62 +43,145 @@
                 alt="Tagum City"
                 style="height: 14%; width: 14%"
               />
-              <p class="CPEESO_ni">CPEESO LOGIN</p>
+              <p class="CPEESO_ni">CPEESO SIGN UP</p>
             </div>
           </q-card-section>
 
           <q-card-section class="q-mt-md">
             <q-card-section style="margin-top: -90px">
-              <h4><b> Welcome Back!</b></h4>
+              <h4><b> Create Account</b></h4>
             </q-card-section>
 
             <q-card-section style="margin-top: -72px">
-              <p>Please Enter Login Details Below</p>
+              <p>Please Enter Information Details</p>
             </q-card-section>
 
             <q-form class="q-px-md">
-              <div class="custom-input-container">
-                <input
-                  v-model="password"
-                  placeholder="UserName"
-                  class="custom-input"
-                />
-                <q-icon name="people" class="input-icon" />
+              <div class="row">
+                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                  <div class="custom-input-container">
+                    <input
+                      v-model="password"
+                      placeholder="First Name"
+                      class="custom-input"
+                    />
+                    <q-icon name="people" class="input-icon" />
+                  </div>
+                </div>
+
+                <div
+                  class="col-12 col-xl-5 col-lg-5 col-md-5 col-sm-5 downmargin"
+                >
+                  <div class="custom-input-container">
+                    <input
+                      v-model="password"
+                      placeholder="Last Name"
+                      class="custom-input"
+                    />
+                    <q-icon name="people" class="input-icon" />
+                  </div>
+                </div>
               </div>
-              <div class="custom-input-container" style="margin-top: 15px">
-                <q-icon name="lock" class="input-icon" />
-                <input
-                  type="password"
-                  v-model="password"
-                  class="custom-input"
-                  placeholder="Password"
-                />
+
+              <div class="row">
+                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                  <div class="custom-input-container marginforfield">
+                    <q-icon name="people" class="input-icon" />
+                    <input
+                      v-model="password"
+                      class="custom-input"
+                      placeholder="Middle Name"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-12 col-xl-5 col-lg-5 col-md-5 col-sm-5">
+                  <div class="custom-input-container marginforfield">
+                    <q-icon name="people" class="input-icon" />
+                    <select class="custom-input" placeholder="dsds Name">
+                      <option value="" disabled selected>Suffex</option>
+                      <!-- Add your options here -->
+                      <option value="1">Jr.</option>
+                      <option value="2">Sr.</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                  <div class="custom-input-container marginforfield">
+                    <q-icon name="phone" class="input-icon" />
+                    <input
+                      v-model="password"
+                      class="custom-input"
+                      placeholder="Contact Number"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-5">
+                  <div class="custom-input-container marginforfield">
+                    <q-icon name="email" class="input-icon" />
+                    <input
+                      v-model="password"
+                      class="custom-input"
+                      placeholder="Email"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="margin-left: -10px">
+                <q-card-section>
+                  <p>Please Enter Login Details</p>
+                </q-card-section>
+              </div>
+
+              <div class="row">
+                <div class="col-5">
+                  <div
+                    class="custom-input-container-username"
+                    style="margin-top: -20px"
+                  >
+                    <q-icon name="people" class="input-icon" />
+                    <input
+                      v-model="password"
+                      class="custom-input"
+                      placeholder="User Name"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                  <div class="custom-input-container marginforfield">
+                    <q-icon name="lock" class="input-icon" />
+                    <input
+                      v-model="password"
+                      class="custom-input"
+                      placeholder="Password"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-12 col-xl-5 col-lg-5 col-md-5 col-sm-5">
+                  <div class="custom-input-container marginforfield">
+                    <q-icon name="lock" class="input-icon" />
+                    <input
+                      v-model="password"
+                      class="custom-input"
+                      placeholder="Confirm Password"
+                    />
+                  </div>
+                </div>
               </div>
             </q-form>
 
             <div class="q-px-lg q-mt-lg marginleft">
-              <button
-                class="custom_input_button"
-                @click="goToPage('/Dashboard')"
-              >
-                LOGIN
+              <button class="custom_input_button" @click="handleClick">
+                SIGN UP
               </button>
-            </div>
-
-            <div class="q-px-lg marginleft_1">
-              <q-card-section>
-                <p style="font-size: medium">
-                  Don't have an account?<span>
-                    <q-btn
-                      @click="goToPage('/SignUpPage')"
-                      class="signup"
-                      flat
-                      rounded
-                      >Sign Up</q-btn
-                    >
-                  </span>
-                </p>
-              </q-card-section>
             </div>
           </q-card-section>
 
@@ -156,10 +218,6 @@ export default {
   },
 
   methods: {
-    goToPage(page) {
-      this.$router.push(page);
-    },
-
     handleClick() {
       // Handle button click
       console.log("Button clicked");
@@ -227,18 +285,13 @@ export default {
   margin-top: -20px;
 }
 
-.custom_input_button:active {
-  background: linear-gradient(
-    40deg,
-    #343a31,
-    /* Darker green for the background when clicked */ #2a3529
-      /* Darker shade for the gradient */
-  );
-  border-color: #064d2c; /* Darker border color when clicked */
+.custom-input-container-username {
+  position: relative;
+  width: 650px;
+  margin-top: -20px;
 }
 
-.signup {
-  color: rgb(55, 55, 149);
+.imagebackground {
 }
 
 .custom_input_button {
@@ -257,15 +310,19 @@ export default {
   cursor: pointer; /* Changes the cursor to a hand pointer */
 }
 
+.custom_input_button:active {
+  background: linear-gradient(
+    40deg,
+    #343a31,
+    /* Darker green for the background when clicked */ #2a3529
+      /* Darker shade for the gradient */
+  );
+  border-color: #064d2c; /* Darker border color when clicked */
+}
+
 .marginleft {
   margin-left: -10px;
   margin-right: 7px;
-}
-
-.marginleft_1 {
-  margin-left: -15px;
-  margin-right: 5px;
-  margin-top: 10px;
 }
 
 .custom-input {
@@ -312,54 +369,26 @@ export default {
 
 .CPEECO_CONTENT {
   margin-top: 40px;
-  margin-left: 10px;
 }
 
 .div_wecanMakeitHappen {
-  margin-left: -33px;
-  margin-right: 95px;
-
+  margin-left: 15px;
   margin-top: 19px;
-}
-
-@media only screen and (max-width: 1799px) {
-  .div_wecanMakeitHappen {
-    margin-left: -120px;
-    margin-right: 150px;
-    margin-top: 19px;
-  }
 }
 
 @media only screen and (max-width: 1564px) {
   .div_wecanMakeitHappen {
-    margin-left: -80px;
-    margin-top: 19px;
-  }
-
-  .loginform {
-    margin-left: -70px;
-  }
-}
-
-@media only screen and (max-width: 1488px) {
-  .div_wecanMakeitHappen {
-    margin-left: -40px;
+    margin-left: 10px;
     margin-top: 19px;
   }
 }
 
-@media only screen and (max-width: 1439px) {
-  /*  .loginform {
-    margin-top: px;
-  } */
-
-  .hideme {
-    display: none;
-  }
+/* @media only screen and (max-width: 1919px) {
   .div_wecanMakeitHappen {
-    display: none;
+    margin-left: -19px;
+    margin-top: 19px;
   }
-}
+} */
 .displayNumber_Margin_OverlAllVacancies {
   margin-top: 90px;
 }
@@ -437,10 +466,19 @@ export default {
   .div_wecanMakeitHappen {
     margin-left: 55px;
   }
+}
 
-  /*  .loginform {
-    margin-top: -150px;
-  } */
+@media only screen and (max-width: 1120px) {
+  .div_wecanMakeitHappen {
+    margin-left: -400px;
+    margin-top: 30px;
+  }
+}
+@media only screen and (max-width: 964px) {
+  .div_wecanMakeitHappen {
+    margin-right: 500px;
+    margin-top: 30px;
+  }
 }
 
 .captionTotalOverAll {
@@ -568,14 +606,7 @@ export default {
   }
 }
 
-.tagumcity {
-  margin-top: -50px;
-  color: #48b544;
-  font-size: 18px;
-  margin-left: 10px;
-}
-
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .imagebackground {
     height: 200px;
     margin-top: -10px;
@@ -589,13 +620,64 @@ export default {
     margin-top: -370px;
   }
 
-  .loginform {
-    margin-left: 180px;
-    margin-right: 80px;
+  .Cardlogin {
+    height: auto;
+    border-radius: 13px;
+    margin-left: 20px;
+    margin-top: 320px;
+  }
+
+  .custom-input-container-username {
+    position: relative;
+    width: 320px;
+    margin-top: -20px;
+  }
+
+  .downmargin {
+    margin-top: 30px;
+  }
+
+  .custom_input_button {
+    width: 50%;
+    height: 40px;
+    padding-left: 20px; /* Space for the icon */
+    border-radius: 12px;
+    border: 1px solid rgb(253, 253, 253);
+    background: linear-gradient(
+      40deg,
+      #279f27,
+      #5fc331
+    ); /* Gradient from green to white */
+    color: white;
+
+    cursor: pointer; /* Changes the cursor to a hand pointer */
   }
 }
 
+@media only screen and (max-width: 700px) {
+  .Cardlogin {
+    height: auto;
+    border-radius: 13px;
+    margin-left: -250px;
+    margin-top: -15px;
+  }
+}
+
+.Cardlogin {
+  width: 720px;
+  height: auto;
+  border-radius: 13px;
+}
+
 @media only screen and (max-width: 375px) {
+  .Cardlogin {
+    width: 350px;
+    height: auto;
+    border-radius: 13px;
+    margin-top: -20px;
+    margin-left: 3px;
+  }
+
   .imagebackground {
     height: 200px;
     margin-top: -30px;
@@ -605,20 +687,53 @@ export default {
   }
 
   .div_wecanMakeitHappen {
-    margin-left: 55px;
-    margin-top: -210px;
-  }
-
-  .loginform {
-    margin-left: 95px;
-    margin-right: 80px;
+    margin-left: 28px;
+    /*  margin-right: 10px; */
+    margin-top: -10px;
   }
 
   .custom-input-container {
     position: relative;
-    width: 320px;
+    width: 300px;
     margin-top: -20px;
   }
+
+  .downmargin {
+    margin-top: 30px;
+  }
+
+  .custom-input-container-username {
+    position: relative;
+    width: 300px;
+    margin-top: -20px;
+  }
+
+  .custom_input_button {
+    width: 110%;
+    height: 40px;
+    padding-left: 20px; /* Space for the icon */
+    border-radius: 12px;
+    border: 1px solid rgb(253, 253, 253);
+    background: linear-gradient(
+      40deg,
+      #279f27,
+      #5fc331
+    ); /* Gradient from green to white */
+    color: white;
+
+    cursor: pointer; /* Changes the cursor to a hand pointer */
+  }
+
+  .imagebackground {
+    margin-top: 20px;
+    height: 200px;
+    margin-right: 8px;
+    border-radius: 12px;
+  }
+}
+
+.marginforfield {
+  margin-top: 15px;
 }
 
 .page2 {

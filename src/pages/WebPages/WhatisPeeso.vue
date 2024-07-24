@@ -13,11 +13,10 @@
           style="width: 650px; border-radius: 12px; margin-bottom: 18px"
         >
           <q-card-section>
-            <h5 class="text-center" style="font-weight: 700">
-
+            <h5 class="text-center accesbility">
               ACCESSIBILITY AND INCLUSIVITY
             </h5>
-            <div class="text-body-2 text-center" style="margin-top: -30px">
+            <div class="text-body-2 text-center accesbility_content">
               Regardless of a person's background or ability, we are committed
               to offering accessible and inclusive services. We guarantee that
               everyone has an equal chance to succeed in the job market thanks
@@ -32,8 +31,7 @@
             <q-card
               data-aos="fade-left"
               data-aos-duration="3000"
-              class="q-ma-md card-hover"
-              style="width: 300px; border-radius: 12px"
+              class="q-ma-md card-hover card_1"
             >
               <q-card-section>
                 <div class="card-title">Discover fascinating Jobs</div>
@@ -48,8 +46,7 @@
             <q-card
               data-aos="fade-left"
               data-aos-duration="3000"
-              class="q-ma-md card-hover"
-              style="width: 300px; margin-top: 160px; border-radius: 12px"
+              class="q-ma-md card-hover card_3"
             >
               <q-card-section>
                 <div class="text-h6 card-title">Develop Your Potential</div>
@@ -65,8 +62,7 @@
             <q-card
               data-aos="fade-left"
               data-aos-duration="3000"
-              class="q-ma-md card-hover"
-              style="width: 300px; margin-top: 180px; border-radius: 12px"
+              class="q-ma-md card-hover card_5"
             >
               <q-card-section>
                 <div class="text-h6 card-title">
@@ -90,8 +86,7 @@
             <q-card
               data-aos="fade-right"
               data-aos-duration="3000"
-              class="q-ma-md card-hover"
-              style="width: 300px; margin-top: 190px; border-radius: 12px"
+              class="q-ma-md card-hover card_2"
             >
               <q-card-section>
                 <div class="text-h6 card-title">Personalized Support</div>
@@ -107,8 +102,7 @@
             <q-card
               data-aos="fade-right"
               data-aos-duration="3000"
-              class="q-ma-md card-hover"
-              style="width: 300px; margin-top: 180px; border-radius: 12px"
+              class="q-ma-md card-hover card_4"
             >
               <q-card-section>
                 <div class="text-h6 card-title">Connect with Employers</div>
@@ -124,8 +118,7 @@
             <q-card
               data-aos="fade-right"
               data-aos-duration="3000"
-              class="q-ma-md card-hover"
-              style="width: 300px; margin-top: 210px; border-radius: 12px"
+              class="q-ma-md card-hover card_6"
             >
               <q-card-section>
                 <div class="text-h6 card-title">Community Engagement</div>
@@ -162,11 +155,123 @@ export default {
   color: rgb(20, 183, 20);
 }
  */
+
+.accesbility {
+  font-weight: 700;
+}
+
+.card_2 {
+  width: 300px;
+  margin-top: 190px;
+  border-radius: 12px;
+}
+
+.card_3 {
+  width: 300px;
+  margin-top: 160px;
+  border-radius: 12px;
+}
+
+.card_5 {
+  width: 300px;
+  margin-top: 180px;
+  border-radius: 12px;
+}
+
+.card_4 {
+  width: 300px;
+  margin-top: 180px;
+  border-radius: 12px;
+}
+
+.card_6 {
+  width: 300px;
+  margin-top: 210px;
+  border-radius: 12px;
+}
+
+@media only screen and (max-width: 375px) {
+  
+
+  .flex-center {
+    margin-top: 320px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start; /* Align items to the top */
+    height: 100vh; /* Full height to ensure vertical centering */
+  }
+
+  .accesbility {
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .accesbility_content {
+    margin-top: -30px;
+    font-size: 12px;
+    justify-content: space-around;
+    margin-left: 140px;
+    margin-right: 140px;
+  }
+
+  .vertical-line {
+    display: none;
+  }
+
+  .card_1 {
+    margin-left: 350px;
+    width: 300px;
+    border-radius: 12px;
+  }
+
+  .card_2 {
+    width: 300px;
+    margin-top: 210px;
+    margin-left: -170px;
+    border-radius: 12px;
+  }
+
+  .card_3 {
+    width: 300px;
+    margin-top: 200px;
+    margin-left: 350px;
+    border-radius: 12px;
+  }
+
+  .card_4 {
+    width: 300px;
+    margin-top: 220px;
+    margin-left: -170px;
+    border-radius: 12px;
+  }
+
+  .card_5 {
+    width: 300px;
+    margin-top: 220px;
+    margin-left: 350px;
+    border-radius: 12px;
+  }
+
+  .card_6 {
+    width: 300px;
+    margin-top: 250px;
+    margin-left: -170px;
+    margin-right: 200px;
+    border-radius: 12px;
+  }
+}
+
+.card_1 {
+  width: 300px;
+  border-radius: 12px;
+}
+
 .card_content {
   font-family: Helvetica;
 }
 
 .card-hover {
+  border-top: 4px solid rgba(24, 210, 18, 0.799);
   padding-right: 5px;
   padding: 5px;
   background-color: rgba(250, 253, 250, 0.644);
