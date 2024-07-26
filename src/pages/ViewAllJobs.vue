@@ -679,7 +679,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `https://run.mocky.io/v3/52b2c4a8-1f74-4757-8720-1ec731015ded`,
+          `https://joemarie123.github.io/Fake_API_Testing/JobPost_Sample.json`,
           {
             params: {
               _page: this.page,
@@ -706,7 +706,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `https://run.mocky.io/v3/318818ba-4594-4cdd-9a44-b7818b652413`,
+          `https://joemarie123.github.io/Fake_API_Testing/users_sampe.json`,
           {
             params: {
               _page: this.page_1,

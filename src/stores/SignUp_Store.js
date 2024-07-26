@@ -5,6 +5,7 @@ export const useLoginCheck = defineStore("SignUpAccouteStore", {
   state: () => ({
     Check_Login: "",
     OtpVerify: [],
+    SaveData: [],
   }),
   getters: {
     // doubleCount: (state) => state.counter * 2,
@@ -16,11 +17,18 @@ export const useLoginCheck = defineStore("SignUpAccouteStore", {
         `http://10.0.1.26:82/peesoportal/registration/admin/logincheck.php`,
         payload
       );
-      console.log("Login Duplicate Checking", res.data.company_duplicate);
+      console.log("Email Duplicate Checking", res.data.email_duplicate);
+      console.log("Login Duplicate Checking", res.data.login_duplicate);
 
-      if (res.data.company_duplicate == false) {
+      if (res.data.email_duplicate == false) {
         return 1;
-      } else if (res.data.company_duplicate == true) {
+      } else if (res.data.email_duplicate == true) {
+        return 2;
+      }
+
+      if (res.data.login_duplicate == false) {
+        return 1;
+      } else if (res.data.login_duplicate == true) {
         return 2;
       }
     },
@@ -33,6 +41,16 @@ export const useLoginCheck = defineStore("SignUpAccouteStore", {
       );
       this.OtpVerify = res.data;
       console.log("Verify OTP", this.OtpVerify);
+    },
+
+    async SaveToDatabase(payload) {
+      // `http://10.0.1.26:82/HRPORTAL/login.php`
+      let res = await axios.post(
+        `http://10.0.1.26:82/peesoportal/registration/admin/register.php`,
+        payload
+      );
+      this.SaveData = res.data;
+      console.log("Store Databse Save", res.data);
     },
   },
   persist: true,

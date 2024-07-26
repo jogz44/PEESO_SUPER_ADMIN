@@ -2,7 +2,6 @@
   <q-page>
     <!-- Main Content -->
     <q-page-section>
-      
       <div class="card_tatal_jobs row q-mx-xl xs:mx-sm q-my-md">
         <!-- Total Jobs Card -->
         <q-card

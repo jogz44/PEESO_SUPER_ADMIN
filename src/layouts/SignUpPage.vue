@@ -19,89 +19,100 @@
         </q-card>
       </q-dialog>
 
-      <q-dialog v-model="showOtpForm" persistent>
-        <q-card style="max-width: 410px">
-          <q-card-section>
-            {{ combinedOtp }}
-          </q-card-section>
-          <q-card-section>
-            <div class="q-mb-md text-center">
-              <q-icon name="email" size="5.5rem" color="green" />
-            </div>
-            <div class="text-center">
-              <p class="text-h5">Please check your email</p>
-              <p class="text-muted" style="margin-top: -14px">
-                We've sent a code to contact@curfcode.com
-              </p>
-            </div>
-            {{ txt_otp_verification }}
-            <div class="q-mt-md text-center" style="margin-top: 25px">
-              <input
-                ref="otp1"
-                class="otp-letter-input"
-                @update:model-value="handleInput('otp1', $event, 'otp2')"
-                v-model="otp1"
-                maxlength="1"
-              />
-              <input
-                ref="otp2"
-                class="otp-letter-input"
-                @update:model-value="handleInput('otp2', $event, 'otp3')"
-                v-model="otp2"
-                maxlength="1"
-              />
-              <input
-                ref="otp3"
-                class="otp-letter-input"
-                @update:model-value="handleInput('otp3', $event, 'otp4')"
-                v-model="otp3"
-                maxlength="1"
-              />
-              <input
-                ref="otp4"
-                class="otp-letter-input"
-                v-model="otp4"
-                @update:model-value="handleInput('otp4', $event, 'otp5')"
-                maxlength="1"
-              />
-              <input
-                ref="otp5"
-                @update:model-value="handleInput('otp5', $event, 'otp6')"
-                class="otp-letter-input"
-                v-model="otp5"
-                maxlength="1"
-              />
-              <input
-                ref="otp6"
-                class="otp-letter-input"
-                v-model="otp6"
-                maxlength="1"
-              />
-            </div>
-            <div class="text-center q-mt-md">
-              <p class="text-muted">
-                Didn't get the code?
-                <q-btn
-                  rounded
-                  flat
-                  class="q-ml-xs"
-                  color="primary"
-                  @click="resendCode"
-                  >Click to resend.</q-btn
+      <q-dialog v-model="showOtpForm" persistent style="margin-top: -50px">
+        <q-card style="max-width: 390px; height: 475px; border-radius: 15px">
+          <div style="margin-top: -35px">
+            <q-card-section>
+              <!--    {{ combinedOtp }} -->
+            </q-card-section>
+            <q-card-section>
+              <div class="text-center">
+                <q-avatar
+                  square=""
+                  size="90px"
+                  class="hoverimage q-mx-lg q-my-md"
                 >
-              </p>
-            </div>
+                  <img :src="imageUrl_1" alt="Upload" />
+                </q-avatar>
+              </div>
+              <div class="text-center">
+                <p class="text-h5">Please check your email</p>
+                <p class="text-muted" style="margin-top: -14px">
+                  We've sent a code to {{ txtemail }}
+                </p>
+              </div>
+              <!--   {{ txt_otp_verification }} -->
+              <div class="q-mt-md text-center" style="margin-top: 25px">
+                <input
+                  ref="otp1"
+                  class="otp-letter-input"
+                  @update:model-value="handleInput('otp1', $event, 'otp2')"
+                  v-model="otp1"
+                  maxlength="1"
+                />
+                <input
+                  ref="otp2"
+                  class="otp-letter-input"
+                  @update:model-value="handleInput('otp2', $event, 'otp3')"
+                  v-model="otp2"
+                  maxlength="1"
+                />
+                <input
+                  ref="otp3"
+                  class="otp-letter-input"
+                  @update:model-value="handleInput('otp3', $event, 'otp4')"
+                  v-model="otp3"
+                  maxlength="1"
+                />
+                <input
+                  ref="otp4"
+                  class="otp-letter-input"
+                  v-model="otp4"
+                  @update:model-value="handleInput('otp4', $event, 'otp5')"
+                  maxlength="1"
+                />
+                <input
+                  ref="otp5"
+                  @update:model-value="handleInput('otp5', $event, 'otp6')"
+                  class="otp-letter-input"
+                  v-model="otp5"
+                  maxlength="1"
+                />
+                <input
+                  ref="otp6"
+                  class="otp-letter-input"
+                  v-model="otp6"
+                  maxlength="1"
+                />
+              </div>
+              <div class="text-center q-mt-md">
+                <p class="text-muted">
+                  Didn't get the code?
 
-            <q-card-actions class="q-mt-md q-px-lg justify-end">
-              <q-btn label="Cancel" flat color="secondary" @click="cancel" />
-              <q-btn label="Verify" color="primary" @click="verify" />
-            </q-card-actions>
-          </q-card-section>
+                  <button class="resendcolor" @click="resendCode">
+                    Click to resend.
+                  </button>
+                </p>
+              </div>
 
-          <q-card-section>
-            <div>{{ formattedTime }}</div>
-          </q-card-section>
+              <q-card-actions class="q-mt-md q-px-lg justify-end">
+                <q-btn
+                  label="Verify"
+                  class="custom_input_button"
+                  @click="Click_Verify_OTP"
+                />
+              </q-card-actions>
+              <div class="text-center" style="font-size: 20px">
+                {{ formattedTime }}
+              </div>
+            </q-card-section>
+          </div>
         </q-card>
+        <q-card-section style="margin-top: -488px; margin-left: -10px"
+          ><button class="button_close" @click="showOtpForm = false">
+            <b>X</b>
+          </button></q-card-section
+        >
       </q-dialog>
 
       <div
@@ -215,8 +226,9 @@
                       class="custom-input"
                       placeholder="dsds Name"
                     >
-                      <option value="" disabled selected>Suffex</option>
+                      <option disabled selected>Suffix</option>
                       <!-- Add your options here -->
+                      <option value="1">N/A</option>
                       <option value="1">Jr.</option>
                       <option value="2">Sr.</option>
                       <option value="2">III</option>
@@ -327,6 +339,7 @@ export default defineComponent({
       otp6: "",
 
       imageUrl: "/upload.jpg",
+      imageUrl_1: "/message.jpg",
       txtCompanyName: "",
       txtlastname: "",
       txtfirstname: "",
@@ -351,9 +364,9 @@ export default defineComponent({
       totalVacancies: 1500, // Replace with actual data
 
       check_me: [],
-
+      file: null,
       IpaVerifyOTp: [],
-
+      /*  Company_Image: null, */
       timer: null,
       timeLeft: 120, // 2 minutes in seconds
       timeExceeded: false,
@@ -365,6 +378,26 @@ export default defineComponent({
     const $q = useQuasar();
     return {
       showDuplicateEmail() {
+        $q.notify({
+          icon: "star_half",
+          color: "red",
+          message: "Duplicate Email",
+          position: "center",
+          timeout: "2000",
+        });
+      },
+
+      DuplicateLogin() {
+        $q.notify({
+          icon: "star_half",
+          color: "red",
+          message: "Duplicate Login",
+          position: "center",
+          timeout: "2000",
+        });
+      },
+
+      DuplicateEmail() {
         $q.notify({
           icon: "star_half",
           color: "red",
@@ -420,11 +453,12 @@ export default defineComponent({
     handleFileUpload(event) {
       const file = event.target.files[0];
       if (file) {
+        this.file = file; // bind the file object to the data property
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.imageUrl = e.target.result;
+          this.imageUrl = e.target.result; // set the image URL to the loaded file
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file); // read the file as a data URL
       }
     },
 
@@ -452,6 +486,29 @@ export default defineComponent({
       }, 1000);
     },
 
+    async SignUp_Save_To_Database() {
+      console.log("Its ME");
+      const store = useLoginCheck();
+      let data = new FormData();
+      data.append("Company_name", this.txtCompanyName);
+      data.append("LastName", this.txtlastname);
+      data.append("FirstName", this.txtfirstname);
+      data.append("MiddleName", this.txtmiddlename);
+      data.append("Suffix", this.txtfuffix);
+      data.append("Email", this.txtemail);
+      data.append("Login", this.txtlogin);
+      data.append("Password", this.txtpassword);
+      data.append("ContactNo", this.txtcontact);
+
+      if (this.file) {
+        data.append("file", this.file);
+      }
+
+      store.SaveToDatabase(data).then((res) => {
+        this.$router.push("/DashBoard");
+      });
+    },
+
     Click_Verify_OTP() {
       // Compare entered OTP with predefined OTP
 
@@ -460,18 +517,20 @@ export default defineComponent({
         this.showResendDialog = true;
       } else {
         if (this.txt_otp_verification == this.IpaVerifyOTp.otp) {
+          this.SignUp_Save_To_Database();
           console.log("Correct");
-          this.$q.notify({
+          /* this.$q.notify({
             color: "positive",
             position: "top",
             message: "OTP Verified Successfully!",
-          });
+          }); */
+
           /*   this.showOtpForm = false; */
         } else {
           console.log("Wrong");
           this.$q.notify({
             color: "negative",
-            position: "top",
+            position: "center",
             message: "Invalid OTP. Please try again.",
           });
 
@@ -579,6 +638,40 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.resendcolor {
+  color: rgb(8, 77, 180);
+  border-color: #ffffff00;
+  font-size: 16px;
+  background-color: #ffffff00; /* Background color of the button */
+  cursor: pointer;
+}
+
+.resendcolor:active {
+  color: rgb(8, 77, 180);
+  border-color: #ffffff00;
+  font-size: 15px;
+  background-color: #ffffff00; /* Background color of the button */
+  cursor: pointer;
+}
+
+.button_close {
+  width: 40px; /* Adjust the size as needed */
+  height: 40px; /* Ensure height matches width for a perfect circle */
+  border-radius: 50%; /* This makes the button circular */
+  background-color: #e7111fcb; /* Background color of the button */
+  color: white; /* Text color */
+  border: none; /* Remove default border */
+  display: flex; /* Center text horizontally and vertically */
+  align-items: center; /* Center text vertically */
+  justify-content: center; /* Center text horizontally */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Adjust font size as needed */
+}
+
+.button_close:hover {
+  background-color: #0c0c0ce3; /* Darker color on hover */
+}
+
 .iconcolor {
   background: linear-gradient(40deg, #279f27, #5fc331);
 }
