@@ -35,8 +35,11 @@ module.exports = configure(function (/* ctx */) {
     },
 
     framework: {
-      config: {},
-      plugins: [],
+      config: {
+        Notify: {},
+        loading: {},
+      },
+      plugins: ["Notify", "Loading", "Dialog"],
     },
 
     animations: [],

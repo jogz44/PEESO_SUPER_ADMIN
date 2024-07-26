@@ -2,41 +2,114 @@
   <q-page>
     <!-- Main Content -->
     <div class="row page flex-center">
-      <!--  <div class="col-10 col-xl-6 col-lg-4 col-md-4 col-sm-4">
-        <q-item-label header>
-          <q-page-section>
-            <h3 data-aos="fade-up" data-aos-duration="1500" class="CPEESO">
-              <span style="">CPEESO</span> <br />
-            </h3>
-            <h4 data-aos="fade-up" data-aos-duration="1500" class="tagumcity">
-              TAGUM CITY
-            </h4>
+      <q-dialog v-model="showResendDialog">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Resend OTP</div>
+          </q-card-section>
 
-            <div class="row CPEECO_CONTENT">
-              <div class="col-11 col-xl-10 col-lg-7 col-md-9 col-sm-10">
-                <h6
-                  data-aos="fade-left"
-                  data-aos-duration="1500"
-                  style="justify-content: space-around"
-                  class="publicEducation"
-                >
-                  Public Education and Employment Services Office (P.E.E.S.O.)
-                  is a government agency tasked in providing education and
-                  employment services under the Department of Labor and
-                  Employment (DOLE).
-                </h6>
-              </div>
+          <q-card-section>
+            <p>Your OTP has expired. Would you like to resend a new OTP?</p>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat label="No" color="primary" v-close-popup />
+            <q-btn flat label="Yes" color="primary" @click="VerifyOtp" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="showOtpForm" persistent>
+        <q-card style="max-width: 410px">
+          <q-card-section>
+            {{ combinedOtp }}
+          </q-card-section>
+          <q-card-section>
+            <div class="q-mb-md text-center">
+              <q-icon name="email" size="5.5rem" color="green" />
             </div>
-          </q-page-section>
-        </q-item-label>
-      </div>
- -->
+            <div class="text-center">
+              <p class="text-h5">Please check your email</p>
+              <p class="text-muted" style="margin-top: -14px">
+                We've sent a code to contact@curfcode.com
+              </p>
+            </div>
+            {{ txt_otp_verification }}
+            <div class="q-mt-md text-center" style="margin-top: 25px">
+              <input
+                ref="otp1"
+                class="otp-letter-input"
+                @update:model-value="handleInput('otp1', $event, 'otp2')"
+                v-model="otp1"
+                maxlength="1"
+              />
+              <input
+                ref="otp2"
+                class="otp-letter-input"
+                @update:model-value="handleInput('otp2', $event, 'otp3')"
+                v-model="otp2"
+                maxlength="1"
+              />
+              <input
+                ref="otp3"
+                class="otp-letter-input"
+                @update:model-value="handleInput('otp3', $event, 'otp4')"
+                v-model="otp3"
+                maxlength="1"
+              />
+              <input
+                ref="otp4"
+                class="otp-letter-input"
+                v-model="otp4"
+                @update:model-value="handleInput('otp4', $event, 'otp5')"
+                maxlength="1"
+              />
+              <input
+                ref="otp5"
+                @update:model-value="handleInput('otp5', $event, 'otp6')"
+                class="otp-letter-input"
+                v-model="otp5"
+                maxlength="1"
+              />
+              <input
+                ref="otp6"
+                class="otp-letter-input"
+                v-model="otp6"
+                maxlength="1"
+              />
+            </div>
+            <div class="text-center q-mt-md">
+              <p class="text-muted">
+                Didn't get the code?
+                <q-btn
+                  rounded
+                  flat
+                  class="q-ml-xs"
+                  color="primary"
+                  @click="resendCode"
+                  >Click to resend.</q-btn
+                >
+              </p>
+            </div>
+
+            <q-card-actions class="q-mt-md q-px-lg justify-end">
+              <q-btn label="Cancel" flat color="secondary" @click="cancel" />
+              <q-btn label="Verify" color="primary" @click="verify" />
+            </q-card-actions>
+          </q-card-section>
+
+          <q-card-section>
+            <div>{{ formattedTime }}</div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+
       <div
         class="col-11 col-xl-5 col-lg-5 col-md-5 col-sm-5 div_wecanMakeitHappen"
       >
         <q-card class="shadow-24 Cardlogin">
           <q-card-section class="q-mx-md">
-            <div>
+            <!--  <div>
               <img
                 class="imagebackground"
                 src="public/TagumLogo.png"
@@ -44,24 +117,61 @@
                 style="height: 14%; width: 14%"
               />
               <p class="CPEESO_ni">CPEESO SIGN UP</p>
-            </div>
+            </div> -->
           </q-card-section>
 
           <q-card-section class="q-mt-md">
-            <q-card-section style="margin-top: -90px">
-              <h4><b> Create Account</b></h4>
-            </q-card-section>
+            <div class="row">
+              <div class="col-9">
+                <q-card-section style="margin-top: -90px">
+                  <h4>
+                    <b> Create Account </b>
+                  </h4>
+                </q-card-section>
 
-            <q-card-section style="margin-top: -72px">
-              <p>Please Enter Information Details</p>
-            </q-card-section>
+                <q-card-section style="margin-top: -72px">
+                  <p>Please Enter Information Details</p>
+                </q-card-section>
+              </div>
+
+              <div class="col-3" style="margin-top: -50px">
+                <q-avatar
+                  size="70px"
+                  class="q-ml-sm hoverimage"
+                  @click="triggerFileUpload"
+                >
+                  <img :src="imageUrl" alt="Upload" />
+                </q-avatar>
+                <p style="margin-left: -10px"><b>Upload Company Profile</b></p>
+                <input
+                  type="file"
+                  ref="fileInput"
+                  style="display: none"
+                  @change="handleFileUpload"
+                  accept="image/*"
+                />
+              </div>
+            </div>
 
             <q-form class="q-px-md">
               <div class="row">
-                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                <div class="col-12">
+                  <div class="custom-input-container-username">
+                    <q-icon name="add_business" class="input-icon" />
+                    <input
+                      v-model="txtCompanyName"
+                      class="custom-input"
+                      placeholder="Company Name"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 30px">
+                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
                   <div class="custom-input-container">
                     <input
-                      v-model="password"
+                      v-model="txtfirstname"
                       placeholder="First Name"
                       class="custom-input"
                     />
@@ -70,11 +180,11 @@
                 </div>
 
                 <div
-                  class="col-12 col-xl-5 col-lg-5 col-md-5 col-sm-5 downmargin"
+                  class="col-12 col-xl-5 col-lg-5 col-md-5 col-sm-12 downmargin"
                 >
-                  <div class="custom-input-container">
+                  <div class="custom-input-container container_again">
                     <input
-                      v-model="password"
+                      v-model="txtlastname"
                       placeholder="Last Name"
                       class="custom-input"
                     />
@@ -84,36 +194,43 @@
               </div>
 
               <div class="row">
-                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
                   <div class="custom-input-container marginforfield">
                     <q-icon name="people" class="input-icon" />
                     <input
-                      v-model="password"
+                      v-model="txtmiddlename"
                       class="custom-input"
                       placeholder="Middle Name"
                     />
                   </div>
                 </div>
 
-                <div class="col-12 col-xl-5 col-lg-5 col-md-5 col-sm-5">
-                  <div class="custom-input-container marginforfield">
+                <div class="col-12 col-xl-5 col-lg-5 col-md-5 col-sm-12">
+                  <div
+                    class="custom-input-container container_again_1 marginforfield"
+                  >
                     <q-icon name="people" class="input-icon" />
-                    <select class="custom-input" placeholder="dsds Name">
+                    <select
+                      v-model="txtfuffix"
+                      class="custom-input"
+                      placeholder="dsds Name"
+                    >
                       <option value="" disabled selected>Suffex</option>
                       <!-- Add your options here -->
                       <option value="1">Jr.</option>
                       <option value="2">Sr.</option>
+                      <option value="2">III</option>
                     </select>
                   </div>
                 </div>
               </div>
 
               <div class="row">
-                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
                   <div class="custom-input-container marginforfield">
                     <q-icon name="phone" class="input-icon" />
                     <input
-                      v-model="password"
+                      v-model="txtcontact"
                       class="custom-input"
                       placeholder="Contact Number"
                     />
@@ -124,7 +241,7 @@
                   <div class="custom-input-container marginforfield">
                     <q-icon name="email" class="input-icon" />
                     <input
-                      v-model="password"
+                      v-model="txtemail"
                       class="custom-input"
                       placeholder="Email"
                     />
@@ -145,7 +262,7 @@
                   >
                     <q-icon name="people" class="input-icon" />
                     <input
-                      v-model="password"
+                      v-model="txtlogin"
                       class="custom-input"
                       placeholder="User Name"
                     />
@@ -158,18 +275,20 @@
                   <div class="custom-input-container marginforfield">
                     <q-icon name="lock" class="input-icon" />
                     <input
-                      v-model="password"
+                      type="password"
+                      v-model="txtpassword"
                       class="custom-input"
                       placeholder="Password"
                     />
                   </div>
                 </div>
 
-                <div class="col-12 col-xl-5 col-lg-5 col-md-5 col-sm-5">
+                <div class="col-12 col-xl-5 col-lg-5 col-md-5 col-sm-12">
                   <div class="custom-input-container marginforfield">
                     <q-icon name="lock" class="input-icon" />
                     <input
-                      v-model="password"
+                      type="password"
+                      v-model="txtconfirmpassword"
                       class="custom-input"
                       placeholder="Confirm Password"
                     />
@@ -179,13 +298,11 @@
             </q-form>
 
             <div class="q-px-lg q-mt-lg marginleft">
-              <button class="custom_input_button" @click="handleClick">
+              <button class="custom_input_button" @click="CheckmeLogin()">
                 SIGN UP
               </button>
             </div>
           </q-card-section>
-
-          <q-card-section class="text-center q-pa-sm"> </q-card-section>
         </q-card>
       </div>
     </div>
@@ -195,16 +312,34 @@
 <script>
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { defineComponent } from "vue";
+import { useQuasar } from "quasar";
+import { useLoginCheck } from "src/stores/SignUp_Store";
 
-export default {
+export default defineComponent({
   data() {
     return {
-      form: {
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-      },
+      otp1: "",
+      otp2: "",
+      otp3: "",
+      otp4: "",
+      otp5: "",
+      otp6: "",
+
+      imageUrl: "/upload.jpg",
+      txtCompanyName: "",
+      txtlastname: "",
+      txtfirstname: "",
+      txtmiddlename: "",
+      txtfuffix: "",
+      txtemail: "",
+      txtlogin: "",
+      txtcontact: "",
+      txtpassword: "",
+      txtconfirmpassword: "",
+
+      /*   txt_otp_verification: "", */
+      showOtpForm: false,
 
       startNumber: 0,
       dialog_sched: false,
@@ -214,13 +349,178 @@ export default {
       displayNumber_Vacancies: 0,
       totalJobs: 453, // Replace with actual data
       totalVacancies: 1500, // Replace with actual data
+
+      check_me: [],
+
+      IpaVerifyOTp: [],
+
+      timer: null,
+      timeLeft: 120, // 2 minutes in seconds
+      timeExceeded: false,
+      showResendDialog: false,
     };
   },
 
+  setup() {
+    const $q = useQuasar();
+    return {
+      showDuplicateEmail() {
+        $q.notify({
+          icon: "star_half",
+          color: "red",
+          message: "Duplicate Email",
+          position: "center",
+          timeout: "2000",
+        });
+      },
+    };
+  },
+
+  computed: {
+    txt_otp_verification: {
+      get() {
+        return (
+          this.otp1 + this.otp2 + this.otp3 + this.otp4 + this.otp5 + this.otp6
+        );
+      },
+      set(value) {
+        this.otp1 = value[0] || "";
+        this.otp2 = value[1] || "";
+        this.otp3 = value[2] || "";
+        this.otp4 = value[3] || "";
+        this.otp5 = value[4] || "";
+        this.otp6 = value[5] || "";
+      },
+    },
+
+    formattedTime() {
+      const minutes = Math.floor(this.timeLeft / 60);
+      const seconds = this.timeLeft % 60;
+      return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    },
+  },
+
   methods: {
+    handleInput(currentRef, value, nextRef) {
+      /*   console.log("df"); */
+      // Focus on the next input if the current one has a value
+      if (value.length == 1) {
+        this.$nextTick(() => {
+          const nextInput = this.$refs[nextRef];
+          if (nextInput) {
+            nextInput.focus();
+          }
+        });
+      }
+    },
+
+    triggerFileUpload() {
+      this.$refs.fileInput.click();
+    },
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageUrl = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+
     handleClick() {
       // Handle button click
       console.log("Button clicked");
+    },
+
+    startOtpProcess() {
+      this.showOtpForm = true;
+      this.timeLeft = 120; // Reset timer
+      this.timeExceeded = false;
+      this.startTimer();
+    },
+
+    startTimer() {
+      if (this.timer) clearInterval(this.timer);
+      this.timer = setInterval(() => {
+        if (this.timeLeft > 0) {
+          this.timeLeft--;
+        } else {
+          this.timeExceeded = true;
+          clearInterval(this.timer);
+        }
+      }, 1000);
+    },
+
+    Click_Verify_OTP() {
+      // Compare entered OTP with predefined OTP
+
+      if (this.timeExceeded) {
+        this.showOtpForm = false;
+        this.showResendDialog = true;
+      } else {
+        if (this.txt_otp_verification == this.IpaVerifyOTp.otp) {
+          console.log("Correct");
+          this.$q.notify({
+            color: "positive",
+            position: "top",
+            message: "OTP Verified Successfully!",
+          });
+          /*   this.showOtpForm = false; */
+        } else {
+          console.log("Wrong");
+          this.$q.notify({
+            color: "negative",
+            position: "top",
+            message: "Invalid OTP. Please try again.",
+          });
+
+          /*   this.showOtpForm = true; */
+        }
+
+        clearInterval(this.timer);
+      }
+      /* this.showOtpForm = false; */
+    },
+
+    async VerifyOtp() {
+      const store = useLoginCheck();
+      let data = new FormData();
+
+      data.append("Email", this.txtemail);
+      store.VerifyOtp(data).then((res) => {
+        this.IpaVerifyOTp = store.OtpVerify;
+        console.log("Kini Verify OTP:", this.IpaVerifyOTp.otp);
+        this.showOtpForm = true;
+        this.startOtpProcess();
+        this.showResendDialog = false;
+        this.txt_otp_verification = "";
+      });
+    },
+
+    async CheckmeLogin() {
+      const store = useLoginCheck();
+      let data = new FormData();
+      data.append("Company_name", this.txtCompanyName);
+      data.append("LastName", this.txtlastname);
+      data.append("FirstName", this.txtfirstname);
+      data.append("MiddleName", this.txtmiddlename);
+      data.append("Suffix", this.txtfuffix);
+      data.append("Email", this.txtemail);
+      data.append("Login", this.txtlogin);
+
+      store.LoginChecking(data).then((res) => {
+        console.log("Response from LoginChecking:", res);
+
+        if (res == 1) {
+          /*   this.showOtpForm = true; */
+          this.VerifyOtp();
+        } else {
+          this.VerifyOtp();
+
+          /*  this.showDuplicateEmail(); */
+        }
+      });
     },
 
     animateNumber(timestamp) {
@@ -275,10 +575,39 @@ export default {
     this.startAnimation_TotalJobs();
     this.startAnimation();
   },
-};
+});
 </script>
 
 <style scoped>
+.iconcolor {
+  background: linear-gradient(40deg, #279f27, #5fc331);
+}
+
+.otp-letter-input {
+  max-width: 11%;
+  height: 90px;
+  margin-left: 10px;
+  border: 1px solid #198754;
+
+  border-radius: 10px;
+  color: #198754;
+  font-size: 40px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.hoverimage:hover {
+  cursor: pointer;
+}
+
+.hoverimage {
+  margin-left: 18px;
+}
+
+.avatar-border {
+  border: 2px solid #242020; /* Change the color and width as needed */
+}
+
 .custom-input-container {
   position: relative;
   width: 320px;
@@ -295,7 +624,7 @@ export default {
 }
 
 .custom_input_button {
-  width: 100%;
+  width: 101%;
   height: 40px;
   padding-left: 20px; /* Space for the icon */
   border-radius: 12px;
@@ -534,6 +863,21 @@ export default {
   .CPEECO_CONTENT {
     margin-top: -12px;
   }
+
+  .downmargin {
+    margin-top: 30px;
+  }
+
+  .custom-input-container-username {
+    position: relative;
+    width: 320px;
+    margin-top: -20px;
+  }
+
+  .Cardlogin {
+    margin-top: -60px;
+    width: 900px;
+  }
 }
 
 @media only screen and (max-width: 964px) {
@@ -552,7 +896,31 @@ export default {
   }
 }
 
+.Cardlogin {
+  width: 720px;
+  height: auto;
+  border-radius: 13px;
+}
+
 @media only screen and (max-width: 700px) {
+  .Cardlogin {
+    width: 400px;
+    height: auto;
+    border-radius: 13px;
+    margin-left: -210px;
+    margin-top: -50px;
+  }
+
+  .downmargin {
+    margin-top: 30px;
+  }
+
+  .custom-input-container-username {
+    position: relative;
+    width: 320px;
+    margin-top: -20px;
+  }
+
   .div_wecanMakeitHappen {
     margin-left: 150px;
     margin-right: -45px;
@@ -569,44 +937,14 @@ export default {
   margin-left: 20px;
 }
 
-@media only screen and (max-width: 659px) {
-  .imagebackground {
-    height: 200px;
-    margin-right: 8px;
-    border-radius: 12px;
-  }
-
-  .CPEESO {
-    margin-top: -17px;
-    font-weight: bold;
-    color: #3fb03f;
-    font-size: 35px;
-  }
-
-  .CPEESO {
-    margin-top: -20px;
-    font-weight: bold;
-    color: #3fb03f;
-    font-size: 25px;
-  }
-
-  .tagumcity {
-    margin-top: -50px;
-    color: #48b544;
-    font-size: 10px;
-    margin-left: 10px;
-  }
-
-  .div_wecanMakeitHappen {
-    margin-left: 110px;
-    margin-top: 19px;
-  }
-  .publicEducation {
-    font-size: 12px;
-  }
-}
-
 @media only screen and (max-width: 599px) {
+  .Cardlogin {
+    width: 400px;
+    height: auto;
+    border-radius: 13px;
+    margin-left: 5px;
+    margin-top: 350px;
+  }
   .imagebackground {
     height: 200px;
     margin-top: -10px;
@@ -618,13 +956,6 @@ export default {
   .div_wecanMakeitHappen {
     margin-left: 55px;
     margin-top: -370px;
-  }
-
-  .Cardlogin {
-    height: auto;
-    border-radius: 13px;
-    margin-left: 20px;
-    margin-top: 320px;
   }
 
   .custom-input-container-username {
@@ -654,20 +985,14 @@ export default {
   }
 }
 
-@media only screen and (max-width: 700px) {
+/* @media only screen and (max-width: 700px) {
   .Cardlogin {
     height: auto;
     border-radius: 13px;
     margin-left: -250px;
     margin-top: -15px;
   }
-}
-
-.Cardlogin {
-  width: 720px;
-  height: auto;
-  border-radius: 13px;
-}
+} */
 
 @media only screen and (max-width: 375px) {
   .Cardlogin {
