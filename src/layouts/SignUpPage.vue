@@ -37,8 +37,11 @@
               </div>
               <div class="text-center">
                 <p class="text-h5">Please check your email</p>
-                <p class="text-muted" style="margin-top: -14px">
-                  We've sent a code to {{ txtemail }}
+                <p class="text-muted" style="margin-top: -12px">
+                  We've sent a code to
+                  <span
+                    ><b>{{ txtemail }}</b></span
+                  >
                 </p>
               </div>
               <!--   {{ txt_otp_verification }} -->
@@ -406,6 +409,26 @@ export default defineComponent({
           timeout: "2000",
         });
       },
+
+      Invalid_Email() {
+        $q.notify({
+          icon: "star_half",
+          color: "red",
+          message: "Invalid Email",
+          position: "center",
+          timeout: "2000",
+        });
+      },
+
+      Duplicate_Email_LOGIN() {
+        $q.notify({
+          icon: "star_half",
+          color: "red",
+          message: "Duplicate Email And UserName",
+          position: "center",
+          timeout: "2000",
+        });
+      },
     };
   },
 
@@ -550,10 +573,15 @@ export default defineComponent({
       store.VerifyOtp(data).then((res) => {
         this.IpaVerifyOTp = store.OtpVerify;
         console.log("Kini Verify OTP:", this.IpaVerifyOTp.otp);
-        this.showOtpForm = true;
-        this.startOtpProcess();
-        this.showResendDialog = false;
-        this.txt_otp_verification = "";
+
+        if (this.IpaVerifyOTp.sent == true) {
+          this.showOtpForm = true;
+          this.startOtpProcess();
+          this.showResendDialog = false;
+          this.txt_otp_verification = "";
+        } else {
+          this.Invalid_Email();
+        }
       });
     },
 
@@ -572,12 +600,13 @@ export default defineComponent({
         console.log("Response from LoginChecking:", res);
 
         if (res == 1) {
-          /*   this.showOtpForm = true; */
+          this.DuplicateLogin();
+        } else if (res == 2) {
+          this.DuplicateEmail();
+        } else if (res == 3) {
+          this.Duplicate_Email_LOGIN();
+        } else if (res == 4) {
           this.VerifyOtp();
-        } else {
-          this.VerifyOtp();
-
-          /*  this.showDuplicateEmail(); */
         }
       });
     },

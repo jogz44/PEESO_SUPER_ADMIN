@@ -20,16 +20,26 @@ export const useLoginCheck = defineStore("SignUpAccouteStore", {
       console.log("Email Duplicate Checking", res.data.email_duplicate);
       console.log("Login Duplicate Checking", res.data.login_duplicate);
 
-      if (res.data.email_duplicate == false) {
+      if (
+        res.data.email_duplicate == false &&
+        res.data.login_duplicate == true
+      ) {
         return 1;
-      } else if (res.data.email_duplicate == true) {
+      } else if (
+        res.data.email_duplicate == true &&
+        res.data.login_duplicate == false
+      ) {
         return 2;
-      }
-
-      if (res.data.login_duplicate == false) {
-        return 1;
-      } else if (res.data.login_duplicate == true) {
-        return 2;
+      } else if (
+        res.data.email_duplicate == true &&
+        res.data.login_duplicate == true
+      ) {
+        return 3;
+      } else if (
+        res.data.email_duplicate == false &&
+        res.data.login_duplicate == false
+      ) {
+        return 4;
       }
     },
 
