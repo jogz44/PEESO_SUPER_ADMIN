@@ -80,7 +80,9 @@
             <q-form class="q-px-md">
               <div class="custom-input-container">
                 <input
-                  v-model="password"
+                  @input="clearErrorMessage"
+                  ref="username"
+                  v-model="txtusername"
                   placeholder="UserName"
                   class="custom-input"
                 />
@@ -89,19 +91,25 @@
               <div class="custom-input-container" style="margin-top: 15px">
                 <q-icon name="lock" class="input-icon" />
                 <input
+                  @input="clearErrorMessage"
                   type="password"
-                  v-model="password"
+                  v-model="txtpassword"
                   class="custom-input"
                   placeholder="Password"
                 />
               </div>
+
+              <div
+                v-if="errorMessage"
+                class="q-px-md q-mt-md tooltip"
+                style="color: red; text-align: center"
+              >
+                {{ errorMessage }}
+              </div>
             </q-form>
 
             <div class="q-px-lg q-mt-lg marginleft">
-              <button
-                class="custom_input_button"
-                @click="goToPage('/Dashboard')"
-              >
+              <button class="custom_input_button" @click="LOGIN()">
                 LOGIN
               </button>
             </div>
@@ -133,6 +141,10 @@
 <script>
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { defineComponent, TrackOpTypes } from "vue";
+import { useQuasar } from "quasar";
+import { Loading } from "quasar";
+import { useLoginCheck } from "src/stores/SignUp_Store";
 
 export default {
   data() {
@@ -144,6 +156,11 @@ export default {
         message: "",
       },
 
+      errorMessage: "",
+
+      txtpassword: "",
+      txtusername: "",
+
       startNumber: 0,
       dialog_sched: false,
       duration: 1500, // duration of the animation in milliseconds
@@ -152,12 +169,71 @@ export default {
       displayNumber_Vacancies: 0,
       totalJobs: 453, // Replace with actual data
       totalVacancies: 1500, // Replace with actual data
+      LoginPage: [],
+    };
+  },
+  setup() {
+    const $q = useQuasar();
+
+    return {
+      /*  WrongEmail() {
+        $q.notify({
+          icon: "email",
+          color: "red",
+          message: "Invalid Email or Password",
+          position: "center",
+          timeout: "2000",
+        });
+      }, */
     };
   },
 
   methods: {
+    clearErrorMessage() {
+      this.errorMessage = "";
+    },
+
+    WrongEmail() {
+      this.errorMessage = "Invalid Email or Password !"; // Update this line
+    },
+
     goToPage(page) {
       this.$router.push(page);
+    },
+
+    showLoading() {
+      this.$q.loading.show();
+    },
+    hideLoading() {
+      this.$q.loading.hide();
+    },
+
+    async LOGIN() {
+      /*  this.clearErrorMessage(); */
+      const store = useLoginCheck();
+      let data = new FormData();
+      data.append("username", this.txtusername);
+      data.append("password", this.txtpassword);
+
+      try {
+        await store.Login_Store(data).then((res) => {
+          this.LoginPage = store.LogIn;
+          console.log("Response from LOGIN:", this.LoginPage);
+        });
+      } catch (error) {
+        console.error("Error LOGIN", error);
+      } finally {
+        if (this.LoginPage.authenticated == false) {
+          this.WrongEmail();
+        } else {
+          localStorage.setItem("Login", this.LoginPage.LoginID);
+          this.showLoading();
+          setTimeout(() => {
+            this.$router.push("/DashBoard");
+            this.hideLoading();
+          }, 3000); // 3-second delay
+        }
+      }
     },
 
     handleClick() {
@@ -213,6 +289,7 @@ export default {
   components: {},
 
   mounted() {
+    this.$refs.username.focus();
     AOS.init();
     this.startAnimation_TotalJobs();
     this.startAnimation();
@@ -221,9 +298,24 @@ export default {
 </script>
 
 <style scoped>
+.tooltip {
+  position: absolute;
+  left: 5%;
+  /*   transform: translateX(-50%); */
+  bottom: -95px;
+  background-color: rgba(244, 238, 238, 0);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
 .custom-input-container {
   position: relative;
-  width: 320px;
+  width: 340px;
   margin-top: -20px;
 }
 
@@ -242,7 +334,7 @@ export default {
 }
 
 .custom_input_button {
-  width: 100%;
+  width: 105%;
   height: 40px;
   padding-left: 20px; /* Space for the icon */
   border-radius: 12px;
@@ -258,8 +350,8 @@ export default {
 }
 
 .marginleft {
-  margin-left: -10px;
-  margin-right: 7px;
+  margin-left: -8px;
+  margin-right: 5px;
 }
 
 .marginleft_1 {

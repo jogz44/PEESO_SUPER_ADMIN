@@ -32,7 +32,7 @@
 
         <div class="q-pa-sm">
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/avatar5.jpg" />
+            <img :src="imgurl" />
           </q-avatar>
         </div>
       </q-toolbar>
@@ -71,17 +71,23 @@
         <div class="row q-mt-md">
           <div class="col-12 text-center">
             <q-avatar size="80px" square="">
-              <img src="/lyr.png" alt="Avatar" style="border-radius: 10px" />
+              <img :src="imgurl" alt="Avatar" style="border-radius: 10px" />
             </q-avatar>
             <q-item-label class="q-mt-md">
-              <span style="font-size: 16px; font-weight: bold"
-                >LYR LENDING CORPORATION</span
+              <span
+                v-if="userinfo.data && userinfo.data.length > 0"
+                style="font-size: 16px; font-weight: bold"
               >
+                {{ userinfo.data[0].Company_name }}
+              </span>
             </q-item-label>
             <div style="margin-top: -18px">
               <q-item-label header>
-                <p style="font-size: 12px; font-weight: inherit">
-                  CRX4+7W6, Tagum, Davao del Norte
+                <p
+                  v-if="userinfo.data && userinfo.data.length > 0"
+                  style="font-size: 12px; font-weight: inherit"
+                >
+                  {{ userinfo.data[0].Company_address }}
                 </p>
               </q-item-label>
             </div>
@@ -191,6 +197,7 @@
 </template>
 
 <script>
+import { useLoginCheck } from "src/stores/SignUp_Store";
 import { defineComponent, ref } from "vue";
 /* import EssentialLink from "components/EssentialLink.vue"; */
 
@@ -225,8 +232,62 @@ const linksList = [
 export default defineComponent({
   name: "MainLayout",
 
+  data() {
+    return {
+      // other data properties
+      retrievedLogin: "",
+      userinfo: [],
+      imgurl: "",
+    };
+  },
+
   components: {
     /*   EssentialLink, */
+  },
+
+  created() {
+    this.retrievedLogin = localStorage.getItem("Login");
+    console.log("Retrieved Login:", this.retrievedLogin); // Check the retrieved login
+
+    if (!this.retrievedLogin) {
+      console.error("No login found in localStorage.");
+      return;
+    }
+
+    const store = useLoginCheck();
+    let data = new FormData();
+    data.append("LoginID", this.retrievedLogin);
+
+    store
+      .RetrievedData_function(data)
+      .then((res) => {
+        this.userinfo = store.RetrievedData;
+
+        if (!this.userinfo || !this.userinfo.data || !this.userinfo.data[0]) {
+          console.error("Invalid user info retrieved.");
+          return;
+        }
+
+        console.log("Data Retrieved:", this.userinfo); // Check the retrieved data
+
+        const baseUrl =
+          "http://10.0.1.26:82/PEESOPORTAL/REGISTRATION/ADMIN/Logos/";
+        const companyName = encodeURIComponent(
+          this.userinfo.data[0].Company_name
+        );
+        const companyLogo = this.userinfo.data[0].Company_Logo
+          ? encodeURIComponent(this.userinfo.data[0].Company_Logo)
+          : "Company_Profile/e5d3982a1f7a511f789d.jpg";
+
+        this.imgurl =
+          companyLogo == "Company_Profile/e5d3982a1f7a511f789d.jpg"
+            ? `${baseUrl}${companyLogo}`
+            : `${baseUrl}${companyName}/${companyLogo}`;
+        console.log("Image URL:", this.imgurl); // Check the final image URL
+      })
+      .catch((error) => {
+        console.error("Error retrieving data:", error); // Log any errors
+      });
   },
 
   setup() {

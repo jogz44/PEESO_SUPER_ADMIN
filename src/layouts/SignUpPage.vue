@@ -50,6 +50,7 @@
                   ref="otp1"
                   class="otp-letter-input"
                   @update:model-value="handleInput('otp1', $event, 'otp2')"
+                  @keydown="handleKeydown"
                   v-model="otp1"
                   maxlength="1"
                 />
@@ -59,6 +60,8 @@
                   @update:model-value="handleInput('otp2', $event, 'otp3')"
                   v-model="otp2"
                   maxlength="1"
+                  @keydown.backspace="handleBackspace('otp2', 'otp1')"
+                  @keydown="handleKeydown"
                 />
                 <input
                   ref="otp3"
@@ -66,6 +69,8 @@
                   @update:model-value="handleInput('otp3', $event, 'otp4')"
                   v-model="otp3"
                   maxlength="1"
+                  @keydown.backspace="handleBackspace('otp3', 'otp2')"
+                  @keydown="handleKeydown"
                 />
                 <input
                   ref="otp4"
@@ -73,6 +78,8 @@
                   v-model="otp4"
                   @update:model-value="handleInput('otp4', $event, 'otp5')"
                   maxlength="1"
+                  @keydown.backspace="handleBackspace('otp4', 'otp3')"
+                  @keydown="handleKeydown"
                 />
                 <input
                   ref="otp5"
@@ -80,19 +87,23 @@
                   class="otp-letter-input"
                   v-model="otp5"
                   maxlength="1"
+                  @keydown.backspace="handleBackspace('otp5', 'otp4')"
+                  @keydown="handleKeydown"
                 />
                 <input
                   ref="otp6"
                   class="otp-letter-input"
                   v-model="otp6"
                   maxlength="1"
+                  @keydown.backspace="handleBackspace('otp6', 'otp5')"
+                  @keydown="handleKeydown"
                 />
               </div>
               <div class="text-center q-mt-md">
                 <p class="text-muted">
                   Didn't get the code?
 
-                  <button class="resendcolor" @click="resendCode">
+                  <button class="resendcolor" @click="VerifyOtp()">
                     Click to resend.
                   </button>
                 </p>
@@ -169,14 +180,45 @@
 
             <q-form class="q-px-md">
               <div class="row">
-                <div class="col-12">
-                  <div class="custom-input-container-username">
-                    <q-icon name="add_business" class="input-icon" />
+                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                  <div class="custom-input-container">
                     <input
                       v-model="txtCompanyName"
+                      @input="sanitizeInput"
                       class="custom-input"
                       placeholder="Company Name"
+                      ref="companyNameInput"
                     />
+                    <q-icon name="add_business" class="input-icon" />
+                    <div
+                      data-aos="fade-in"
+                      data-aos-duration="1500"
+                      v-if="errors.txtCompanyName"
+                      class="tooltip"
+                    >
+                      {{ errors.txtCompanyName }}
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="col-12 col-xl-5 col-lg-5 col-md-5 col-sm-12 downmargin"
+                >
+                  <div class="custom-input-container container_again">
+                    <input
+                      v-model="txtaddress"
+                      placeholder="Company Address"
+                      class="custom-input"
+                    />
+                    <q-icon name="location_on" class="input-icon" />
+                    <div
+                      data-aos="fade-in"
+                      data-aos-duration="1500"
+                      v-if="errors.txtaddress"
+                      class="tooltip_address"
+                    >
+                      {{ errors.txtaddress }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -190,6 +232,14 @@
                       class="custom-input"
                     />
                     <q-icon name="people" class="input-icon" />
+                    <div
+                      data-aos="fade-in"
+                      data-aos-duration="1500"
+                      v-if="errors.txtfirstname"
+                      class="tooltip"
+                    >
+                      {{ errors.txtfirstname }}
+                    </div>
                   </div>
                 </div>
 
@@ -203,6 +253,14 @@
                       class="custom-input"
                     />
                     <q-icon name="people" class="input-icon" />
+                    <div
+                      data-aos="fade-in"
+                      data-aos-duration="1500"
+                      v-if="errors.txtlastname"
+                      class="tooltip_lastname"
+                    >
+                      {{ errors.txtlastname }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -210,12 +268,20 @@
               <div class="row">
                 <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
                   <div class="custom-input-container marginforfield">
-                    <q-icon name="people" class="input-icon" />
                     <input
                       v-model="txtmiddlename"
                       class="custom-input"
                       placeholder="Middle Name"
                     />
+                    <q-icon name="people" class="input-icon" />
+                    <div
+                      data-aos="fade-in"
+                      data-aos-duration="1500"
+                      v-if="errors.txtmiddlename"
+                      class="tooltip"
+                    >
+                      {{ errors.txtmiddlename }}
+                    </div>
                   </div>
                 </div>
 
@@ -224,17 +290,15 @@
                     class="custom-input-container container_again_1 marginforfield"
                   >
                     <q-icon name="people" class="input-icon" />
-                    <select
-                      v-model="txtfuffix"
-                      class="custom-input"
-                      placeholder="dsds Name"
-                    >
-                      <option disabled selected>Suffix</option>
+                    <select v-model="txtfuffix" class="custom-input">
+                      <option disabled value="">
+                        <span class="siffixcss">Siffix</span>
+                      </option>
                       <!-- Add your options here -->
-                      <option value="1">N/A</option>
-                      <option value="1">Jr.</option>
-                      <option value="2">Sr.</option>
-                      <option value="2">III</option>
+                      <option value="N/A">N/A</option>
+                      <option value="Jr">Jr.</option>
+                      <option value="Sr.">Sr.</option>
+                      <option value="III">III</option>
                     </select>
                   </div>
                 </div>
@@ -243,23 +307,52 @@
               <div class="row">
                 <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
                   <div class="custom-input-container marginforfield">
-                    <q-icon name="phone" class="input-icon" />
                     <input
                       v-model="txtcontact"
                       class="custom-input"
                       placeholder="Contact Number"
+                      maxlength="11"
+                      @input="validateContact"
                     />
+                    <q-icon name="phone" class="input-icon" />
+                    <div
+                      data-aos="fade-in"
+                      data-aos-duration="1500"
+                      v-if="errors.txtcontact"
+                      class="tooltip"
+                    >
+                      {{ errors.txtcontact }}
+                    </div>
                   </div>
                 </div>
 
                 <div class="col-5">
                   <div class="custom-input-container marginforfield">
-                    <q-icon name="email" class="input-icon" />
                     <input
+                      @blur="validateEmail"
+                      ref="emailInput"
                       v-model="txtemail"
                       class="custom-input"
                       placeholder="Email"
                     />
+                    <q-icon name="email" class="input-icon" />
+                    <div
+                      data-aos="fade-in"
+                      data-aos-duration="1500"
+                      v-if="errors.txtemail"
+                      class="tooltip_email"
+                    >
+                      {{ errors.txtemail }}
+                    </div>
+
+                    <div
+                      data-aos="fade-in"
+                      data-aos-duration="1500"
+                      v-if="errors.txtemail_1"
+                      class="tooltip_email_1"
+                    >
+                      {{ errors.txtemail_1 }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -275,12 +368,22 @@
                     class="custom-input-container-username"
                     style="margin-top: -20px"
                   >
-                    <q-icon name="people" class="input-icon" />
                     <input
                       v-model="txtlogin"
                       class="custom-input"
                       placeholder="User Name"
+                      @focus="checkEmailBeforeFocus"
+                      ref="nameInput"
                     />
+                    <q-icon name="people" class="input-icon" />
+                    <div
+                      data-aos="fade-in"
+                      data-aos-duration="1500"
+                      v-if="errors.txtlogin"
+                      class="tooltip_UserName"
+                    >
+                      {{ errors.txtlogin }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -294,7 +397,19 @@
                       v-model="txtpassword"
                       class="custom-input"
                       placeholder="Password"
+                      @focus="checkEmailBeforeFocus"
                     />
+                    <div
+                      data-aos="fade-in"
+                      data-aos-duration="1500"
+                      v-if="errors.txtpassword_1"
+                      class="tooltip"
+                    >
+                      {{ errors.txtpassword_1 }}
+                    </div>
+                    <div v-if="passwordError" class="error-message">
+                      {{ passwordError }}
+                    </div>
                   </div>
                 </div>
 
@@ -304,16 +419,31 @@
                     <input
                       type="password"
                       v-model="txtconfirmpassword"
+                      @focus="checkEmailBeforeFocus"
                       class="custom-input"
                       placeholder="Confirm Password"
+                      :disabled="isConfirmPasswordDisabled"
                     />
+                    <div
+                      data-aos="fade-in"
+                      data-aos-duration="1500"
+                      v-if="errors.txtconfirmpassword_1"
+                      class="tooltip_confirmPassword"
+                    >
+                      {{ errors.txtconfirmpassword_1 }}
+                    </div>
+
+                    <div v-if="confirmPasswordError" class="error-message">
+                      <q-icon name="error" class="error-icon" />
+                      {{ confirmPasswordError }}
+                    </div>
                   </div>
                 </div>
               </div>
             </q-form>
 
             <div class="q-px-lg q-mt-lg marginleft">
-              <button class="custom_input_button" @click="CheckmeLogin()">
+              <button class="custom_input_button" @click="validateForm()">
                 SIGN UP
               </button>
             </div>
@@ -327,8 +457,9 @@
 <script>
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { defineComponent } from "vue";
+import { defineComponent, TrackOpTypes } from "vue";
 import { useQuasar } from "quasar";
+import { Loading } from "quasar";
 import { useLoginCheck } from "src/stores/SignUp_Store";
 
 export default defineComponent({
@@ -344,15 +475,37 @@ export default defineComponent({
       imageUrl: "/upload.jpg",
       imageUrl_1: "/message.jpg",
       txtCompanyName: "",
+
       txtlastname: "",
       txtfirstname: "",
       txtmiddlename: "",
+
+      errors: {
+        txtCompanyName: "",
+        txtaddress: "",
+        txtfirstname: "",
+        txtlastname: "",
+        txtmiddlename: "",
+        txtcontact: "",
+        txtemail: "",
+        txtemail_1: "",
+        txtlogin: "",
+        txtpassword_1: "",
+        txtconfirmpassword_1: "",
+        /*  txtpassword: "",
+        txtconfirmpassword: "", */
+      },
+
       txtfuffix: "",
       txtemail: "",
       txtlogin: "",
       txtcontact: "",
+      txtaddress: "",
+
       txtpassword: "",
       txtconfirmpassword: "",
+      passwordError: "",
+      confirmPasswordError: "",
 
       /*   txt_otp_verification: "", */
       showOtpForm: false,
@@ -374,19 +527,32 @@ export default defineComponent({
       timeLeft: 120, // 2 minutes in seconds
       timeExceeded: false,
       showResendDialog: false,
+      SavemeDatatoDatabase: [],
+      expectedOtpLength: 6, // Set the expected OTP length
     };
   },
 
   setup() {
     const $q = useQuasar();
+
     return {
+      OTPExpired() {
+        $q.notify({
+          icon: "sms",
+          color: "red",
+          message: "OTP Expired Please Resend",
+          position: "center",
+          timeout: "1500",
+        });
+      },
+
       showDuplicateEmail() {
         $q.notify({
           icon: "star_half",
           color: "red",
           message: "Duplicate Email",
           position: "center",
-          timeout: "2000",
+          timeout: "1500",
         });
       },
 
@@ -396,7 +562,7 @@ export default defineComponent({
           color: "red",
           message: "Duplicate Login",
           position: "center",
-          timeout: "2000",
+          timeout: "1500",
         });
       },
 
@@ -406,17 +572,17 @@ export default defineComponent({
           color: "red",
           message: "Duplicate Email",
           position: "center",
-          timeout: "2000",
+          timeout: "1500",
         });
       },
 
       Invalid_Email() {
         $q.notify({
-          icon: "star_half",
+          icon: "email",
           color: "red",
           message: "Invalid Email",
           position: "center",
-          timeout: "2000",
+          timeout: "1500",
         });
       },
 
@@ -426,13 +592,19 @@ export default defineComponent({
           color: "red",
           message: "Duplicate Email And UserName",
           position: "center",
-          timeout: "2000",
+          timeout: "1500",
         });
       },
     };
   },
 
   computed: {
+    isConfirmPasswordDisabled() {
+      return (
+        this.passwordError === "Password must be at least 8 characters long"
+      );
+    },
+
     txt_otp_verification: {
       get() {
         return (
@@ -456,7 +628,169 @@ export default defineComponent({
     },
   },
 
+  watch: {
+    /*    txt_otp_verification(newVal) {
+      this.verifyOTP();
+    },
+ */
+
+    txt_otp_verification(newVal) {
+      if (newVal.length == this.expectedOtpLength) {
+        this.verifyOtp_Kini();
+      }
+    },
+
+    txtpassword(newVal) {
+      this.validatePassword(newVal);
+      if (newVal) {
+        this.errors.txtpassword_1 = "";
+      }
+    },
+
+    txtconfirmpassword(newVal) {
+      this.validateConfirmPassword(newVal);
+
+      if (newVal) {
+        this.errors.txtconfirmpassword_1 = "";
+      }
+    },
+
+    txtCompanyName(newVal) {
+      if (newVal) {
+        this.errors.txtCompanyName = "";
+      }
+    },
+
+    txtaddress(newVal) {
+      if (newVal) {
+        this.errors.txtaddress = "";
+      }
+    },
+
+    txtfirstname(newVal) {
+      if (newVal) {
+        this.errors.txtfirstname = "";
+      }
+    },
+    txtlastname(newVal) {
+      if (newVal) {
+        this.errors.txtlastname = "";
+      }
+    },
+
+    txtmiddlename(newVal) {
+      if (newVal) {
+        this.errors.txtmiddlename = "";
+      }
+    },
+
+    txtcontact(newVal) {
+      if (newVal) {
+        this.errors.txtcontact = "";
+      }
+    },
+
+    txtemail(newVal) {
+      if (newVal) {
+        this.errors.txtemail = "";
+      }
+    },
+
+    txtemail(value) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(value)) {
+        this.errors.txtemail_1 = "";
+      }
+    },
+
+    txtlogin(newVal) {
+      if (newVal) {
+        this.errors.txtlogin = "";
+      }
+    },
+  },
+
+  created() {
+    /* this.verifyOTP(); */
+  },
+
   methods: {
+    handleKeydown(event) {
+      const key = event.key;
+      if (
+        !/^[0-9]$/.test(key) &&
+        key !== "Backspace" &&
+        key !== "ArrowLeft" &&
+        key !== "ArrowRight"
+      ) {
+        event.preventDefault();
+      }
+    },
+
+    sanitizeInput() {
+      // Define the prohibited characters
+      const prohibitedChars = /[\/\\:*?"<>|]/g;
+      // Remove prohibited characters
+      this.txtCompanyName = this.txtCompanyName.replace(prohibitedChars, "");
+    },
+
+    validateEmail() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (this.txtemail && !emailRegex.test(this.txtemail)) {
+        this.errors.txtemail_1 = "Please enter a valid email address.";
+        this.$refs.emailInput.focus();
+      } else {
+        this.errors.txtemail_1 = "";
+      }
+    },
+    checkEmailBeforeFocus(event) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (this.txtemail && !emailRegex.test(this.txtemail)) {
+        this.errors.txtemail_1 = "Please enter a valid email address.";
+        event.preventDefault();
+        this.$refs.emailInput.focus();
+      }
+    },
+
+    validateContact(event) {
+      // Remove non-digit characters
+      let cleaned = event.target.value.replace(/\D/g, "");
+      // Limit to 11 characters
+      if (cleaned.length > 11) {
+        cleaned = cleaned.substring(0, 11);
+      }
+      // Set the cleaned value back to the model
+      this.txtcontact = cleaned;
+    },
+
+    validatePassword(password) {
+      if (password === "") {
+        this.passwordError = "";
+      } else if (password.length < 8) {
+        this.passwordError = "Password must be at least 8 characters long";
+        /*  this.$nextTick(() => {
+          this.$refs.passwordInput.focus();
+        }); */
+      } else {
+        this.passwordError = "";
+      }
+
+      // Validate confirm password again in case both fields have been filled
+      if (this.txtconfirmpassword !== "") {
+        this.validateConfirmPassword(this.txtconfirmpassword);
+      }
+    },
+
+    validateConfirmPassword(confirmPassword) {
+      if (confirmPassword == "") {
+        this.confirmPasswordError = "";
+      } else if (confirmPassword !== this.txtpassword) {
+        this.confirmPasswordError = "Passwords do not match";
+      } else {
+        this.confirmPasswordError = "";
+      }
+    },
+
     handleInput(currentRef, value, nextRef) {
       /*   console.log("df"); */
       // Focus on the next input if the current one has a value
@@ -468,6 +802,17 @@ export default defineComponent({
           }
         });
       }
+    },
+
+    handleBackspace(currentRef, previousRef) {
+      this.$nextTick(() => {
+        if (this[currentRef].length === 0) {
+          const previousInput = this.$refs[previousRef];
+          if (previousInput) {
+            previousInput.focus();
+          }
+        }
+      });
     },
 
     triggerFileUpload() {
@@ -510,10 +855,12 @@ export default defineComponent({
     },
 
     async SignUp_Save_To_Database() {
-      console.log("Its ME");
+      this.showOtpForm = false;
+
       const store = useLoginCheck();
       let data = new FormData();
       data.append("Company_name", this.txtCompanyName);
+      data.append("Company_address", this.txtaddress);
       data.append("LastName", this.txtlastname);
       data.append("FirstName", this.txtfirstname);
       data.append("MiddleName", this.txtmiddlename);
@@ -527,62 +874,204 @@ export default defineComponent({
         data.append("file", this.file);
       }
 
-      store.SaveToDatabase(data).then((res) => {
-        this.$router.push("/DashBoard");
-      });
+      try {
+        await store.SaveToDatabase(data).then((res) => {
+          this.SavemeDatatoDatabase = store.SaveData;
+
+          console.log("Save to Database", this.SavemeDatatoDatabase);
+        });
+      } catch (error) {
+        console.error("Error Save to Database", error);
+      } finally {
+        localStorage.setItem("Login", this.SavemeDatatoDatabase.LoginID);
+        this.showLoading();
+        setTimeout(() => {
+          this.$router.push("/DashBoard");
+          this.hideLoading();
+        }, 3000); // 3-second delay
+      }
     },
 
-    Click_Verify_OTP() {
-      // Compare entered OTP with predefined OTP
+    /*    Click_Verify_OTP() {
+
 
       if (this.timeExceeded) {
-        this.showOtpForm = false;
-        this.showResendDialog = true;
+
+        this.OTPExpired();
       } else {
         if (this.txt_otp_verification == this.IpaVerifyOTp.otp) {
           this.SignUp_Save_To_Database();
           console.log("Correct");
-          /* this.$q.notify({
-            color: "positive",
-            position: "top",
-            message: "OTP Verified Successfully!",
-          }); */
 
-          /*   this.showOtpForm = false; */
         } else {
           console.log("Wrong");
           this.$q.notify({
             color: "negative",
             position: "center",
             message: "Invalid OTP. Please try again.",
+            timeout: "2000",
           });
 
-          /*   this.showOtpForm = true; */
         }
-
-        clearInterval(this.timer);
       }
-      /* this.showOtpForm = false; */
+    }, */
+
+    /*  START  */
+
+    verifyOtp_Kini() {
+      // Compare entered OTP with predefined OTP
+      if (this.timeExceeded) {
+        this.OTPExpired();
+      } else {
+        if (this.txt_otp_verification === this.IpaVerifyOTp.otp) {
+          this.SignUp_Save_To_Database();
+          console.log("Correct");
+          /*  this.$q.notify({
+            color: "positive",
+            position: "top",
+            message: "OTP Verified Successfully!",
+          }); */
+        } else {
+          console.log("Wrong");
+          this.$q.notify({
+            color: "negative",
+            position: "center",
+            message: "Invalid OTP. Please try again.",
+            timeout: 1500,
+          });
+        }
+      }
+    },
+    Click_Verify_OTP() {
+      this.verifyOtp_Kini();
+    },
+
+    /*  END  */
+
+    showLoading() {
+      this.$q.loading.show();
+    },
+    hideLoading() {
+      this.$q.loading.hide();
     },
 
     async VerifyOtp() {
+      this.showLoading();
+
       const store = useLoginCheck();
       let data = new FormData();
 
       data.append("Email", this.txtemail);
-      store.VerifyOtp(data).then((res) => {
-        this.IpaVerifyOTp = store.OtpVerify;
-        console.log("Kini Verify OTP:", this.IpaVerifyOTp.otp);
+      try {
+        await store.VerifyOtp(data).then((res) => {
+          this.IpaVerifyOTp = store.OtpVerify;
+          console.log("Kini Verify OTP:", this.IpaVerifyOTp.otp);
 
-        if (this.IpaVerifyOTp.sent == true) {
-          this.showOtpForm = true;
-          this.startOtpProcess();
-          this.showResendDialog = false;
-          this.txt_otp_verification = "";
-        } else {
-          this.Invalid_Email();
-        }
-      });
+          if (this.IpaVerifyOTp.sent == true) {
+            this.showOtpForm = true;
+            this.startOtpProcess();
+            this.showResendDialog = false;
+            this.txt_otp_verification = "";
+
+            // Set focus to the otp1 input field
+            this.$nextTick(() => {
+              this.$refs.otp1.focus();
+            });
+          } else {
+            this.Invalid_Email();
+          }
+        });
+      } catch (error) {
+        console.error("Error verifying OTP:", error);
+        this.Invalid_Email();
+      } finally {
+        this.hideLoading();
+      }
+    },
+
+    onBeforeUnmount() {
+      this.hideLoading();
+    },
+
+    validateForm() {
+      // Validate password and confirm password before proceeding
+      this.validatePassword(this.txtpassword);
+      this.validateConfirmPassword(this.txtconfirmpassword);
+
+      if (this.passwordError || this.confirmPasswordError) {
+        // If there are any errors, do not proceed
+        return;
+      }
+
+      this.clearErrors();
+      let valid = true;
+
+      if (!this.txtCompanyName) {
+        this.errors.txtCompanyName = "Please fill up Company Name";
+        valid = false;
+      }
+
+      if (!this.txtaddress) {
+        this.errors.txtaddress = "Please fill up Address";
+        valid = false;
+      }
+
+      if (!this.txtfirstname) {
+        this.errors.txtfirstname = "Please fill up First Name";
+        valid = false;
+      }
+
+      if (!this.txtlastname) {
+        this.errors.txtlastname = "Please fill up Last Name";
+        valid = false;
+      }
+      if (!this.txtmiddlename) {
+        this.errors.txtmiddlename = "Please fill up Middle Name";
+        valid = false;
+      }
+
+      if (!this.txtcontact) {
+        this.errors.txtcontact = "Please fill up Contact Number";
+        valid = false;
+      }
+      if (!this.txtemail) {
+        this.errors.txtemail = "Please fill up Email";
+        valid = false;
+      }
+
+      if (!this.txtlogin) {
+        this.errors.txtlogin = "Please fill up User Name";
+        valid = false;
+      }
+
+      if (!this.txtpassword) {
+        this.errors.txtpassword_1 = "Please fill up Password";
+        valid = false;
+      }
+
+      if (!this.txtconfirmpassword) {
+        this.errors.txtconfirmpassword_1 = "fill up Confirm Password";
+        valid = false;
+      }
+
+      if (valid) {
+        /*  this.Loading(); */
+        this.CheckmeLogin();
+      }
+    },
+
+    clearErrors() {
+      this.errors.txtCompanyName = "";
+      this.errors.txtaddress = "";
+      this.errors.txtfirstname = "";
+      this.errors.txtlastname = "";
+      this.errors.txtmiddlename = "";
+
+      this.errors.txtcontact = "";
+      this.errors.txtemail = "";
+      this.errors.txtlogin = "";
+      this.errors.txtpassword = "";
+      this.errors.txtconfirmpassword = "";
     },
 
     async CheckmeLogin() {
@@ -659,6 +1148,7 @@ export default defineComponent({
   components: {},
 
   mounted() {
+    this.$refs.companyNameInput.focus();
     AOS.init();
     this.startAnimation_TotalJobs();
     this.startAnimation();
@@ -667,6 +1157,132 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.tooltip_UserName {
+  position: absolute;
+  left: 25%;
+  /*   transform: translateX(-50%); */
+  bottom: 7px;
+  background-color: rgba(244, 238, 238, 0);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.tooltip_confirmPassword {
+  position: absolute;
+  left: 50%;
+  /*   transform: translateX(-50%); */
+  bottom: 7px;
+  background-color: rgba(244, 238, 238, 0);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.tooltip {
+  position: absolute;
+  left: 43%;
+  /*   transform: translateX(-50%); */
+  bottom: 7px;
+  background-color: rgba(244, 238, 238, 0);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.tooltip_email_1 {
+  position: absolute;
+  left: -0%;
+  /*   transform: translateX(-50%); */
+  bottom: -27px;
+  background-color: rgba(244, 238, 238, 0);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.tooltip_email {
+  position: absolute;
+  left: 59%;
+  /*   transform: translateX(-50%); */
+  bottom: 8px;
+  background-color: rgba(244, 238, 238, 0);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.tooltip_lastname {
+  position: absolute;
+  left: 50%;
+  /*   transform: translateX(-50%); */
+  bottom: 7px;
+  background-color: rgba(244, 238, 238, 0);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.tooltip_address {
+  position: absolute;
+  left: 54%;
+  /*   transform: translateX(-50%); */
+  bottom: 7px;
+  background-color: rgba(244, 238, 238, 0);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* .tooltip::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #f00 transparent;
+} */
+
+.error-icon {
+  margin-right: 0.1rem;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
+
 .resendcolor {
   color: rgb(8, 77, 180);
   border-color: #ffffff00;
