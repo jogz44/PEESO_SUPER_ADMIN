@@ -76,6 +76,7 @@
               icon="add"
               label="JOB POSTING"
               class="q-mx-sm"
+              @click="goToPage('/CreateJobPost')"
             />
             <input
               v-model="search_jobpost"
@@ -634,6 +635,7 @@
 </template>
 
 <script>
+import { useLoginCheck } from "src/stores/SignUp_Store";
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 
@@ -669,6 +671,10 @@ export default {
   },
 
   methods: {
+    goToPage(page) {
+      this.$router.push(page);
+    },
+
     schedule_Dialog() {
       this.dialog_sched = true;
     },
@@ -731,6 +737,8 @@ export default {
   created() {
     this.loadMoreJobPosts();
     this.loadMoreUsers();
+    this.retrievedLogin = localStorage.getItem("Login");
+    console.log("Retrieved CreateJOBS Login:", this.retrievedLogin); // Check the retrieved login
   },
   setup() {
     const tab = ref("receievedcvs");

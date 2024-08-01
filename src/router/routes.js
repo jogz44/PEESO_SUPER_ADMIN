@@ -64,6 +64,11 @@ const routes = [
         path: "/MyCalendar_Jobs",
         component: () => import("pages/MyCalendar_Jobs.vue"),
       },
+
+      {
+        path: "/CreateJobPost",
+        component: () => import("pages/CreateJobPost.vue"),
+      },
     ],
   },
   // Always leave this as last one,

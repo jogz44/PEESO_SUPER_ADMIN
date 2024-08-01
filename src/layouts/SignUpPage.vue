@@ -1367,11 +1367,7 @@ export default defineComponent({
   padding-left: 20px; /* Space for the icon */
   border-radius: 12px;
   border: 1px solid rgb(253, 253, 253);
-  background: linear-gradient(
-    40deg,
-    #279f27,
-    #5fc331
-  ); /* Gradient from green to white */
+  background: linear-gradient(40deg, #279f27, #5fc331);
   color: white;
 
   cursor: pointer; /* Changes the cursor to a hand pointer */

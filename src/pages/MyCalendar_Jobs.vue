@@ -24,16 +24,7 @@
         <p style="margin-bottom: -10px; margin-top: -2px; font-weight: 500"></p>
         <p></p>
       </div>
-      <!--  <div class="q-mt-xl">
-          <q-btn
-            outline
-            rounded
-            color="green"
-            label="Edit Profile"
-            icon="edit"
-            @click="$router.push({ path: '/Profile' })"
-          />
-        </div> -->
+   
     </div>
   </div>
   <div class="row">

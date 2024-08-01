@@ -85,6 +85,7 @@
                   v-model="txtusername"
                   placeholder="UserName"
                   class="custom-input"
+                  @keydown.enter="LOGIN"
                 />
                 <q-icon name="people" class="input-icon" />
               </div>
@@ -96,6 +97,7 @@
                   v-model="txtpassword"
                   class="custom-input"
                   placeholder="Password"
+                  @keydown.enter="LOGIN"
                 />
               </div>
 

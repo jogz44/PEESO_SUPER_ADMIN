@@ -1,96 +1,259 @@
 <template>
-  <div class="col-5">
-    <div class="custom-input-container marginforfield">
-      <input
-        v-model="txtemail"
-        class="custom-input"
-        placeholder="Email"
-        @blur="validateEmail"
-        ref="emailInput"
-      />
-      <q-icon name="email" class="input-icon" />
-      <div
-        data-aos="fade-in"
-        data-aos-duration="1500"
-        v-if="errors.txtemail"
-        class="tooltip_email"
-      >
-        {{ errors.txtemail }}
-      </div>
-    </div>
-    <div class="custom-input-container marginforfield">
-      <input
-        v-model="txtname"
-        class="custom-input"
-        placeholder="Name"
-        @focus="checkEmailBeforeFocus"
-        ref="nameInput"
-      />
-    </div>
-  </div>
+  <q-page>
+    <q-card class="q-mx-lg q-my-lg">
+      <q-card-setion>
+        <div class="date-input-container">
+          <div class="input-container" id="date-picker-container">
+            <label for="date-from">Date From</label>
+            <input type="date" id="date-checkin" class="date-field" />
+          </div>
+        </div>
+      </q-card-setion>
+    </q-card>
+  </q-page>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      txtemail: "",
-      txtname: "",
-      errors: {
-        txtemail: "",
-      },
+      txtjobtitle: "",
+      focused: false,
     };
   },
-  watch: {
-    txtemail(value) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (emailRegex.test(value)) {
-        this.errors.txtemail = "";
-      }
-    },
-  },
   methods: {
-    validateEmail() {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (this.txtemail && !emailRegex.test(this.txtemail)) {
-        this.errors.txtemail = "Please enter a valid email address.";
-        this.$refs.emailInput.focus();
-      } else {
-        this.errors.txtemail = "";
-      }
-    },
-    checkEmailBeforeFocus(event) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (this.txtemail && !emailRegex.test(this.txtemail)) {
-        this.errors.txtemail = "Please enter a valid email address.";
-        event.preventDefault();
-        this.$refs.emailInput.focus();
-      }
+    focusInput() {
+      this.$refs.dateInput.focus();
     },
   },
 };
 </script>
 
 <style scoped>
-.custom-input-container {
+/* RESET FORM ELEMENTS */
+.input-container input[type="date"],
+.input-container input[type="text"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+/* INPUT CONTAINER  */
+.input-container {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  min-width: 217px;
+  height: 60px;
+  padding: 5px 10px 10px 10px;
+  background: #fff;
+  border-radius: 8px;
+  filter: drop-shadow(0px 0px 3px #000);
+  -webkit-filter: drop-shadow(0px 0px 3px #000);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.input-container label {
   position: relative;
-}
-.marginforfield {
-  margin-bottom: 1rem;
-}
-.custom-input {
   width: 100%;
-  padding: 0.5rem;
+  font-family: "Segoe UI";
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  line-height: 20px;
+  color: #09f;
+  margin-left: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.input-icon {
+.input-container input {
+  position: relative;
+  align-items: center;
+  width: auto;
+  height: auto;
+  font-family: "Lekton", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: 0.05em;
+  line-height: 21px;
+  text-transform: uppercase;
+  margin-left: 0px;
+}
+
+/* BUTTON CONTAINER */
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 197px;
+  height: 65px;
+  padding: 1px;
+  padding-bottom: 2px;
+  background: #09f;
+  border-radius: 8px;
+  filter: drop-shadow(0px 0px 3px #000);
+  -webkit-filter: drop-shadow(0px 0px 3px #000);
+  overflow: hidden;
+  cursor: pointer;
+}
+.button-container:hover,
+.button-container:focus {
+  background: #09f;
+  filter: drop-shadow(0px 0px 3px #09f);
+  -webkit-filter: drop-shadow(0px 0px 3px #09f);
+}
+/* -- button -- */
+.button-container .button {
+  position: relative;
+  width: 100%;
+  min-height: 63px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: #fff;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+.button-container:hover .button:hover {
+  background: #000;
+  color: #fff;
+}
+.button-container:hover .button:active {
+  background: #000;
+  color: #fff;
+  background: #09f;
+  filter: drop-shadow(0px 0px 3px #09f);
+  -webkit-filter: drop-shadow(0px 0px 3px #09f);
+}
+/* -- button ok -- */
+.button-container .button.ok {
+  background: #131313;
+  color: #fff;
+}
+.button-container:hover .button.ok:hover {
+  background: #131313;
+  color: #09f;
+  text-shadow: 0px 0px 10px #09f;
+  -webkit-text-shadow: 0px 0px 10px #09f;
+}
+.button-container:hover .button.ok:active {
+  color: #fff;
+  background: #09f;
+  filter: drop-shadow(0px 0px 3px #000);
+  -webkit-filter: drop-shadow(0px 0px 3px #000);
+}
+
+/* RESERVATION BOX */
+.reservation-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  height: auto;
+  padding: 20px;
+  border-radius: 7px;
+  background-color: rgba(255, 255, 255, 1);
+}
+.reservation-box .static {
+  position: relative;
+  display: flex;
+  align-items: center;
+  float: left;
+  width: auto;
+  margin-right: 20px;
+}
+.reservation-box .flex {
+  position: relative;
+  display: flex;
+  float: left;
+  flex-direction: table;
+  align-items: center;
+  gap: 20px;
+  width: auto;
+}
+.reservation-box .top {
+  display: flex;
+  flex-direction: table;
+}
+.reservation-box .bottom {
+  position: relative;
+  width: 100%;
+  text-align: right;
+}
+
+.reservation-box .info {
+  width: auto;
+  color: #000;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: right;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.reservation-box .info:hover,
+.reservation-box .info:focus,
+.reservation-box .info:active {
+  color: #000;
+  border-bottom: 2px solid #09f;
+}
+
+/* RESERVATION BOX SMALL */
+.reservation-box.small,
+.reservation-box.small .flex {
+  flex-direction: column;
+}
+.reservation-box.small .top {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.reservation-box.small .static {
+  margin-right: 0px;
+}
+.reservation-box.small .bottom {
+  text-align: center;
+}
+.reservation-box.small .button-container {
+  min-width: 217px;
+}
+
+/* ------------ Testkit ------------ */
+.test {
   position: absolute;
-  right: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 30px;
+  left: 30px;
+  width: 66px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #000;
+  border-radius: 50%;
+  cursor: pointer;
 }
-.tooltip_email {
-  color: red;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+.test svg {
+  rotate: 0deg;
+}
+.test svg path {
+  fill: #000;
+}
+.test:hover {
+  background: rgba(255, 255, 255, 1);
+}
+.test.small svg {
+  rotate: 90deg;
 }
 </style>
