@@ -635,7 +635,9 @@
 </template>
 
 <script>
+import { useJobpost } from "src/stores/JobPost_Store";
 import { useLoginCheck } from "src/stores/SignUp_Store";
+
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 
@@ -644,6 +646,7 @@ export default {
 
   data() {
     return {
+      userinfo: [],
       applyToAll: false,
       dialog_sched: false,
       search_jobpost: "",
@@ -652,7 +655,8 @@ export default {
       limit: 10,
       hasMore: true,
       loading: false,
-
+      userData: null, // Initialize userData
+      Data_Retrieved: [],
       users: [],
       page_1: 1,
       limit_1: 10, // Number of records per request
@@ -737,9 +741,74 @@ export default {
   created() {
     this.loadMoreJobPosts();
     this.loadMoreUsers();
+
     this.retrievedLogin = localStorage.getItem("Login");
-    console.log("Retrieved CreateJOBS Login:", this.retrievedLogin); // Check the retrieved login
+    console.log("Retrieved Login Local Storage:", this.retrievedLogin);
+
+    if (!this.retrievedLogin) {
+      console.error("No login found in localStorage.");
+      return;
+    }
+
+    const store = useLoginCheck();
+    let data = new FormData();
+    data.append("LoginID", this.retrievedLogin);
+
+    store
+      .RetrievedData_function(data)
+      .then((res) => {
+        this.userinfo = store.RetrievedData;
+
+        // Check if userinfo and the data array exist
+        if (
+          !this.userinfo ||
+          !this.userinfo.data ||
+          !this.userinfo.data.length
+        ) {
+          console.error("Invalid user info retrieved.");
+          return;
+        }
+
+        // Directly access the first element of the data array
+        this.userData = this.userinfo.data[0];
+        if (!this.userData) {
+          console.error("Invalid user info retrieved.");
+          return;
+        }
+
+        console.log("Data Retrieved View ALl jobs:", this.userData);
+
+          const store1 = useJobpost();
+    let data1 = new FormData();
+    data1.append("CompanyID", this.userData.ID);
+    store1.Retrieve_Jobs(data1).then((res) => {
+      this.Data_Retrieved = store1.RetrieveJobs_Array;
+      console.log(" Database:", this.Data_Retrieved);
+    });
+
+
+        const baseUrl =
+          "http://10.0.1.26:82/PEESOPORTAL/REGISTRATION/ADMIN/Logos/";
+        const companyName = encodeURIComponent(this.userData.Company_name);
+        const companyLogo = this.userData.Company_Logo
+          ? encodeURIComponent(this.userData.Company_Logo)
+          : "Company_Profile/e5d3982a1f7a511f789d.jpg";
+
+        this.imgurl =
+          companyLogo === "Company_Profile/e5d3982a1f7a511f789d.jpg"
+            ? `${baseUrl}${companyLogo}`
+            : `${baseUrl}${companyName}/${companyLogo}`;
+        console.log("Image URL:", this.imgurl);
+      })
+      .catch((error) => {
+        console.error("Error retrieving data:", error);
+      });
+
+    ////////////////////////////////////////////////
+
+
   },
+
   setup() {
     const tab = ref("receievedcvs");
     const now = new Date();

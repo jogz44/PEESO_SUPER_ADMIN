@@ -300,7 +300,7 @@ export default {
 }
 
 .custom-card_jobpost {
-  border-top: 4px solid rgba(33, 82, 187, 0.799);
+  border-top: 4px solid rgba(136, 152, 133, 0.877);
   border-radius: 8px;
   overflow: hidden;
 }

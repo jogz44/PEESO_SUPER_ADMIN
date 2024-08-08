@@ -1,17 +1,30 @@
 <template>
   <q-page>
     <div class="custom-mx-xxl q-my-md">
-      <div class="profile-container" v-if="userinfo.data && userinfo.data[0]">
+      <div class="profile-container">
         <div class="profile-avatar">
           <q-avatar class="avatar">
             <img :src="imgurl" />
           </q-avatar>
         </div>
-        <div class="profile-details" style="margin-top: -25px">
+        <div class="profile-details" style="margin-top: -40px">
           <h2 class="title" style="margin-bottom: -10px">
-            <b> {{ userinfo.data[0].Company_name }} </b>
+            <b>
+              <span
+                v-if="userinfo.data && userinfo.data.length > 0"
+                style="font-size: 16px; font-weight: bold"
+              >
+                {{ userinfo.data[0].Company_name }}
+              </span></b
+            >
           </h2>
-          <p class="title">{{ userinfo.data[0].Company_address }}</p>
+          <p
+            v-if="userinfo.data && userinfo.data.length > 0"
+            style="font-size: 12px; font-weight: inherit"
+            class="title"
+          >
+            {{ userinfo.data[0].Company_address }}
+          </p>
           <br />
           <br />
           <p style="margin-bottom: -10px; margin-top: 20px; font-weight: 500">
@@ -28,222 +41,352 @@
           <p></p>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="col-6">
-          <div class="row q-my-xl">
-            <q-card style="width: 720px; height: auto; border-radius: 13px">
-              <q-card-section class="q-mt-md">
-                <div class="row">
-                  <div class="col-9" style="margin-left: -10px">
-                    <q-card-section style="margin-top: -60px">
-                      <h5>
-                        <b> Create Job Posting </b>
-                      </h5>
-                    </q-card-section>
-                    <q-card-section style="margin-top: -58px">
-                      <p>Please Enter Information Details</p>
-                    </q-card-section>
-                  </div>
-
-                  <div class="col-3" style="margin-top: -22px">
-                    <q-avatar
-                      size="65px"
-                      class="q-ml-sm hoverimage"
-                      @click="triggerFileUpload"
-                      style="margin-left: 30px"
-                    >
-                      <img :src="imageUrl" alt="Upload" />
-                    </q-avatar>
-                    <p style="margin-left: 10px">Upload Job Profile</p>
-                    <input
-                      type="file"
-                      ref="fileInput"
-                      style="display: none"
-                      @change="handleFileUpload"
-                      accept="image/*"
-                    />
-                  </div>
+    <div class="row q-mx-lg q-my-lg">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <q-card class="card_1" style="border-radius: 12px">
+          <div class="row">
+            <div class="col-12 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+              <div class="flex-container">
+                <div class="q-mx-lg q-mt-lg">
+                  <p style="font-size: 25px"><b>Create Job Posting</b></p>
+                  <p style="margin-bottom: -8px">
+                    Please Enter Information Details
+                  </p>
                 </div>
-              </q-card-section>
+              </div>
+            </div>
 
-              <q-card-section class="">
-                <div class="col-12 col-xl-12 col-lg-6 col-md-6 col-sm-6">
-                  <div class="custom-input-container marginforfield">
-                    <q-icon name="description" class="input-icon" />
-                    <input
-                      v-model="txtjobtitle"
-                      class="custom-input-posting"
-                      placeholder="Job Title"
-                    />
-                  </div>
+            <div
+              class="uploadpic_margin col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 q-mt-md"
+              style="margin-top: 11px"
+            >
+              <q-avatar
+                size="65px"
+                class="hoverimage"
+                @click="triggerFileUpload"
+                style="margin-left: 30px"
+              >
+                <img :src="imageUrl" alt="Upload" />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="errors.file"
+                  class="tooltip_JobProfile"
+                >
+                  {{ errors.file }}
                 </div>
-              </q-card-section>
+              </q-avatar>
+              <p style="margin-left: 10px">Upload Job Profile</p>
 
-              <q-card-section style="margin-top: 20px">
-                <div class="row">
-                  <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div class="custom-input-container marginforfield">
-                      <q-icon name="payments" class="input-icon" />
-                      <input
-                        v-model="txtjobtitle"
-                        class="custom-input"
-                        placeholder="Expected Salary"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div class="custom-input-container marginforfield">
-                      <q-icon name="chair_alt" class="input-icon" />
-                      <input
-                        v-model="txtjobtitle"
-                        class="custom-input"
-                        placeholder="Vacant Count"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-
-              <q-card-section style="margin-top: 20px">
-                <div class="row">
-                  <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div class="custom-input-container marginforfield">
-                      <div class="date-input-container">
-                        <div class="input-container" id="date-picker-container">
-                          <label for="date-from">Date From</label>
-                          <input type="date" id="date-checkin" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div class="custom-input-container marginforfield">
-                      <div class="date-input-container">
-                        <div class="input-container" id="date-picker-container">
-                          <label for="date-from">Date To</label>
-                          <input type="date" id="date-checkin" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-
-              <q-card-section style="margin-top: 20px">
-                <div class="row">
-                  <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div class="custom-input-container marginforfield">
-                      <q-icon name="chair_alt" class="input-icon" />
-                      <input
-                        v-model="txtjobtitle"
-                        class="custom-input"
-                        placeholder="Number of Hours"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div class="custom-input-container marginforfield">
-                      <q-icon name="work" class="input-icon" />
-                      <input
-                        v-model="txtjobtitle"
-                        class="custom-input"
-                        placeholder="Nature of Work"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-
-              <q-card-section style="margin-top: 20px">
-                <div class="row">
-                  <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div class="custom-input-container marginforfield">
-                      <q-icon name="history_edu" class="input-icon" />
-                      <input
-                        v-model="txtjobtitle"
-                        class="custom-input"
-                        placeholder="Educational Level"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div class="custom-input-container marginforfield">
-                      <q-icon name="school" class="input-icon" />
-                      <input
-                        v-model="txtjobtitle"
-                        class="custom-input"
-                        placeholder="Course"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-
-              <q-card-section style="margin-top: 20px">
-                <div class="row">
-                  <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div class="custom-input-container marginforfield">
-                      <q-icon name="receipt_long" class="input-icon" />
-                      <input
-                        v-model="txtjobtitle"
-                        class="custom-input"
-                        placeholder="Work Experience"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div class="custom-input-container marginforfield">
-                      <q-icon name="recent_actors" class="input-icon" />
-                      <input
-                        v-model="txtjobtitle"
-                        class="custom-input"
-                        placeholder="License"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-            </q-card>
+              <input
+                type="file"
+                ref="fileInput"
+                style="display: none"
+                @change="handleFileUpload"
+                accept="image/*"
+              />
+            </div>
           </div>
-        </div>
-
-        <div class="col-6">
-          <div class="row q-my-xl">
-            <q-card style="width: 720px; height: auto; border-radius: 13px">
-              <q-card-section class="q-mt-md">
-                <div class="row">
-                  <div class="col-9" style="margin-left: -10px">
-                    <q-card-section style="margin-top: -60px">
-                      <h5>
-                        <b> Create Description </b>
-                      </h5>
-                    </q-card-section>
-                    <q-card-section style="margin-top: -58px">
-                      <p>Please Enter Description Details</p>
-                    </q-card-section>
-                  </div>
+          <!--   <q-form > -->
+          <div class="row q-mx-xs q-px-md q-py-md" style="margin-top: -23px">
+            <div class="col-12">
+              <div class="flex-container">
+                <input
+                  type="text"
+                  placeholder="Job Title"
+                  v-model="txtjobtitle"
+                  @focus="hideErrorTooltip('jobtitle')"
+                  class="inputbai custom-input"
+                />
+                <q-icon name="add_business" class="input-icon" />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.jobtitle && errors.txtjobtitle"
+                  class="tooltip_jobtitle"
+                >
+                  {{ errors.txtjobtitle }}
                 </div>
-              </q-card-section>
+              </div>
+            </div>
+          </div>
 
-              <q-card-section style="margin-top: -2px">
-                <div class="col-12 col-xl-12 col-lg-6 col-md-6 col-sm-6">
-                  <div class="custom-input-container marginforfield">
-                    <q-icon name="description" class="input-icon" />
-                    <input
-                      v-model="txtjobtitle"
-                      class="custom-input-posting"
-                      placeholder="Place of Work"
-                    />
-                  </div>
+          <div class="row q-px-md q-pb-md">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 q-px-xs">
+              <div class="flex-container">
+                <input
+                  type="text"
+                  v-model="txtsalary"
+                  placeholder="Expected Salary"
+                  class="inputbai custom-input"
+                  @input="validate_ExpectedSalary"
+                  @focus="hideErrorTooltip('salary')"
+                />
+                <q-icon name="payments" class="input-icon" />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.salary && errors.txtsalary"
+                  class="tooltip"
+                >
+                  {{ errors.txtsalary }}
                 </div>
-              </q-card-section>
+              </div>
+            </div>
 
-              <q-card-section style="margin-top: -32px">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 q-px-xs">
+              <div class="flex-container">
+                <input
+                  type="text"
+                  placeholder="Vacant Count"
+                  v-model="txtvacantcount"
+                  @input="validate_VacantCount"
+                  class="inputbai custom-input mobileresponsive"
+                  @focus="hideErrorTooltip('vacantcount')"
+                />
+                <q-icon name="chair_alt" class="input-icon" />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.vacantcount && errors.txtvacantcount"
+                  class="tooltip"
+                >
+                  {{ errors.txtvacantcount }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row q-px-md q-pb-md">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 q-px-xs">
+              <div class="flex-container input-container">
+                <label for="date-from">Date From</label>
+                <input
+                  @focus="hideErrorTooltip('datefrom')"
+                  v-model="txtdate_from"
+                  type="date"
+                  id="date-checkin"
+                />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.datefrom && errors.txtdate_from"
+                  class="tooltip"
+                >
+                  {{ errors.txtdate_from }}
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 q-px-xs">
+              <div
+                class="flex-container input-container mobileresponsive_date_to"
+              >
+                <label for="date-from">Date To</label>
+                <input
+                  @focus="hideErrorTooltip('dateto')"
+                  v-model="txtdate_to"
+                  type="date"
+                  id="date-checkin"
+                />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.dateto && errors.txtdate_to"
+                  class="tooltip"
+                >
+                  {{ errors.txtdate_to }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row q-px-md q-pb-md">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 q-px-xs">
+              <div class="flex-container">
+                <input
+                  @focus="hideErrorTooltip('numhours')"
+                  type="text"
+                  @input="validate_Numhours"
+                  placeholder="Number of Hours"
+                  v-model="txtnumber_hours"
+                  class="inputbai custom-input"
+                />
+                <q-icon name="chair_alt" class="input-icon" />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.numhours && errors.txtnumber_hours"
+                  class="tooltip"
+                >
+                  {{ errors.txtnumber_hours }}
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 q-px-xs">
+              <div class="flex-container">
+                <input
+                  @focus="hideErrorTooltip('naturework')"
+                  type="text"
+                  placeholder="Nature of Work"
+                  v-model="txtnatureofWork"
+                  class="inputbai custom-input mobileresponsive"
+                />
+                <q-icon name="work" class="input-icon" />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.naturework && errors.txtnatureofWork"
+                  class="tooltip"
+                >
+                  {{ errors.txtnatureofWork }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row q-px-md q-pb-md">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 q-px-xs">
+              <div class="flex-container">
+                <input
+                  @focus="hideErrorTooltip('educationlevel')"
+                  type="text"
+                  v-model="txteducation_Level"
+                  placeholder="Educational Level"
+                  class="inputbai custom-input"
+                />
+                <q-icon name="history_edu" class="input-icon" />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.educationlevel && errors.txteducation_Level"
+                  class="tooltip"
+                >
+                  {{ errors.txteducation_Level }}
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 q-px-xs">
+              <div class="flex-container">
+                <input
+                  @focus="hideErrorTooltip('course')"
+                  type="text"
+                  placeholder="Course"
+                  class="inputbai custom-input mobileresponsive"
+                  v-model="txtcourse"
+                />
+                <q-icon name="school" class="input-icon" />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.course && errors.txtcourse"
+                  class="tooltip"
+                >
+                  {{ errors.txtcourse }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row q-px-md q-pb-md">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 q-px-xs">
+              <div class="flex-container">
+                <input
+                  @focus="hideErrorTooltip('experience')"
+                  type="text"
+                  @input="validate_Experience"
+                  v-model="txtworkexperience"
+                  placeholder="Enter Years of Experience"
+                  class="inputbai custom-input"
+                />
+                <q-icon name="receipt_long" class="input-icon" />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.experience && errors.txtworkexperience"
+                  class="tooltip"
+                >
+                  {{ errors.txtworkexperience }}
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 q-px-xs">
+              <div class="flex-container">
+                <input
+                  @focus="hideErrorTooltip('license')"
+                  type="text"
+                  v-model="txtlicense"
+                  placeholder="Required License"
+                  class="inputbai custom-input mobileresponsive"
+                />
+                <q-icon name="recent_actors" class="input-icon" />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.license && errors.txtlicense"
+                  class="tooltip"
+                >
+                  {{ errors.txtlicense }}
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 q-px-xs q-py-md">
+              <div class="flex-container">
+                <input
+                  @focus="hideErrorTooltip('placeofwork')"
+                  type="text"
+                  placeholder="Place of Work"
+                  v-model="txtplaceofwork"
+                  class="inputbai custom-input"
+                />
+                <q-icon name="add_business" class="input-icon" />
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.placeofwork && errors.txtplaceofwork"
+                  class="tooltip_placeofwork"
+                >
+                  {{ errors.txtplaceofwork }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--   </q-form> -->
+        </q-card>
+      </div>
+
+      <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 q-px-md">
+        <q-card class="card_1 cardmargin" style="border-radius: 12px">
+          <div class="row">
+            <div class="col-9">
+              <div class="flex-container">
+                <div class="q-mx-lg q-mt-lg">
+                  <p style="font-size: 25px"><b>Create Description</b></p>
+                  <p style="margin-bottom: -8px">
+                    Please Enter Description Details
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row q-mx-xs q-px-md q-py-md" style="margin-top: -2px">
+            <div class="col-12">
+              <div class="flex-container">
                 <div class="q-pa-xs">
                   <q-editor
-                    style="height: 263px"
-                    v-model="qeditor"
+                    style="
+                      margin-left: -4px;
+                      margin-right: -20px;
+                      height: 320px;
+                    "
+                    v-model="txtdescription"
                     :dense="$q.screen.lt.md"
                     :toolbar="[
                       [
@@ -320,12 +463,12 @@
                             'verdana',
                           ],
                         },
-                        /*  'removeFormat', */
+                        'removeFormat',
                       ],
-                      ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+                      ['unordered', 'ordered', 'outdent', 'indent'],
 
-                      /*    ['undo', 'redo'], */
-                      /*  ['viewsource'], */
+                      ['undo', 'redo'],
+                      /* ['viewsource'], */
                     ]"
                     :fonts="{
                       arial: 'Arial',
@@ -339,17 +482,39 @@
                     }"
                   />
                 </div>
-              </q-card-section>
-            </q-card>
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="errors.txtdescription"
+                  class="tooltip_description"
+                >
+                  {{ errors.txtdescription }}
+                </div>
+              </div>
+            </div>
+            <!-- <p>{{ userData.Company_name }}</p> -->
+            <!--  <div>{{ companyName }}</div> -->
+            <div class="col-12 q-px-xs q-py-md">
+              <div class="flex-container">
+                <button
+                  class="custom-input_button custom_input_button"
+                  @click="validateForm()"
+                >
+                  SUBMIT
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
+        </q-card>
       </div>
     </div>
   </q-page>
 </template>
 
 <script>
+import { useJobpost } from "src/stores/JobPost_Store";
 import { useLoginCheck } from "src/stores/SignUp_Store";
+import { useQuasar } from "quasar";
 import { defineComponent } from "vue";
 import { ref } from "vue";
 
@@ -357,17 +522,390 @@ export default defineComponent({
   name: "MonthSlotWeek",
   data() {
     return {
-      userinfo: {},
+      userinfo: [],
+      userData: null, // Initialize userData
       retrievedLogin: "",
       imgurl: "",
       imageUrl: "/upload.jpg",
       qeditor: "",
+      txtjobtitle: "",
+      txtsalary: "",
+      txtvacantcount: "",
+      txtdate_from: "",
+      txtdate_to: "",
+      txtnumber_hours: "",
+      txtnatureofWork: "",
+      txteducation_Level: "",
+      txtcourse: "",
+      txtworkexperience: "",
+      txtlicense: "",
+      txtplaceofwork: "",
+      txtdescription: "",
+      file: null,
+      /*  showTooltip: true, */
+      errors: {
+        txtjobtitle: "",
+        txtsalary: "",
+        txtvacantcount: "",
+        txtdate_from: "",
+        txtdate_to: "",
+        txtnumber_hours: "",
+        txtnatureofWork: "",
+        txteducation_Level: "",
+        txtcourse: "",
+        txtworkexperience: "",
+        txtlicense: "",
+        txtplaceofwork: "",
+        txtdescription: "",
+        file: null,
+      },
+
+      showTooltip: {
+        jobtitle: true,
+        salary: true,
+        vacantcount: true,
+        datefrom: true,
+        dateto: true,
+        numhours: true,
+        naturework: true,
+        educationlevel: true,
+        course: true,
+        experience: true,
+        license: true,
+        placeofwork: true,
+      },
     };
+  },
+
+  setup() {
+    const $q = useQuasar();
+
+    return {
+      showsuccessfulldialog() {
+        $q.notify({
+          icon: "star",
+          color: "green",
+          message: "Successfully Saved",
+          position: "center",
+          timeout: "1500",
+        });
+      },
+    };
+  },
+
+  watch: {
+    txtjobtitle(newVal) {
+      if (newVal) {
+        this.errors.txtjobtitle = "";
+      }
+    },
+
+    txtsalary(newVal) {
+      if (newVal) {
+        this.errors.txtsalary = "";
+      }
+    },
+
+    txtvacantcount(newVal) {
+      if (newVal) {
+        this.errors.txtvacantcount = "";
+      }
+    },
+
+    txtdate_from(newVal) {
+      if (newVal) {
+        this.errors.txtdate_from = "";
+      }
+    },
+
+    txtdate_to(newVal) {
+      if (newVal) {
+        this.errors.txtdate_to = "";
+      }
+    },
+
+    txtnumber_hours(newVal) {
+      if (newVal) {
+        this.errors.txtnumber_hours = "";
+      }
+    },
+
+    txtjobtitle(newVal) {
+      if (newVal) {
+        this.errors.txtjobtitle = "";
+      }
+    },
+
+    txtnatureofWork(newVal) {
+      if (newVal) {
+        this.errors.txtnatureofWork = "";
+      }
+    },
+
+    file(newVal) {
+      if (newVal) {
+        this.errors.file = null;
+      }
+    },
+
+    txtjobtitle(newVal) {
+      if (newVal) {
+        this.errors.txtjobtitle = "";
+      }
+    },
+
+    txteducation_Level(newVal) {
+      if (newVal) {
+        this.errors.txteducation_Level = "";
+      }
+    },
+
+    txtjobtitle(newVal) {
+      if (newVal) {
+        this.errors.txtjobtitle = "";
+      }
+    },
+
+    txtcourse(newVal) {
+      if (newVal) {
+        this.errors.txtcourse = "";
+      }
+    },
+
+    txtworkexperience(newVal) {
+      if (newVal) {
+        this.errors.txtworkexperience = "";
+      }
+    },
+
+    txtlicense(newVal) {
+      if (newVal) {
+        this.errors.txtlicense = "";
+      }
+    },
+
+    txtplaceofwork(newVal) {
+      if (newVal) {
+        this.errors.txtplaceofwork = "";
+      }
+    },
+
+    txtdescription(newVal) {
+      if (newVal) {
+        this.errors.txtdescription = "";
+      }
+    },
+  },
+
+  methods: {
+    validate_ExpectedSalary(event) {
+      // Remove non-digit characters
+      let cleaned = event.target.value.replace(/\D/g, "");
+      // Limit to 11 characters
+      if (cleaned.length > 11) {
+        cleaned = cleaned.substring(0, 11);
+      }
+      // Set the cleaned value back to the model
+      this.txtsalary = cleaned;
+    },
+
+    validate_VacantCount(event) {
+      // Remove non-digit characters
+      let cleaned = event.target.value.replace(/\D/g, "");
+      // Limit to 11 characters
+      if (cleaned.length > 11) {
+        cleaned = cleaned.substring(0, 11);
+      }
+      // Set the cleaned value back to the model
+      this.txtvacantcount = cleaned;
+    },
+
+    validate_Numhours(event) {
+      // Remove non-digit characters
+      let cleaned = event.target.value.replace(/\D/g, "");
+      // Limit to 11 characters
+      if (cleaned.length > 11) {
+        cleaned = cleaned.substring(0, 11);
+      }
+      // Set the cleaned value back to the model
+      this.txtnumber_hours = cleaned;
+    },
+
+    validate_Experience(event) {
+      // Remove non-digit characters
+      let cleaned = event.target.value.replace(/\D/g, "");
+      // Limit to 11 characters
+      if (cleaned.length > 11) {
+        cleaned = cleaned.substring(0, 11);
+      }
+      // Set the cleaned value back to the model
+      this.txtworkexperience = cleaned;
+    },
+
+    hideErrorTooltip(field) {
+      this.showTooltip[field] = false;
+    },
+
+    triggerFileUpload() {
+      this.$refs.fileInput.click();
+    },
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.file = file; // bind the file object to the data property
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageUrl = e.target.result; // set the image URL to the loaded file
+        };
+        reader.readAsDataURL(file); // read the file as a data URL
+      }
+    },
+    clearErrors() {
+      this.errors.txtjobtitle = "";
+      this.errors.txtsalary = "";
+      this.errors.txtvacantcount = "";
+      this.errors.txtdate_from = "";
+      this.errors.txtdate_to = "";
+      this.errors.txtnumber_hours = "";
+      this.errors.txtnatureofWork = "";
+      this.errors.txteducation_Level = "";
+      this.errors.txtcourse = "";
+      this.errors.txtworkexperience = "";
+      this.errors.txtlicense = "";
+      this.errors.txtplaceofwork = "";
+      this.errors.txtdescription = "";
+    },
+
+    async validateForm() {
+      this.clearErrors();
+      let valid = true;
+
+      if (!this.txtjobtitle) {
+        this.errors.txtjobtitle = "Please Fill up Job Title";
+        valid = false;
+      }
+
+      if (!this.txtsalary) {
+        this.errors.txtsalary = "Please Fill up Salary Expected";
+        valid = false;
+      }
+
+      if (!this.txtvacantcount) {
+        this.errors.txtvacantcount = "Please Fill up Vacant Count";
+        valid = false;
+      }
+
+      if (!this.txtdate_from) {
+        this.errors.txtdate_from = "Please Fill Date From";
+        valid = false;
+      }
+
+      if (!this.txtdate_to) {
+        this.errors.txtdate_to = "Please Fill up Date To";
+        valid = false;
+      }
+
+      if (!this.txtnumber_hours) {
+        this.errors.txtnumber_hours = "Please Fill up Number of Hours";
+        valid = false;
+      }
+
+      if (!this.txtnatureofWork) {
+        this.errors.txtnatureofWork = "Please Fill up Nature of Work";
+        valid = false;
+      }
+
+      if (!this.txteducation_Level) {
+        this.errors.txteducation_Level = "Please Fill up Educational Level";
+        valid = false;
+      }
+
+      if (!this.txtcourse) {
+        this.errors.txtcourse = "Please Fill up Course";
+        valid = false;
+      }
+
+      if (!this.txtworkexperience) {
+        this.errors.txtworkexperience = "Please Fill up Experience";
+        valid = false;
+      }
+
+      if (!this.txtlicense) {
+        this.errors.txtlicense = "Please Fill up License Required";
+        valid = false;
+      }
+
+      if (!this.txtplaceofwork) {
+        this.errors.txtplaceofwork = "Please Fill up Place of Work";
+        valid = false;
+      }
+
+      if (!this.txtdescription) {
+        this.errors.txtdescription = "Please Fill up Description";
+        valid = false;
+      }
+
+      if (!this.file) {
+        this.errors.file = "Please Choose Job Profile";
+        valid = false;
+      }
+
+      if (valid) {
+        /*  this.Loading(); */
+        this.ClickMe_SavetoDatabase();
+      }
+    },
+
+    async ClickMe_SavetoDatabase() {
+      /*  if (!this.userData) {
+        console.error("User data is not available.");
+        return;
+      } */
+      const store = useJobpost();
+      let data = new FormData();
+      data.append("Title", this.txtjobtitle);
+      if (this.file) {
+        data.append("file", this.file);
+      }
+      data.append("Salary", this.txtsalary);
+      data.append("DateFrom", this.txtdate_from);
+      data.append("DateTo", this.txtdate_to);
+      data.append("Description", this.txtdescription);
+      data.append("NumHours", this.txtnumber_hours);
+      data.append("Type", this.txtnatureofWork);
+      data.append("WorkPlace", this.txtplaceofwork);
+      data.append("VacantCount", this.txtvacantcount);
+      data.append("EducationLevel", this.txteducation_Level);
+      data.append("Course", this.txtcourse);
+      data.append("WorkExperience", this.txtworkexperience);
+      data.append("License", this.txtlicense);
+      data.append("Company_ID", this.userData.ID);
+      store.SaveToDatabase_jobPost(data).then((res) => {
+        console.log("Response from Save to Database:", res);
+        this.showsuccessfulldialog();
+
+        this.txtjobtitle = "";
+
+        this.txtsalary = "";
+        this.txtdate_from = "";
+        this.txtdate_to = "";
+        this.txtdescription = "";
+        this.txtnumber_hours = "";
+        this.txtnatureofWork = "";
+        this.txtplaceofwork = "";
+        this.txtvacantcount = "";
+        this.txteducation_Level = "";
+        this.txtcourse = "";
+        this.txtworkexperience = "";
+        this.txtlicense = "";
+        this.file = { imageUrl: "/upload.jpg" };
+      });
+    },
   },
 
   created() {
     this.retrievedLogin = localStorage.getItem("Login");
-    console.log("Retrieved Login:", this.retrievedLogin);
+    console.log("Retrieved Login Local Storage:", this.retrievedLogin);
 
     if (!this.retrievedLogin) {
       console.error("No login found in localStorage.");
@@ -383,24 +921,34 @@ export default defineComponent({
       .then((res) => {
         this.userinfo = store.RetrievedData;
 
-        if (!this.userinfo || !this.userinfo.data || !this.userinfo.data[0]) {
+        // Check if userinfo and the data array exist
+        if (
+          !this.userinfo ||
+          !this.userinfo.data ||
+          !this.userinfo.data.length
+        ) {
           console.error("Invalid user info retrieved.");
           return;
         }
 
-        console.log("Data Retrieved:", this.userinfo);
+        // Directly access the first element of the data array
+        this.userData = this.userinfo.data[0];
+        if (!this.userData) {
+          console.error("Invalid user info retrieved.");
+          return;
+        }
+
+        console.log("Data Retrieved:", this.userData);
 
         const baseUrl =
           "http://10.0.1.26:82/PEESOPORTAL/REGISTRATION/ADMIN/Logos/";
-        const companyName = encodeURIComponent(
-          this.userinfo.data[0].Company_name
-        );
-        const companyLogo = this.userinfo.data[0].Company_Logo
-          ? encodeURIComponent(this.userinfo.data[0].Company_Logo)
+        const companyName = encodeURIComponent(this.userData.Company_name);
+        const companyLogo = this.userData.Company_Logo
+          ? encodeURIComponent(this.userData.Company_Logo)
           : "Company_Profile/e5d3982a1f7a511f789d.jpg";
 
         this.imgurl =
-          companyLogo == "Company_Profile/e5d3982a1f7a511f789d.jpg"
+          companyLogo === "Company_Profile/e5d3982a1f7a511f789d.jpg"
             ? `${baseUrl}${companyLogo}`
             : `${baseUrl}${companyName}/${companyLogo}`;
         console.log("Image URL:", this.imgurl);
@@ -409,10 +957,126 @@ export default defineComponent({
         console.error("Error retrieving data:", error);
       });
   },
+  computed: {
+    companyName() {
+      return this.userData ? this.userData.Company_name : "";
+    },
+  },
 });
 </script>
 
 <style scoped>
+@media only screen and (max-width: 599px) {
+  .mobileresponsive {
+    margin-top: 10px;
+  }
+
+  .mobileresponsive_date_to {
+    margin-top: 8px;
+  }
+
+  .mobileresponsive_Natureofwork {
+    margin-top: 8px;
+  }
+  .uploadpic_margin {
+    margin-left: 13px;
+  }
+}
+
+@media only screen and (max-width: 1439px) {
+  .cardmargin {
+    margin-top: 10px;
+    margin-right: -15px;
+    margin-left: -13px;
+  }
+}
+
+.tooltip_JobProfile {
+  position: absolute;
+  left: -270%;
+  /*   transform: translateX(-50%); */
+  bottom: 20px;
+  background-color: rgba(203, 205, 201, 0.922);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.tooltip_description {
+  position: absolute;
+  left: 2%;
+  /*   transform: translateX(-50%); */
+  bottom: 270px;
+  background-color: rgba(244, 238, 238, 0);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.tooltip_jobtitle {
+  position: absolute;
+  left: 5%;
+  /*   transform: translateX(-50%); */
+  bottom: 7px;
+  background-color: rgb(244, 238, 238);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.tooltip_placeofwork {
+  position: absolute;
+  left: 5%;
+  /*   transform: translateX(-50%); */
+  bottom: 7px;
+  background-color: rgb(244, 238, 238);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.tooltip {
+  position: absolute;
+  left: 10%;
+  /*   transform: translateX(-50%); */
+  bottom: 7px;
+  background-color: rgb(244, 238, 238);
+  color: red;
+
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.custom_input_button {
+  padding-left: 20px; /* Space for the icon */
+  border-radius: 12px;
+  border: 1px solid rgb(253, 253, 253);
+  background: linear-gradient(40deg, #279f27, #5fc331);
+  color: white;
+
+  cursor: pointer; /* Changes the cursor to a hand pointer */
+}
+
+/* CSS CALENDAR START */
 /* RESET FORM ELEMENTS */
 .input-container input[type="date"],
 .input-container input[type="text"] {
@@ -430,7 +1094,6 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   width: auto;
-  height: auto;
 
   height: 50px;
   padding: 5px 10px 10px 10px;
@@ -439,8 +1102,6 @@ export default defineComponent({
   border: 1px solid rgb(113, 126, 126);
   overflow: hidden;
   cursor: pointer;
-  margin-bottom: 10px;
-  margin-right: -14px;
 }
 
 .input-container label {
@@ -472,24 +1133,11 @@ export default defineComponent({
   text-transform: uppercase;
   margin-left: 0px;
 }
-.custom-input {
-  width: 105%;
-  height: 40px;
-  padding-left: 40px; /* Space for the icon */
-  border-radius: 12px;
-  border: 1px solid rgb(113, 126, 126);
-  outline: none;
-  box-sizing: border-box;
-}
 
-.custom-input-posting {
-  width: 213%;
-  height: 40px;
-  padding-left: 40px; /* Space for the icon */
-  border-radius: 12px;
-  border: 1px solid rgb(113, 126, 126);
-  outline: none;
-  box-sizing: border-box;
+/* CSS CALENDAR END */
+
+.card_1 {
+  border-top: 4px solid rgba(10, 161, 15, 0.799);
 }
 
 .input-icon {
@@ -501,56 +1149,52 @@ export default defineComponent({
   color: gray;
 }
 
-.marginforfield {
-  margin-top: 15px;
+.custom-input_button {
+  width: 100%;
+  height: 40px;
+  padding-left: 35px; /* Space for the icon */
+  margin-right: 10px;
+  border-radius: 12px;
+  outline: none;
+  box-sizing: border-box;
 }
 
-.custom-input-container {
+.custom-input {
+  width: 100%;
+  height: 40px;
+  padding-left: 40px; /* Space for the icon */
+  border-radius: 12px;
+  border: 1px solid rgb(113, 126, 126);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.flex-container {
+  display: flex;
   position: relative;
-  width: 320px;
-  margin-top: -50px;
+  /* Other flex properties as needed */
 }
-
-@media only screen and (max-width: 1439px) {
-  .responsive {
-    margin-left: 45px;
-  }
+.inputbai {
+  flex: auto;
 }
 
 .custom-mx-xxl {
-  margin-left: 45px;
-  margin-right: 60px;
+  margin-left: 22px; /* or any desired value */
+  margin-right: 38px; /* or any desired value */
 }
 
 @media only screen and (max-width: 1904px) {
   .custom-mx-xxl {
-    margin-left: 45px;
-    margin-right: 35px;
+    margin-left: 30px; /* or any desired value */
+    margin-right: 40px; /* or any desired value */
   }
-}
-
-.profile-card {
-  max-width: 100%;
-  margin: auto;
-  margin-top: 2%;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.skill-card {
-  max-width: 70%;
-  margin: auto;
-  margin-top: 2%;
-  border-radius: 5px;
-  overflow: hidden;
 }
 
 .profile-container {
   border-radius: 12px;
   display: flex;
   align-items: center;
-  background: linear-gradient(to bottom, rgb(3, 69, 113) 50%, #f0ecec 50%);
+  background: linear-gradient(to bottom, rgb(0, 0, 0) 50%, #ffffff 50%);
   padding: 20px;
 }
 
@@ -562,12 +1206,12 @@ export default defineComponent({
   margin-right: 20px;
   background: white;
   padding: 10px;
-  border-radius: 15%;
+  border-radius: 50%;
 }
 
 .avatar {
-  width: 110px;
-  height: 110px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -591,6 +1235,7 @@ export default defineComponent({
   font-size: 15px;
 }
 
+/* Responsive design */
 @media (max-width: 768px) {
   .profile-container {
     flex-direction: column;
@@ -602,12 +1247,12 @@ export default defineComponent({
   .profile-avatar {
     margin-right: 0;
     margin-bottom: 20px;
-    background: white;
+    background: white; /* Blue background for the avatar */
   }
 
   .profile-details {
     text-align: center;
-    background: #ffffff;
+    background: #ffffff; /* White background for the details */
     padding: 20px;
     border-radius: 8px;
   }

@@ -459,14 +459,16 @@ export default {
 }
 
 .custom_card_TotalJobs {
-  border-top: 4px solid rgba(211, 102, 44, 0.799);
+  border-top: 4px solid rgba(46, 173, 8, 0.799);
   border-radius: 8px;
   overflow: hidden;
 }
 
 .custom_card_TotalApplicant {
-  border-top: 4px solid rgba(6, 78, 235, 0.799);
+  border-top: 4px solid rgba(46, 173, 8, 0.799);
   border-radius: 8px;
   overflow: hidden;
 }
+
+
 </style>

@@ -109,7 +109,7 @@ export default defineComponent({
             "Everything is funny as long as it is happening to someone else",
           start: getCurrentDay(1),
           end: getCurrentDay(1),
-          bgcolor: "orange",
+          bgcolor: "green",
         },
         {
           id: 2,
@@ -128,7 +128,7 @@ export default defineComponent({
           end: getCurrentDay(10),
           time: "10:00",
           duration: 120,
-          bgcolor: "red",
+          bgcolor: "green",
           icon: "fas fa-handshake",
         },
         {
@@ -139,7 +139,7 @@ export default defineComponent({
           end: getCurrentDay(10),
           time: "11:30",
           duration: 90,
-          bgcolor: "teal",
+          bgcolor: "green",
           icon: "fas fa-hamburger",
         },
         {
@@ -150,7 +150,7 @@ export default defineComponent({
           end: getCurrentDay(20),
           time: "17:00",
           duration: 90,
-          bgcolor: "grey",
+          bgcolor: "green",
           icon: "fas fa-car",
         },
         {
@@ -161,7 +161,7 @@ export default defineComponent({
           end: getCurrentDay(22),
           time: "08:00",
           duration: 540,
-          bgcolor: "blue",
+          bgcolor: "green",
           icon: "fas fa-chalkboard-teacher",
         },
         {
@@ -172,7 +172,7 @@ export default defineComponent({
           end: getCurrentDay(22),
           time: "19:00",
           duration: 180,
-          bgcolor: "teal",
+          bgcolor: "green",
           icon: "fas fa-utensils",
         },
         {
@@ -181,7 +181,7 @@ export default defineComponent({
           details: "Stay in shape!",
           start: getCurrentDay(27),
           end: getCurrentDay(28),
-          bgcolor: "purple",
+          bgcolor: "green",
           icon: "rowing",
         },
         {
@@ -190,7 +190,7 @@ export default defineComponent({
           details: "Time for some weekend R&R",
           start: getCurrentDay(22),
           end: getCurrentDay(29),
-          bgcolor: "purple",
+          bgcolor: "green",
           icon: "fas fa-fish",
         },
         {
@@ -200,7 +200,7 @@ export default defineComponent({
             "Trails and hikes, going camping! Don't forget to bring bear spray!",
           start: getCurrentDay(22),
           end: getCurrentDay(29),
-          bgcolor: "purple",
+          bgcolor: "green",
           icon: "fas fa-plane",
         },
       ],
@@ -332,8 +332,8 @@ export default defineComponent({
       if (computedEvent.event !== undefined) {
         return {
           "my-event": true,
-          "text-white": true,
-          [`bg-${computedEvent.event.bgcolor}`]: true,
+          "text-black": true, // Change text color to black
+          /*  [`bg-${computedEvent.event.bgcolor}`]: true, */
           "rounded-border": true,
           "q-calendar__ellipsis": true,
         };

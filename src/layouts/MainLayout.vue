@@ -1,10 +1,11 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header class="headercolor" elevated>
       <q-toolbar>
         <q-btn
           flat
           dense
+          style="color: black"
           round
           icon="menu"
           aria-label="Menu"
@@ -14,7 +15,7 @@
         <q-toolbar-title>
           <div class="row">
             <div class="col-6">
-              <q-input borderless dark v-model="text">
+              <q-input borderless v-model="text">
                 <template v-slot:prepend>
                   <q-icon name="search" />
                 </template>
@@ -24,16 +25,60 @@
         </q-toolbar-title>
 
         <div>
-          <q-icon name="notifications" size="25px" />
+          <q-icon style="color: black" name="notifications" size="25px" />
         </div>
         <div class="q-pa-md">
-          <q-icon name="message" size="25px" />
+          <q-icon style="color: black" name="message" size="25px" />
         </div>
 
         <div class="q-pa-sm">
-          <q-avatar>
-            <img :src="imgurl" />
-          </q-avatar>
+          <q-btn
+            flat
+            round
+            dense
+            style="position: relative"
+            class="transparent-btn"
+          >
+            <q-avatar>
+              <img :src="imgurl" />
+            </q-avatar>
+            <q-badge class="badge">
+              <q-icon name="arrow_drop_down" color="black" />
+            </q-badge>
+            <q-menu auto-close>
+              <q-list dense>
+                <!--  <q-item class="GL__menu-link-signed-in">
+                  <q-item-section>
+                    <div>Signed in as <strong>Go</strong></div>
+                  </q-item-section>
+                </q-item> -->
+
+                <q-item
+                  clickable
+                  class="GL__menu-link"
+                  @click="$router.push({ path: '/Profile' })"
+                >
+                  <q-item-section>Company Profile</q-item-section>
+                </q-item>
+                <!--     <q-item
+                  clickable
+                  class="GL__menu-link"
+                  @click="$router.push({ path: '/PDS' })"
+                >
+                  <q-item-section>Personal Data Sheet</q-item-section>
+                </q-item> -->
+                <q-item clickable class="GL__menu-link">
+                  <q-item-section>Settings</q-item-section>
+                </q-item>
+                <q-separator></q-separator>
+                <q-item clickable class="GL__menu-link">
+                  <q-item-section @click="$router.push({ path: '/LoginPage' })"
+                    >Sign out</q-item-section
+                  >
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
         </div>
       </q-toolbar>
     </q-header>
@@ -313,5 +358,24 @@ export default defineComponent({
 
   margin-right: 10px;
   margin-left: 10px;
+}
+
+.badge {
+  position: absolute;
+  bottom: -5px;
+  right: -3px;
+  background-color: rgba(229, 231, 235, 0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
+  color: black;
+}
+
+.headercolor {
+  background-color: rgb(255, 255, 255);
 }
 </style>

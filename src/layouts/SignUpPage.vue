@@ -690,13 +690,10 @@ export default defineComponent({
       }
     },
 
-    txtemail(newVal) {
-      if (newVal) {
+    txtemail(value) {
+      if (value) {
         this.errors.txtemail = "";
       }
-    },
-
-    txtemail(value) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (emailRegex.test(value)) {
         this.errors.txtemail_1 = "";
@@ -743,14 +740,14 @@ export default defineComponent({
         this.errors.txtemail_1 = "";
       }
     },
-    checkEmailBeforeFocus(event) {
+    /*  checkEmailBeforeFocus(event) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (this.txtemail && !emailRegex.test(this.txtemail)) {
         this.errors.txtemail_1 = "Please enter a valid email address.";
         event.preventDefault();
         this.$refs.emailInput.focus();
       }
-    },
+    }, */
 
     validateContact(event) {
       // Remove non-digit characters
