@@ -379,97 +379,12 @@
           <div class="row q-mx-xs q-px-md q-py-md" style="margin-top: -2px">
             <div class="col-12">
               <div class="flex-container">
-                <div class="q-pa-xs">
+                <div class="q-pa-xs" style="width: 940px">
                   <q-editor
-                    style="
-                      margin-left: -4px;
-                      margin-right: -20px;
-                      height: 320px;
-                    "
+                    style="height: 320px"
                     v-model="txtdescription"
                     :dense="$q.screen.lt.md"
-                    :toolbar="[
-                      [
-                        {
-                          label: $q.lang.editor.align,
-                          icon: $q.iconSet.editor.align,
-                          fixedLabel: true,
-                          list: 'only-icons',
-                          options: ['left', 'center', 'right', 'justify'],
-                        },
-                        /*  {
-                          label: $q.lang.editor.align,
-                          icon: $q.iconSet.editor.align,
-                          fixedLabel: true,
-                          options: ['left', 'center', 'right', 'justify'],
-                        }, */
-                      ],
-                      [
-                        'bold',
-                        'italic',
-                        /*    'strike', */
-                        'underline',
-                        'subscript',
-                        /*  'superscript', */
-                      ],
-                      /*   ['token', 'hr', 'link', 'custom_btn'], */
-                      /*  ['print', 'fullscreen'], */
-                      [
-                        {
-                          /*  label: $q.lang.editor.formatting, */
-                          /*   icon: $q.iconSet.editor.formatting, */
-                          /*   list: 'no-icons',
-                          options: [
-                            'p',
-                            'h1',
-                            'h2',
-                            'h3',
-                            'h4',
-                            'h5',
-                            'h6',
-                            'code',
-                          ], */
-                        },
-                        {
-                          label: $q.lang.editor.fontSize,
-                          icon: $q.iconSet.editor.fontSize,
-                          fixedLabel: true,
-                          fixedIcon: true,
-                          list: 'no-icons',
-                          options: [
-                            'size-1',
-                            'size-2',
-                            'size-3',
-                            'size-4',
-                            'size-5',
-                            'size-6',
-                            'size-7',
-                          ],
-                        },
-                        {
-                          label: $q.lang.editor.defaultFont,
-                          icon: $q.iconSet.editor.font,
-                          fixedIcon: true,
-                          list: 'no-icons',
-                          options: [
-                            'default_font',
-                            'arial',
-                            'arial_black',
-                            'comic_sans',
-                            'courier_new',
-                            'impact',
-                            'lucida_grande',
-                            'times_new_roman',
-                            'verdana',
-                          ],
-                        },
-                        'removeFormat',
-                      ],
-                      ['unordered', 'ordered', 'outdent', 'indent'],
-
-                      ['undo', 'redo'],
-                      /* ['viewsource'], */
-                    ]"
+                    :toolbar="toolbarOptions"
                     :fonts="{
                       arial: 'Arial',
                       arial_black: 'Arial Black',
@@ -960,6 +875,92 @@ export default defineComponent({
   computed: {
     companyName() {
       return this.userData ? this.userData.Company_name : "";
+    },
+  },
+  computed: {
+    toolbarOptions() {
+      if (this.$q.screen.lt.sm) {
+        // Toolbar options for small screens
+        return [
+          ["bold", "italic", "underline", "subscript"],
+          [
+            {
+              label: this.$q.lang.editor.align,
+              icon: this.$q.iconSet.editor.align,
+              fixedLabel: true,
+              list: "only-icons",
+              options: ["left", "center", "right", "justify"],
+            },
+          ],
+          ["undo", "redo"],
+        ];
+      } else if (this.$q.screen.lt.md) {
+        // Toolbar options for medium screens
+        return [
+          [
+            {
+              label: this.$q.lang.editor.align,
+              icon: this.$q.iconSet.editor.align,
+              fixedLabel: true,
+              list: "only-icons",
+              options: ["left", "center", "right", "justify"],
+            },
+          ],
+          ["bold", "italic", "underline", "subscript"],
+          [
+            {
+              label: this.$q.lang.editor.fontSize,
+              icon: this.$q.iconSet.editor.fontSize,
+              fixedLabel: true,
+              fixedIcon: true,
+              list: "no-icons",
+              options: [
+                "size-1",
+                "size-2",
+                "size-3",
+                "size-4",
+                "size-5",
+                "size-6",
+                "size-7",
+              ],
+            },
+          ],
+          ["undo", "redo"],
+        ];
+      } else {
+        // Toolbar options for large screens
+        return [
+          [
+            {
+              label: this.$q.lang.editor.align,
+              icon: this.$q.iconSet.editor.align,
+              fixedLabel: true,
+              list: "only-icons",
+              options: ["left", "center", "right", "justify"],
+            },
+          ],
+          ["bold", "italic", "underline", "subscript"],
+          [
+            {
+              label: this.$q.lang.editor.fontSize,
+              icon: this.$q.iconSet.editor.fontSize,
+              fixedLabel: true,
+              fixedIcon: true,
+              list: "no-icons",
+              options: [
+                "size-1",
+                "size-2",
+                "size-3",
+                "size-4",
+                "size-5",
+                "size-6",
+                "size-7",
+              ],
+            },
+          ],
+          ["undo", "redo"],
+        ];
+      }
     },
   },
 });
