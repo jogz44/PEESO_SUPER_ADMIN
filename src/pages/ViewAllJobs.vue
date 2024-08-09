@@ -95,19 +95,36 @@
                     v-for="jobPost in Data_Retrieved.data"
                     :key="jobPost.ID"
                     class="q-mb-md custom-card_jobpost"
+                    @click="handleRowClick(jobPost)"
                   >
                     <div class="row">
                       <div class="col-7">
                         <q-card-section class="row items-center">
                           <img
-                            style="max-width: 80px"
+                            style="max-width: 35px"
                             :src="getJobImage(jobPost.pic)"
                             alt="Position Picture"
                             :imgProps="{ width: '100px', height: '100px' }"
                           />
                           <div class="q-ml-sm">
-                            <div class="text-h6 namecolor">
+                            <!-- <q-tooltip>
                               {{ jobPost.Title }}
+                            </q-tooltip>
+
+                            <div class="text-h6 namecolor">
+
+                              {{ truncateTitle(jobPost.Title, 28) }}
+                            </div> -->
+                            <div
+                              class="text-h6 namecolor"
+                              v-if="jobPost.Title.length > 28"
+                              v-tooltip.bottom="jobPost.Title"
+                            >
+                              {{ truncateTitle(jobPost.Title, 28) }}
+                              <q-tooltip>{{ jobPost.Title }}</q-tooltip>
+                            </div>
+                            <div class="text-h6 namecolor" v-else>
+                              {{ truncateTitle(jobPost.Title, 28) }}
                             </div>
                             <div
                               class="text-subtitle2"
@@ -118,36 +135,57 @@
                           </div>
                         </q-card-section>
 
-                        <q-card-section class="row items-center">
-                          <div class="circle-icon-reject">
-                            <q-icon
-                              name="close"
-                              class="q-ml-xs custom-icon-class-reject"
-                            />
-                          </div>
-                          <div>
-                            <div class="text-subtitle2">
-                              Total Reject / {{ jobPost.totalrejected }}
+                        <div class="row">
+                          <!--   <q-card-section class="row items-center">
+                            <div class="circle-icon-reject">
+                              <q-icon
+                                name="close"
+                                class="q-ml-xs custom-icon-class-reject"
+                              />
                             </div>
-                          </div>
-                        </q-card-section>
+                            <div>
+                              <div class="text-subtitle2">
+                                Total Reject / {{ jobPost.totalrejected }}
+                              </div>
+                            </div>
+                          </q-card-section> -->
 
-                        <q-card-section
-                          class="row items-center"
-                          style="margin-top: -23px"
-                        >
-                          <div class="circle-icon">
-                            <q-icon
-                              name="check"
-                              class="q-ml-xs custom-icon-class-reject"
-                            />
-                          </div>
-                          <div>
-                            <div class="text-subtitle2">
-                              Total Accept / {{ jobPost.totalaccepted }}
+                          <q-card-section
+                            class="row items-center"
+                            style="margin-top: -10px"
+                          >
+                            <div class="circle-icon">
+                              <q-icon
+                                name="check"
+                                class="q-ml-xs custom-icon-class-reject"
+                              />
+                            </div>
+                            <div>
+                              <div class="text-subtitle2">
+                                Total Accept / {{ jobPost.totalaccepted }}
+                              </div>
+                            </div>
+                          </q-card-section>
+                          <div
+                            class="row items-center"
+                            style="margin-top: -10px"
+                          >
+                            <!--     <div class="circle-icon">
+                              <q-icon
+                                name="check"
+                                class="q-ml-xs custom-icon-class-reject"
+                              />
+                            </div> -->
+                            <div>
+                              <div
+                                class="text-subtitle2"
+                                style="margin-left: 18px; margin-bottom: 10px"
+                              >
+                                Date Posted: {{ formatDate(jobPost.DateFrom) }}
+                              </div>
                             </div>
                           </div>
-                        </q-card-section>
+                        </div>
                       </div>
 
                       <div class="col-5" style="margin-top: -8px">
@@ -157,13 +195,7 @@
                               class="text-h6"
                               style="font-size: 13px; font-weight: 400"
                             >
-                              Total Vacant Count
-                            </div>
-                            <div
-                              class="text-subtitle2"
-                              style="margin-top: -8px"
-                            >
-                              {{ jobPost.VacantCount }}
+                              Total Vacant: {{ jobPost.VacantCount }}
                             </div>
                           </div>
                         </q-card-section>
@@ -174,17 +206,17 @@
                               style="
                                 font-size: 13px;
                                 font-weight: 400;
-                                margin-top: -28px;
+                                margin-top: -40px;
                               "
                             >
-                              Total Applied
+                              Total Applied: {{ jobPost.totalapplicant }}
                             </div>
-                            <div
+                            <!--   <div
                               class="text-subtitle2 yellowgold"
                               style="margin-top: -8px"
                             >
-                              {{ jobPost.totalapplicant }}
-                            </div>
+
+                            </div> -->
                           </div>
                         </q-card-section>
 
@@ -195,17 +227,31 @@
                               style="
                                 font-size: 13px;
                                 font-weight: 400;
-                                margin-top: -28px;
+                                margin-top: -48px;
                               "
                             >
-                              Total Hired
+                              Total Hired: {{ jobPost.totalhired }}
                             </div>
                             <div
+                              class="text-h6"
+                              style="
+                                font-size: 13px;
+                                font-weight: 400;
+                                margin-top: -10px;
+                              "
+                            >
+                              Total Rejected:
+                              <span style="color: red">{{
+                                jobPost.totalrejected
+                              }}</span>
+                            </div>
+
+                            <!--     <div
                               class="text-subtitle2"
                               style="margin-top: -8px"
                             >
-                              {{ jobPost.totalhired }}
-                            </div>
+
+                            </div> -->
                           </div>
                         </q-card-section>
                       </div>
@@ -662,6 +708,8 @@ export default {
       limit_1: 10, // Number of records per request
       hasMore_1: true, // To check if more data is available
       // loading_1: false, // To prevent multiple simultaneous requests
+
+      screenWidth: window.innerWidth,
     };
   },
 
@@ -672,9 +720,72 @@ export default {
         jobPost.Position_Title.toLowerCase().includes(searchTerm)
       );
     },
-  },
 
+    truncateLength() {
+      return this.screenWidth <= 1439 ? 13 : 25;
+    },
+    shouldShowTooltip() {
+      return jobPost.Title.length > (this.screenWidth <= 1439 ? 13 : 28);
+    },
+  },
+  mounted() {
+    window.addEventListener("resize", this.updateScreenWidth);
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.updateScreenWidth);
+  },
   methods: {
+    handleRowClick(jobPost) {
+      console.log("Job Post Clicked:", jobPost.Company_ID);
+      this.$router.push({
+        name: "SetTings",
+        params: { id: jobPost.Company_ID },
+      });
+    },
+
+    truncateTitle(title, maxLength) {
+      if (title.length > maxLength) {
+        return title.substring(0, maxLength - 3) + "...";
+      } else {
+        return title;
+      }
+    },
+
+    updateScreenWidth() {
+      this.screenWidth = window.innerWidth;
+    },
+
+    formatDate(dateString) {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return new Date(dateString).toLocaleDateString("en-US", options);
+    },
+
+    async loadMoreUsers() {
+      if (this.loading1) return;
+      this.loading1 = true;
+      try {
+        const response = await axios.get(
+          `https://joemarie123.github.io/Fake_API_Testing/users_sampe.json`,
+          {
+            params: {
+              _page: this.page_1,
+              _limit: this.limit_1,
+            },
+          }
+        );
+        console.log("kini", response.data); // Add this line to log the response data
+        // Extract the users array from the response
+        const newUsers = response.data.users;
+        this.users = this.users.concat(newUsers);
+        this.page++;
+        this.hasMore_1 = newUsers.length === this.limit;
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        this.loading1 = false;
+      }
+    },
+
     getJobImage(pic) {
       const baseUrl = "http://10.0.1.26:82/peesoportal/jobs/admin/jobpic/";
       const imgUrl = pic
@@ -694,7 +805,8 @@ export default {
   },
   created() {
     /*  this.loadMoreJobPosts();
-    this.loadMoreUsers(); */
+     */
+    this.loadMoreUsers();
 
     this.retrievedLogin = localStorage.getItem("Login");
     console.log("Retrieved Login Local Storage:", this.retrievedLogin);

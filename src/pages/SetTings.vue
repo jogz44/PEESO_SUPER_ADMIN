@@ -89,6 +89,8 @@ export default {
     };
   },
   created() {
+    console.log("ID GIKAN SA VIEW ALL JOBS", this.$route.params.id);
+
     this.loadMoreJobPosts();
     this.loadMoreUsers();
 

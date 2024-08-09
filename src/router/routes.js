@@ -71,7 +71,8 @@ const routes = [
       },
 
       {
-        path: "/SetTings",
+        path: "/SetTings/:id",
+        name: "SetTings", // Ensure this matches exactly
         component: () => import("pages/SetTings.vue"),
       },
     ],
