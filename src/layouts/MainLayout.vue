@@ -222,7 +222,7 @@
               clickable
               v-ripple
               exact
-              to="/"
+              to="/SetTings"
             >
               <q-item-section avatar>
                 <q-icon name="settings" />

@@ -69,6 +69,11 @@ const routes = [
         path: "/CreateJobPost",
         component: () => import("pages/CreateJobPost.vue"),
       },
+
+      {
+        path: "/SetTings",
+        component: () => import("pages/SetTings.vue"),
+      },
     ],
   },
   // Always leave this as last one,

@@ -92,8 +92,8 @@
               <div class="scrollable-container">
                 <div class="q-gutter-md">
                   <q-card
-                    v-for="jobPost in filteredJobPosts"
-                    :key="jobPost.id"
+                    v-for="jobPost in Data_Retrieved.data"
+                    :key="jobPost.ID"
                     class="q-mb-md custom-card_jobpost"
                   >
                     <div class="row">
@@ -101,13 +101,13 @@
                         <q-card-section class="row items-center">
                           <img
                             style="max-width: 80px"
-                            :src="jobPost.Position_Title_Picture"
+                            :src="getJobImage(jobPost.pic)"
                             alt="Position Picture"
                             :imgProps="{ width: '100px', height: '100px' }"
                           />
                           <div class="q-ml-sm">
                             <div class="text-h6 namecolor">
-                              {{ jobPost.Position_Title }}
+                              {{ jobPost.Title }}
                             </div>
                             <div
                               class="text-subtitle2"
@@ -127,7 +127,7 @@
                           </div>
                           <div>
                             <div class="text-subtitle2">
-                              Total Reject / {{ jobPost.Total_Reject }}
+                              Total Reject / {{ jobPost.totalrejected }}
                             </div>
                           </div>
                         </q-card-section>
@@ -144,7 +144,7 @@
                           </div>
                           <div>
                             <div class="text-subtitle2">
-                              Total Accept / {{ jobPost.Total_Accept }}
+                              Total Accept / {{ jobPost.totalaccepted }}
                             </div>
                           </div>
                         </q-card-section>
@@ -163,7 +163,7 @@
                               class="text-subtitle2"
                               style="margin-top: -8px"
                             >
-                              {{ jobPost.Total_Vacant_Count }}
+                              {{ jobPost.VacantCount }}
                             </div>
                           </div>
                         </q-card-section>
@@ -183,7 +183,7 @@
                               class="text-subtitle2 yellowgold"
                               style="margin-top: -8px"
                             >
-                              {{ jobPost.Total_Applied }}
+                              {{ jobPost.totalapplicant }}
                             </div>
                           </div>
                         </q-card-section>
@@ -204,7 +204,7 @@
                               class="text-subtitle2"
                               style="margin-top: -8px"
                             >
-                              {{ jobPost.Total_Hired }}
+                              {{ jobPost.totalhired }}
                             </div>
                           </div>
                         </q-card-section>
@@ -233,13 +233,13 @@
 
                     <q-separator />
                   </q-card>
-                  <q-infinite-scroll
+                  <!--     <q-infinite-scroll
                     :offset="100"
                     @load="loadMoreJobPosts"
                     :disable="!hasMore"
                   >
                     <q-spinner color="primary" />
-                  </q-infinite-scroll>
+                  </q-infinite-scroll> -->
                 </div>
               </div>
             </div>
@@ -615,13 +615,13 @@
 
                         <q-separator />
                       </q-card>
-                      <q-infinite-scroll
+                      <!--     <q-infinite-scroll
                         :offset="100"
                         @load="loadMoreUsers"
                         :disable="!hasMore"
                       >
                         <q-spinner color="primary" />
-                      </q-infinite-scroll>
+                      </q-infinite-scroll> -->
                     </div>
                   </div>
                 </q-page>
@@ -661,20 +661,29 @@ export default {
       page_1: 1,
       limit_1: 10, // Number of records per request
       hasMore_1: true, // To check if more data is available
-      loading_1: false, // To prevent multiple simultaneous requests
+      // loading_1: false, // To prevent multiple simultaneous requests
     };
   },
 
   computed: {
     filteredJobPosts() {
       const searchTerm = this.search_jobpost.toLowerCase();
-      return this.jobPosts.filter((jobPost) =>
+      return this.Data_Retrieved.filter((jobPost) =>
         jobPost.Position_Title.toLowerCase().includes(searchTerm)
       );
     },
   },
 
   methods: {
+    getJobImage(pic) {
+      const baseUrl = "http://10.0.1.26:82/peesoportal/jobs/admin/jobpic/";
+      const imgUrl = pic
+        ? `${baseUrl}${encodeURIComponent(pic)}`
+        : "http://10.0.1.26:82/peesoportal/jobs/admin/jobpic/11e1bd61fc0e33272c58.png";
+      console.log("Image URL:", imgUrl);
+      return imgUrl;
+    },
+
     goToPage(page) {
       this.$router.push(page);
     },
@@ -682,65 +691,10 @@ export default {
     schedule_Dialog() {
       this.dialog_sched = true;
     },
-
-    async loadMoreJobPosts() {
-      if (this.loading) return;
-      this.loading = true;
-
-      try {
-        const response = await axios.get(
-          `https://joemarie123.github.io/Fake_API_Testing/JobPost_Sample.json`,
-          {
-            params: {
-              _page: this.page,
-              _limit: this.limit,
-            },
-          }
-        );
-        console.log("API Response:", response.data); // Log the response data
-        const newJobPosts = response.data.JobPost;
-
-        this.jobPosts = this.jobPosts.concat(newJobPosts);
-        this.page++;
-        this.hasMore = newJobPosts.length === this.limit;
-      } catch (error) {
-        console.error("Error fetching job posts:", error);
-      } finally {
-        this.loading = false;
-      }
-    },
-
-    async loadMoreUsers() {
-      if (this.loading1) return;
-      this.loading1 = true;
-
-      try {
-        const response = await axios.get(
-          `https://joemarie123.github.io/Fake_API_Testing/users_sampe.json`,
-          {
-            params: {
-              _page: this.page_1,
-              _limit: this.limit_1,
-            },
-          }
-        );
-        console.log("kini", response.data); // Add this line to log the response data
-        // Extract the users array from the response
-        const newUsers = response.data.users;
-
-        this.users = this.users.concat(newUsers);
-        this.page++;
-        this.hasMore_1 = newUsers.length === this.limit;
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      } finally {
-        this.loading1 = false;
-      }
-    },
   },
   created() {
-    this.loadMoreJobPosts();
-    this.loadMoreUsers();
+    /*  this.loadMoreJobPosts();
+    this.loadMoreUsers(); */
 
     this.retrievedLogin = localStorage.getItem("Login");
     console.log("Retrieved Login Local Storage:", this.retrievedLogin);
@@ -778,14 +732,13 @@ export default {
 
         console.log("Data Retrieved View ALl jobs:", this.userData);
 
-          const store1 = useJobpost();
-    let data1 = new FormData();
-    data1.append("CompanyID", this.userData.ID);
-    store1.Retrieve_Jobs(data1).then((res) => {
-      this.Data_Retrieved = store1.RetrieveJobs_Array;
-      console.log(" Database:", this.Data_Retrieved);
-    });
-
+        const store1 = useJobpost();
+        let data1 = new FormData();
+        data1.append("CompanyID", this.userData.ID);
+        store1.Retrieve_Jobs(data1).then((res) => {
+          this.Data_Retrieved = store1.RetrieveJobs_Array;
+          console.log(" Database:", this.Data_Retrieved);
+        });
 
         const baseUrl =
           "http://10.0.1.26:82/PEESOPORTAL/REGISTRATION/ADMIN/Logos/";
@@ -805,8 +758,6 @@ export default {
       });
 
     ////////////////////////////////////////////////
-
-
   },
 
   setup() {
