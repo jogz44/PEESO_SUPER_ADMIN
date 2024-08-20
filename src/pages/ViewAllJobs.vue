@@ -72,10 +72,9 @@
               outline
               size="12px"
               rounded
-              color="primary"
               icon="add"
               label="JOB POSTING"
-              class="q-mx-sm"
+              class="q-mx-sm colorbutton_applicant"
               @click="goToPage('/CreateJobPost')"
             />
             <input
@@ -94,7 +93,11 @@
                   <q-card
                     v-for="jobPost in Data_Retrieved.data"
                     :key="jobPost.ID"
-                    class="q-mb-md custom-card_jobpost"
+                    :class="[
+                      'q-mb-md',
+                      'custom-card_jobpost',
+                      { 'active-card': activeCard == jobPost.ID },
+                    ]"
                     @click="handleRowClick(jobPost)"
                   >
                     <div class="row">
@@ -107,14 +110,6 @@
                             :imgProps="{ width: '100px', height: '100px' }"
                           />
                           <div class="q-ml-sm">
-                            <!-- <q-tooltip>
-                              {{ jobPost.Title }}
-                            </q-tooltip>
-
-                            <div class="text-h6 namecolor">
-
-                              {{ truncateTitle(jobPost.Title, 28) }}
-                            </div> -->
                             <div
                               class="text-h6 namecolor"
                               v-if="jobPost.Title.length > 28"
@@ -301,8 +296,7 @@
             <q-chip
               clickable
               outline
-              color="teal"
-              text-color="white"
+              class="colorbutton_applicant"
               icon="bookmark"
             >
               <q-tab name="receievedcvs" label="RECEIVED CV'S" />
@@ -310,8 +304,7 @@
             <q-chip
               clickable
               outline
-              color="orange"
-              text-color="white"
+              class="colorbutton_applicant"
               icon-right="star"
             >
               <q-tab name="shortlisted" label="POTENTIAL APPLICANT" />
@@ -340,7 +333,7 @@
                   <div class="scrollable-container">
                     <div class="q-gutter-md">
                       <q-card
-                        v-for="user in users"
+                        v-for="user in GetJobPosting"
                         :key="user.id"
                         class="q-mb-md custom-card"
                       >
@@ -348,11 +341,18 @@
                           <div class="col-4">
                             <q-card-section class="row items-center">
                               <q-avatar size="53px" class="q-mr-sm">
-                                <img :src="user.avatar" alt="Profile Picture" />
+                                <img
+                                  :src="
+                                    user.pic
+                                      ? user.pic
+                                      : 'public/defaultpic.jpg'
+                                  "
+                                  alt="Profile Picture"
+                                />
                               </q-avatar>
                               <div>
                                 <div class="text-h6 namecolor">
-                                  {{ user.firstName }} {{ user.lastName }}
+                                  {{ user.Firstname }} {{ user.Surname }}
                                 </div>
                                 <div
                                   class="text-subtitle2"
@@ -383,26 +383,7 @@
                             </q-card-section>
                           </div>
 
-                          <div class="col-2">
-                            <q-card-section class="row items-center">
-                              <div>
-                                <div
-                                  class="text-h6"
-                                  style="font-size: 13px; font-weight: 400"
-                                >
-                                  Expected Salary
-                                </div>
-                                <div
-                                  class="text-subtitle2 yellowgold"
-                                  style="margin-top: -8px"
-                                >
-                                  ₱ {{ user.ExpectedSalary }}
-                                </div>
-                              </div>
-                            </q-card-section>
-                          </div>
-
-                          <div class="col-3">
+                          <div class="col-5">
                             <q-card-section class="row items-center">
                               <div>
                                 <div
@@ -415,8 +396,21 @@
                                   class="text-subtitle2"
                                   style="margin-top: -8px"
                                 >
-                                  {{ user.address }}
+                                  {{ user.Address }}
                                 </div>
+
+                                <!--      <div
+                                  class="text-subtitle2"
+                                  v-if="user.address.length > 20"
+                                  v-tooltip.bottom="user.address"
+                                  style="margin-top: -8px"
+                                >
+                                  {{ truncateTitle_Address(user.address, 20) }}
+                                  <q-tooltip>{{ user.address }}</q-tooltip>
+                                </div>
+                                <div class="text-h6" v-else>
+                                  {{ truncateTitle_Address(user.address, 20) }}
+                                </div> -->
                               </div>
                             </q-card-section>
                           </div>
@@ -434,7 +428,9 @@
                                   class="q-ml-xs custom-icon-class"
                                 />
                               </div>
-                              <div><b>095112231223</b></div>
+                              <div>
+                                <b>{{ user.ContactNo }}</b>
+                              </div>
                             </q-card-section>
 
                             <q-card-section
@@ -450,7 +446,7 @@
 
                               <div>
                                 <div class="text-subtitle2">
-                                  Applied Position / {{ user.AppliedPosition }}
+                                  Applied Position / {{ user.title }}
                                 </div>
                               </div>
                             </q-card-section>
@@ -473,6 +469,7 @@
                                 color="red"
                                 size="12px"
                                 label="DECLINE"
+                                @click="Click_Declined(user)"
                               />
                               <q-btn
                                 class="glossy"
@@ -480,6 +477,7 @@
                                 rounded
                                 color="green"
                                 label="Accept"
+                                @click="Click_Accepted(user)"
                               />
                             </div>
                           </div>
@@ -487,13 +485,6 @@
 
                         <q-separator />
                       </q-card>
-                      <q-infinite-scroll
-                        :offset="100"
-                        @load="loadMoreUsers"
-                        :disable="!hasMore"
-                      >
-                        <q-spinner color="primary" />
-                      </q-infinite-scroll>
                     </div>
                   </div>
                 </q-page>
@@ -508,25 +499,29 @@
                   <div class="scrollable-container">
                     <div class="q-gutter-md">
                       <q-card
-                        v-for="user in users"
-                        :key="user.id"
+                        v-for="potential in Potential_Applicant"
+                        :key="potential.id"
                         class="q-mb-md custom-card_Shortlisted"
                       >
                         <div class="row">
                           <div class="col-4">
                             <q-card-section class="row items-center">
                               <q-avatar size="53px" class="q-mr-sm">
-                                <img :src="user.avatar" alt="Profile Picture" />
+                                <img
+                                  src="public/TagumLogo.png"
+                                  alt="Profile Picture"
+                                />
                               </q-avatar>
                               <div>
                                 <div class="text-h6 namecolor">
-                                  {{ user.firstName }} {{ user.lastName }}
+                                  {{ potential.Firstname }}
+                                  {{ potential.Surname }}
                                 </div>
                                 <div
                                   class="text-subtitle2"
                                   style="margin-top: -8px"
                                 >
-                                  Age: {{ user.age }}
+                                  <!--    Age: {{ user.age }} -->
                                 </div>
                               </div>
                             </q-card-section>
@@ -545,13 +540,13 @@
                                   class="text-subtitle2"
                                   style="margin-top: -8px"
                                 >
-                                  {{ user.YearsExperience }}
+                                  <!--    {{ user.YearsExperience }} -->
                                 </div>
                               </div>
                             </q-card-section>
                           </div>
 
-                          <div class="col-2">
+                          <!--    <div class="col-2">
                             <q-card-section class="row items-center">
                               <div>
                                 <div
@@ -568,7 +563,7 @@
                                 </div>
                               </div>
                             </q-card-section>
-                          </div>
+                          </div> -->
 
                           <div class="col-3">
                             <q-card-section class="row items-center">
@@ -583,7 +578,7 @@
                                   class="text-subtitle2"
                                   style="margin-top: -8px"
                                 >
-                                  {{ user.address }}
+                                  {{ potential.Address }}
                                 </div>
                               </div>
                             </q-card-section>
@@ -605,7 +600,7 @@
 
                               <div>
                                 <div class="text-subtitle2">
-                                  Contact Number: 0915487625
+                                  Contact Number: {{ potential.ContactNo }}
                                 </div>
                               </div>
                             </q-card-section>
@@ -623,7 +618,7 @@
 
                               <div>
                                 <div class="text-subtitle2">
-                                  Applied Position / {{ user.AppliedPosition }}
+                                  Applied Position / {{ potential.title }}
                                 </div>
                               </div>
                             </q-card-section>
@@ -682,8 +677,8 @@
 
 <script>
 import { useJobpost } from "src/stores/JobPost_Store";
+import { useQuasar } from "quasar";
 import { useLoginCheck } from "src/stores/SignUp_Store";
-
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 
@@ -692,6 +687,9 @@ export default {
 
   data() {
     return {
+      UpdateJobPosting: [],
+      Data_Retrieved_Applicant: [],
+      activeCard: null,
       userinfo: [],
       applyToAll: false,
       dialog_sched: false,
@@ -708,8 +706,10 @@ export default {
       limit_1: 10, // Number of records per request
       hasMore_1: true, // To check if more data is available
       // loading_1: false, // To prevent multiple simultaneous requests
-
       screenWidth: window.innerWidth,
+      GetJobPosting: [],
+      UpdateAplikante: [],
+      Potential_Applicant: [],
     };
   },
 
@@ -736,14 +736,172 @@ export default {
   },
   methods: {
     handleRowClick(jobPost) {
-      console.log("Job Post Clicked:", jobPost.Company_ID);
-      this.$router.push({
-        name: "SetTings",
-        params: { id: jobPost.Company_ID },
+      console.log("Job Post Clicked:", jobPost.ID);
+      this.activeCard = jobPost.ID;
+
+      const store = useJobpost();
+      let data = new FormData();
+      data.append("JobID", jobPost.ID);
+
+      store
+        .Get_Applicant(data)
+        .then((res) => {
+          // Ensure GetJobs_Array is a valid array
+          if (!Array.isArray(store.GetJobs_Array)) {
+            console.warn(
+              "GetJobs_Array is not a valid array. Resetting to empty array."
+            );
+            store.GetJobs_Array = []; // Reset to an empty array if the data is not valid
+          }
+
+          this.GetJobPosting = store.GetJobs_Array.filter(
+            (job) => job.status === "APPLIED"
+          );
+          console.log(
+            "Filtered GetJobPosting (APPLIED only):",
+            this.GetJobPosting
+          );
+        })
+        .catch((error) => {
+          console.error("Error fetching applicants:", error);
+          this.GetJobPosting = []; // Optional: Reset to empty array on error
+        });
+
+      const store3 = useJobpost();
+      let data3 = new FormData();
+      data3.append("JobID", jobPost.ID);
+
+      store3
+        .Potential_Applicant_Store(data3)
+        .then((res) => {
+          // Ensure PotentialApplicant_Array is a valid array
+          if (!Array.isArray(store3.PotentialApplicant_Array)) {
+            console.warn(
+              "PotentialApplicant_Array is not a valid array. Resetting to empty array."
+            );
+            store3.PotentialApplicant_Array = []; // Reset to an empty array if the data is not valid
+          }
+
+          this.Potential_Applicant = store3.PotentialApplicant_Array.filter(
+            (job) => job.status === "ACCEPTED"
+          );
+
+          console.log(
+            "Filtered Potential Applicant (ACCEPTED only):",
+            this.Potential_Applicant
+          );
+        })
+        .catch((error) => {
+          console.error("Error fetching potential applicants:", error);
+          this.Potential_Applicant = []; // Optional: Reset to empty array on error
+        });
+    },
+
+    Click_Declined(user) {
+      /*    console.log("APPLICANT ID:", user.PMID);
+      console.log("JOB ID:", this.activeCard);
+ */
+      const store = useJobpost();
+      let data = new FormData();
+      data.append("JobID", user.jobID);
+      data.append("ApplicantID", user.PMID);
+      data.append("Status", "DECLINED");
+
+      store.Update_Applicant(data).then((res) => {
+        this.UpdateAplikante = store.UpdateApplicant_Array;
+        console.log("Response from DECLINED:", this.UpdateAplikante);
+        /////////////////////////// CODE TO REFRESH //////////////////////////////////////
+        const store2 = useJobpost();
+        let data2 = new FormData();
+
+        if (this.activeCard) {
+          data2.append("JobID", this.activeCard);
+          console.log("Active Card", this.activeCard);
+        } else {
+          data2.append("CompanyID", this.userData.ID);
+          console.log("CompanyID", this.activeCard);
+        }
+
+        store2.Get_Applicant(data2).then((res) => {
+          this.GetJobPosting = store2.GetJobs_Array.filter(
+            (job) => job.status == "APPLIED"
+          );
+          console.log(
+            "Filtered GetJobPosting (APPLIED only):",
+            this.GetJobPosting
+          );
+        });
+        this.SuccessfullyDeclined();
+      });
+    },
+
+    Click_Accepted(user) {
+      /*    console.log("APPLICANT ID:", user.PMID);
+      console.log("JOB ID:", this.activeCard);
+ */
+      const store = useJobpost();
+      let data = new FormData();
+      data.append("JobID", user.jobID);
+      data.append("ApplicantID", user.PMID);
+      data.append("Status", "ACCEPTED");
+
+      store.Update_Applicant(data).then((res) => {
+        this.UpdateAplikante = store.UpdateApplicant_Array;
+        console.log("Response from ACCEPTED:", this.UpdateAplikante);
+        /////////////////////////// CODE TO REFRESH //////////////////////////////////////
+        const store2 = useJobpost();
+        let data2 = new FormData();
+
+        if (this.activeCard) {
+          data2.append("JobID", this.activeCard);
+          console.log("Active Card", this.activeCard);
+        } else {
+          data2.append("CompanyID", this.userData.ID);
+          console.log("CompanyID", this.activeCard);
+        }
+
+        store2.Get_Applicant(data2).then((res) => {
+          this.GetJobPosting = store2.GetJobs_Array.filter(
+            (job) => job.status == "APPLIED"
+          );
+          console.log(
+            "Filtered GetJobPosting (APPLIED only):",
+            this.GetJobPosting
+          );
+        });
+
+        /////////////////////////// CODE TO REFRESH POTENTIAL APPLICANT //////////////////////////////////////
+
+        const store3 = useJobpost();
+        let data3 = new FormData();
+
+        if (this.activeCard) {
+          data3.append("JobID", this.activeCard);
+        } else {
+          data3.append("CompanyID", this.userData.ID);
+        }
+
+        store3.Potential_Applicant_Store(data3).then((res) => {
+          this.Potential_Applicant = store3.PotentialApplicant_Array.filter(
+            (job) => job.status == "ACCEPTED"
+          );
+
+          console.log("Potential Applicant", this.Potential_Applicant);
+        });
+
+        this.SuccessfullyAccepted();
       });
     },
 
     truncateTitle(title, maxLength) {
+      if (title.length > maxLength) {
+        return title.substring(0, maxLength - 3) + "...";
+      } else {
+        return title;
+      }
+    },
+
+    truncateTitle_Address(title, maxLength) {
       if (title.length > maxLength) {
         return title.substring(0, maxLength - 3) + "...";
       } else {
@@ -806,6 +964,7 @@ export default {
   created() {
     /*  this.loadMoreJobPosts();
      */
+
     this.loadMoreUsers();
 
     this.retrievedLogin = localStorage.getItem("Login");
@@ -852,6 +1011,28 @@ export default {
           console.log(" Database:", this.Data_Retrieved);
         });
 
+        const store2 = useJobpost();
+        let data2 = new FormData();
+        data2.append("CompanyID", this.userData.ID);
+        store2.Get_Applicant(data2).then((res) => {
+          this.GetJobPosting = store2.GetJobs_Array.filter(
+            (job) => job.status == "APPLIED"
+          );
+
+          console.log("Get Applicant", this.GetJobPosting);
+        });
+
+        const store3 = useJobpost();
+        let data3 = new FormData();
+        data3.append("CompanyID", this.userData.ID);
+        store3.Potential_Applicant_Store(data3).then((res) => {
+          this.Potential_Applicant = store3.PotentialApplicant_Array.filter(
+            (job) => job.status == "ACCEPTED"
+          );
+
+          console.log("Potential Applicant", this.Potential_Applicant);
+        });
+
         const baseUrl =
           "http://10.0.1.26:82/PEESOPORTAL/REGISTRATION/ADMIN/Logos/";
         const companyName = encodeURIComponent(this.userData.Company_name);
@@ -874,6 +1055,7 @@ export default {
 
   setup() {
     const tab = ref("receievedcvs");
+    const $q = useQuasar();
     const now = new Date();
 
     const formatDate = (date) => {
@@ -908,18 +1090,42 @@ export default {
       time,
       combinedModel,
       formattedTime,
+
+      SuccessfullyAccepted() {
+        $q.notify({
+          icon: "star",
+          color: "green",
+          message: "Successfully Accepted",
+          position: "right",
+          timeout: "1500",
+        });
+      },
+
+      SuccessfullyDeclined() {
+        $q.notify({
+          icon: "star",
+          color: "green",
+          message: "Successfully Declined",
+          position: "right",
+          timeout: "1500",
+        });
+      },
     };
   },
 };
 </script>
 
 <style scoped>
+.backgroundcolorbotton {
+  background-color: #0d8209;
+}
+
 .textbox {
   padding: 10px;
-  border: 1px solid #0b66a3;
+  border: 1px solid rgba(90, 92, 91, 0.799);
   border-radius: 13px;
 
-  width: 250px;
+  width: 320px;
   height: 28px;
 }
 
@@ -954,20 +1160,32 @@ export default {
   border-radius: 10px;
 }
 
+.custom-card_jobpost.active-card {
+  background-color: rgba(44, 50, 43, 0.425);
+  border-top: 4px solid rgba(44, 50, 43, 0);
+  color: white; /* Change text color if needed */
+}
+
 .custom-card_jobpost {
-  border-top: 4px solid rgba(33, 82, 187, 0.799);
+  border-top: 4px solid rgba(90, 92, 91, 0.799);
   border-radius: 8px;
   overflow: hidden;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .custom-card_Shortlisted {
-  border-top: 4px solid rgba(245, 97, 17, 0.799);
+  border-top: 4px solid rgba(90, 92, 91, 0.799);
   border-radius: 8px;
   overflow: hidden;
 }
 
+.colorbutton_applicant {
+  color: rgba(90, 92, 91, 0.799);
+}
+
 .custom-card {
-  border-top: 4px solid rgba(14, 170, 176, 0.799);
+  border-top: 4px solid rgba(90, 92, 91, 0.799);
   border-radius: 8px;
   overflow: hidden;
 }

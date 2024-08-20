@@ -228,13 +228,30 @@
 
             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 q-px-xs">
               <div class="flex-container">
-                <input
+                <!--  <input
                   @focus="hideErrorTooltip('naturework')"
                   type="text"
                   placeholder="Nature of Work"
                   v-model="txtnatureofWork"
                   class="inputbai custom-input mobileresponsive"
                 />
+ -->
+                <select
+                  v-model="txtnatureofWork"
+                  class="inputbai custom-input mobileresponsive"
+                  @focus="hideErrorTooltip('naturework')"
+                >
+                  <option disabled value="">
+                    <span class="siffixcss">Nature of Work</span>
+                  </option>
+                  <!-- Add your options here -->
+                  <option value="Permanent">Permanent</option>
+                  <option value="Contractual">Contractual</option>
+                  <option value="Part-time">Part-time</option>
+                  <option value="Project-based">Project-based</option>
+                  <option value="Internship/OJT">Internship/OJT</option>
+                </select>
+
                 <q-icon name="work" class="input-icon" />
                 <div
                   data-aos="fade-in"
@@ -251,13 +268,36 @@
           <div class="row q-px-md q-pb-md">
             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 q-px-xs">
               <div class="flex-container">
-                <input
+                <!--  <input
                   @focus="hideErrorTooltip('educationlevel')"
                   type="text"
                   v-model="txteducation_Level"
                   placeholder="Educational Level"
                   class="inputbai custom-input"
-                />
+                /> -->
+                <select
+                  v-model="txteducation_Level"
+                  class="inputbai custom-input mobileresponsive"
+                  @focus="hideErrorTooltip('educationlevel')"
+                >
+                  <option disabled value="">
+                    <span class="siffixcss">Educational Level</span>
+                  </option>
+                  <!-- Add your options here -->
+
+                  <option value="Elementary Graduate">
+                    Elementary Graduate
+                  </option>
+                  <option value="High School Graduate">
+                    High School Graduate
+                  </option>
+                  <option value="College Level">College Level</option>
+                  <option value="Graduate/Post Graduate Studies">
+                    Graduate/Post Graduate Studies
+                  </option>
+                  <option value="College Graduate">College Graduate</option>
+                </select>
+
                 <q-icon name="history_edu" class="input-icon" />
                 <div
                   data-aos="fade-in"
@@ -356,6 +396,41 @@
                 </div>
               </div>
             </div>
+
+            <div class="col-12 q-px-xs q-py-xs">
+              <div class="flex-container">
+                <q-icon name="note_add" class="input-icon" />
+                <div class="inputbai custom-input_AddTags" @click="focusInput">
+                  <template v-for="(item, index) in items" :key="index">
+                    <q-chip
+                      removable
+                      @remove="removeItem(index)"
+                      class="chip-inline"
+                      >{{ item }}</q-chip
+                    >
+                  </template>
+
+                  <input
+                    @focus="hideErrorTooltip('addtags')"
+                    ref="inputField"
+                    type="text"
+                    placeholder="Add Tags"
+                    class="chips-input-field"
+                    @keyup.enter="addItem"
+                    v-model="txtaddtags"
+                  />
+                </div>
+
+                <div
+                  data-aos="fade-in"
+                  data-aos-duration="1500"
+                  v-if="showTooltip.addtags && errors.txtaddtags"
+                  class="tooltip_placeofwork"
+                >
+                  {{ errors.txtaddtags }}
+                </div>
+              </div>
+            </div>
           </div>
           <!--   </q-form> -->
         </q-card>
@@ -381,7 +456,7 @@
               <div class="flex-container">
                 <div class="q-pa-xs" style="width: 940px">
                   <q-editor
-                    style="height: 320px"
+                    style="height: 370px"
                     v-model="txtdescription"
                     :dense="$q.screen.lt.md"
                     :toolbar="toolbarOptions"
@@ -437,6 +512,8 @@ export default defineComponent({
   name: "MonthSlotWeek",
   data() {
     return {
+      txtaddtags: "",
+      items: [], // Array to store the entered items
       userinfo: [],
       userData: null, // Initialize userData
       retrievedLogin: "",
@@ -472,6 +549,7 @@ export default defineComponent({
         txtlicense: "",
         txtplaceofwork: "",
         txtdescription: "",
+        txtaddtags: "",
         file: null,
       },
 
@@ -488,6 +566,7 @@ export default defineComponent({
         experience: true,
         license: true,
         placeofwork: true,
+        addtags: true,
       },
     };
   },
@@ -610,9 +689,31 @@ export default defineComponent({
         this.errors.txtdescription = "";
       }
     },
+
+    txtaddtags(newVal) {
+      if (newVal) {
+        this.errors.txtaddtags = "";
+      }
+    },
   },
 
   methods: {
+    focusInput() {
+      this.$refs.inputField.focus();
+    },
+
+    addItem() {
+      const trimmedValue = this.txtaddtags.trim();
+      if (trimmedValue) {
+        this.items.push(trimmedValue);
+        this.txtaddtags = ""; // Clear the input field
+        console.log("TAGS", this.items);
+      }
+    },
+    removeItem(index) {
+      this.items.splice(index, 1); // Remove the item at the given index
+    },
+
     validate_ExpectedSalary(event) {
       // Remove non-digit characters
       let cleaned = event.target.value.replace(/\D/g, "");
@@ -760,6 +861,11 @@ export default defineComponent({
         valid = false;
       }
 
+      if (!this.txtaddtags) {
+        this.errors.txtaddtags = "Please Fill up Tags";
+        valid = false;
+      }
+
       if (!this.file) {
         this.errors.file = "Please Choose Job Profile";
         valid = false;
@@ -795,6 +901,8 @@ export default defineComponent({
       data.append("WorkExperience", this.txtworkexperience);
       data.append("License", this.txtlicense);
       data.append("Company_ID", this.userData.ID);
+      data.append("tags", JSON.stringify(this.items));
+
       store.SaveToDatabase_jobPost(data).then((res) => {
         console.log("Response from Save to Database:", res);
         this.showsuccessfulldialog();
@@ -813,6 +921,8 @@ export default defineComponent({
         this.txtcourse = "";
         this.txtworkexperience = "";
         this.txtlicense = "";
+        this.items = "";
+        this.txtaddtags = "";
         this.file = { imageUrl: "/upload.jpg" };
       });
     },
@@ -967,6 +1077,16 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.chips-input-field {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  min-width: 150px; /* Minimum width for the input */
+  padding: 8px;
+  margin-left: -8px;
+  order: 1; /* Ensure the input comes after the chips */
+}
+
 @media only screen and (max-width: 599px) {
   .mobileresponsive {
     margin-top: 10px;
@@ -1160,6 +1280,18 @@ export default defineComponent({
   box-sizing: border-box;
 }
 
+.custom-input_AddTags {
+  width: 100%;
+  max-height: 100px; /* Set the maximum height for the input container */
+  overflow-y: auto; /* Add vertical scroll when content exceeds max height */
+  padding-left: 40px; /* Space for the icon */
+  border-radius: 12px;
+  border: 1px solid rgb(113, 126, 126);
+  outline: none;
+  box-sizing: border-box;
+  overflow-y: auto; /* Add vertical scroll when content exceeds max height */
+}
+
 .custom-input {
   width: 100%;
   height: 40px;
@@ -1168,6 +1300,7 @@ export default defineComponent({
   border: 1px solid rgb(113, 126, 126);
   outline: none;
   box-sizing: border-box;
+  overflow-y: auto; /* Add vertical scroll when content exceeds max height */
 }
 
 .flex-container {
@@ -1241,7 +1374,7 @@ export default defineComponent({
   .profile-container {
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(to bottom, rgb(3, 69, 113) 50%, #ffffff 50%);
+    background: linear-gradient(to bottom, rgb(0, 0, 0) 50%, #ffffff 50%);
     padding: 20px;
   }
 
