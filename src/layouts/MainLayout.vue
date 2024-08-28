@@ -58,7 +58,7 @@
                   class="GL__menu-link"
                   @click="$router.push({ path: '/Profile' })"
                 >
-                  <q-item-section>Company Profile</q-item-section>
+                  <q-item-section>Company List</q-item-section>
                 </q-item>
                 <!--     <q-item
                   clickable
@@ -166,13 +166,13 @@
               clickable
               v-ripple
               exact
-              to="/CompanyProfile"
+              to="/CompanyList"
             >
               <q-item-section avatar>
                 <q-icon name="add_business" />
               </q-item-section>
 
-              <q-item-section> Company Profile</q-item-section>
+              <q-item-section> Company List</q-item-section>
             </q-item>
 
             <q-item
@@ -180,13 +180,13 @@
               clickable
               v-ripple
               exact
-              to="/ViewAllJobs"
+              to="/TrainingsSeminar"
             >
               <q-item-section avatar>
                 <q-icon name="chat" />
               </q-item-section>
 
-              <q-item-section> View All Jobs</q-item-section>
+              <q-item-section> Trainings And Seminar</q-item-section>
             </q-item>
 
             <q-item
@@ -194,16 +194,16 @@
               clickable
               v-ripple
               exact
-              to="/MyCalendar_Jobs"
+              to="/EvenTs"
             >
               <q-item-section avatar>
                 <q-icon name="event_available" />
               </q-item-section>
 
-              <q-item-section> My Calendar</q-item-section>
+              <q-item-section> Events</q-item-section>
             </q-item>
 
-            <q-item
+            <!--  <q-item
               class="q-px-lg essential-link"
               clickable
               v-ripple
@@ -215,9 +215,9 @@
               </q-item-section>
 
               <q-item-section>Notification</q-item-section>
-            </q-item>
+            </q-item> -->
 
-            <q-item
+            <!--   <q-item
               class="q-px-lg essential-link"
               clickable
               v-ripple
@@ -229,7 +229,7 @@
               </q-item-section>
 
               <q-item-section>Settings</q-item-section>
-            </q-item>
+            </q-item> -->
           </q-list>
         </div>
       </q-list>

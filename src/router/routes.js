@@ -52,30 +52,21 @@ const routes = [
       { path: "", component: () => import("pages/DashBoard.vue") },
 
       {
-        path: "/CompanyProfile",
-        component: () => import("pages/CompanyProfile.vue"),
+        path: "/CompanyList",
+        component: () => import("pages/CompanyList.vue"),
       },
 
       {
-        path: "/ViewAllJobs",
-        component: () => import("pages/ViewAllJobs.vue"),
+        path: "/TrainingsSeminar",
+        component: () => import("src/pages/TrainingsSeminar.vue"),
       },
       {
-        path: "/MyCalendar_Jobs",
-        component: () => import("pages/MyCalendar_Jobs.vue"),
+        path: "/EvenTs",
+        component: () => import("pages/EvenTs.vue"),
       },
 
-      {
-        path: "/CreateJobPost",
-        component: () => import("pages/CreateJobPost.vue"),
-      },
 
-      {
-        path: "/ShortListed_Scheduled",
-        name: "ShortListed_Scheduled",
-        component: () => import("pages/ShortListed_Scheduled.vue"),
-      },
-
+ 
       {
         path: "/SetTings",
         name: "SetTings", // Ensure this matches exactly
