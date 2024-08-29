@@ -2,7 +2,7 @@
   <q-page>
     <q-card class="q-pa-md q-mb-md">
       <q-card-section>
-        <div class="text-h6">Company List</div>
+        <div class="text-h6">Applicant List</div>
         <q-input
           filled
           debounce="300"
@@ -31,37 +31,18 @@
       square
       dense
     >
-      <!--  <template v-slot:body-cell-status="props">
+      <template v-slot:body-cell-Surname="props">
         <q-td :props="props">
-          <q-badge color="green" align="center">
-            joemarierendon@gmail.com
-          </q-badge>
-        </q-td>
-      </template> -->
-
-      <template v-slot:body-cell-LastName="props">
-        <q-td :props="props">
-          <q-strong
-            >{{ props.row.LastName }} {{ props.row.FirstName }}
-            {{ props.row.MiddleName }}</q-strong
-          >
-          <!--    <q-strong>{{ props.row.FirstName }}</q-strong>
-          <q-strong>{{ props.row.MiddleName }}</q-strong> -->
-        </q-td>
-      </template>
-
-      <template v-slot:body-cell-Company_name="props">
-        <q-td :props="props">
-          <!--   <img :src="props.row.logo" alt="" class="customer-img" /> -->
-
           <img
             :src="
               props.row.Company_Logo ? props.row.logo : 'public/defaultpic.jpg'
             "
             class="customer-img"
           />
-
-          <q-strong> {{ props.row.Company_name }}</q-strong>
+          <q-strong
+            >{{ props.row.Surname }} {{ props.row.Firstname }}
+            {{ props.row.MIddlename }}</q-strong
+          >
         </q-td>
       </template>
     </q-table>
@@ -77,17 +58,24 @@ export default {
       exportMenu: false,
       columns: [
         {
-          name: "LastName",
+          name: "Surname",
           label: "Full Name",
           align: "left",
-          field: "LastName",
+          field: "Surname",
         },
 
         {
-          name: "Company_name",
-          label: "Company Name",
+          name: "Address",
+          label: "Address",
           align: "left",
-          field: "Company_name",
+          field: "Address",
+        },
+
+        {
+          name: "BirthDate",
+          label: "BirthDate",
+          align: "left",
+          field: "BirthDate",
         },
 
         {
@@ -104,28 +92,28 @@ export default {
           field: "Email",
         },
       ],
-      CompanyList: [],
+      ApplicantList: [],
     };
   },
 
   created() {
     const store = userCompany();
 
-    store.GetCompanyList_Store().then((res) => {
-      this.CompanyList = store.Company_List.data;
-      console.log("GET Potential:", this.CompanyList);
+    store.GetApplicantList_Store().then((res) => {
+      this.ApplicantList = store.Applicant_List.data;
+      console.log("GET Applicant:", this.ApplicantList);
     });
   },
 
   computed: {
     filteredRows() {
-      return this.CompanyList.filter((row) => {
+      return this.ApplicantList.filter((row) => {
         const searchData = this.searchTerm.toLowerCase();
         return (
-          row.Company_name.toLowerCase().includes(searchData) ||
-          row.LastName.toLowerCase().includes(searchData) ||
-          row.FirstName.toLowerCase().includes(searchData) ||
-          row.MiddleName.toLowerCase().includes(searchData)
+          row.Surname.toLowerCase().includes(searchData) ||
+          row.Firstname.toLowerCase().includes(searchData) ||
+          row.MIddlename.toLowerCase().includes(searchData) ||
+          row.BirthPlace.toLowerCase().includes(searchData)
         );
       });
     },

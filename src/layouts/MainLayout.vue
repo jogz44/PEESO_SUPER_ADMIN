@@ -60,6 +60,7 @@
                 >
                   <q-item-section>Company List</q-item-section>
                 </q-item>
+
                 <!--     <q-item
                   clickable
                   class="GL__menu-link"
@@ -173,6 +174,20 @@
               </q-item-section>
 
               <q-item-section> Company List</q-item-section>
+            </q-item>
+
+            <q-item
+              class="q-px-lg essential-link"
+              clickable
+              v-ripple
+              exact
+              to="/Applicant_List"
+            >
+              <q-item-section avatar>
+                <q-icon name="person_search" />
+              </q-item-section>
+
+              <q-item-section> Applicant List</q-item-section>
             </q-item>
 
             <q-item

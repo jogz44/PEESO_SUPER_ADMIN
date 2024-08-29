@@ -14,7 +14,7 @@
 <script>
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useJobpost } from "src/stores/JobPost_Store";
-import { useDashBoard } from "src/stores/DashBoard_Store";
+import { useDashBoard } from "src/stores/Company_List";
 
 export default {
   data() {

@@ -52,6 +52,11 @@ const routes = [
       { path: "", component: () => import("pages/DashBoard.vue") },
 
       {
+        path: "/Applicant_List",
+        component: () => import("pages/Applicant_List.vue"),
+      },
+
+      {
         path: "/CompanyList",
         component: () => import("pages/CompanyList.vue"),
       },
@@ -65,8 +70,6 @@ const routes = [
         component: () => import("pages/EvenTs.vue"),
       },
 
-
- 
       {
         path: "/SetTings",
         name: "SetTings", // Ensure this matches exactly
